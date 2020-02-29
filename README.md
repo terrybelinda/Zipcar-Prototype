@@ -1,8 +1,7 @@
-#Rent-A-Ride
+# Rent-A-Ride
 Car Rental Service
 
-##CMPE 202
-
+## CMPE 202
 
 # Database
 
