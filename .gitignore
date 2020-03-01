@@ -14,6 +14,7 @@ platforms/
 plugins/
 www/
 
+
 # Don't track these files
 *~
 *.sw[mnpcod]
@@ -40,3 +41,5 @@ UserInterfaceState.xcuserstate
 *.tern-project
 log.txt
 npm-debug.log*
+/.metadata/
+/.settings
