@@ -1,6 +1,6 @@
-Created Amazon Relational Database Service (RDS) to create mySQL database instance.
+# Created Amazon Relational Database Service (RDS) to create mySQL database instance.
 
-##Endpoint: rent.cmfwr8rxvrxs.us-west-1.rds.amazonaws.com
+## Endpoint: rent.cmfwr8rxvrxs.us-west-1.rds.amazonaws.com
 
 Steps Followed:
 
