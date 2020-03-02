@@ -13,7 +13,7 @@ class Home extends Component {
 	}
 	//get the books data from backend
 	componentDidMount() {
-		axios.get('http://localhost:8080/').then(response => {
+		axios.get('http://localhost:8080/api/customer').then(response => {
 			//update the state with the response data
 			this.setState({
 				customers: this.state.customers.concat(response.data)
