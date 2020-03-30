@@ -3,7 +3,13 @@ import Form from "react-bootstrap/Form";
 import { Grid, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import { UsaStates as usaStates } from "usa-states";
 class SignUp extends Component {
+  componentWillMount() {
+    var usStates = new usaStates();
+    console.log("hi");
+    console.log(usStates.states);
+  }
   render() {
     return (
       <Container className="m-5 d-flex justify-content-center">
@@ -96,4 +102,5 @@ class SignUp extends Component {
     );
   }
 }
+
 export default SignUp;
