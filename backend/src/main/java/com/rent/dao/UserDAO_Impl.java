@@ -36,6 +36,7 @@ public class UserDAO_Impl implements UserDAO {
 	public void save(User user) {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
+		user.setIsActive(true);
 		currentSession.save(user);
 	}
 
