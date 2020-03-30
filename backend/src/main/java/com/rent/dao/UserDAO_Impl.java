@@ -9,34 +9,34 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.rent.model.Customer;
+import com.rent.model.User;
 
 @Repository
-public class CustomerDAO_Impl implements CustomerDAO {
-
+public class UserDAO_Impl implements UserDAO {
+	
 	@Autowired
 	private EntityManager entityManager; 
 	
 	@Override
-	public List<Customer> get() {
+	public List<User> get() {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
-		Query<Customer> query = currentSession.createQuery("from Customer", Customer.class);
-		List<Customer> list = query.getResultList();
+		Query<User> query = currentSession.createQuery("from User", User.class);
+		List<User> list = query.getResultList();
 		return list;
 	}
 
 	@Override
-	public Customer get(int id) {
+	public User get(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void save(Customer customer) {
+	public void save(User user) {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
-		currentSession.save(customer);
+		currentSession.save(user);
 	}
 
 	@Override
@@ -44,5 +44,4 @@ public class CustomerDAO_Impl implements CustomerDAO {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

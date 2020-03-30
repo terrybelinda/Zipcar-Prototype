@@ -6,32 +6,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rent.dao.CustomerDAO;
-import com.rent.model.Customer;
+import com.rent.dao.UserDAO;
+import com.rent.model.User;
 
 @Service
-public class CustomerService_Impl implements CustomerService{
+public class UserService_Impl implements UserService{
 
 	@Autowired
-	CustomerDAO customerDAO;
+	UserDAO userDAO;
 	
 	@Transactional
 	@Override
-	public List<Customer> get() {
-		return customerDAO.get();
+	public List<User> get() {
+		return userDAO.get();
 	}
 
 	@Transactional
 	@Override
-	public Customer get(int id) {
+	public User get(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Transactional
 	@Override
-	public void save(Customer customer) {
-		customerDAO.save(customer);
+	public void save(User user) {
+		userDAO.save(user);
 	}
 
 	@Transactional
