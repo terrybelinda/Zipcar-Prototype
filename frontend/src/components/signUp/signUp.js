@@ -5,10 +5,13 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import { UsaStates as usaStates } from "usa-states";
 class SignUp extends Component {
-  componentWillMount() {
+  buildOptions() {
     var usStates = new usaStates();
-    console.log("hi");
-    console.log(usStates.states);
+    var arr = [];
+    usStates.states.forEach(function(entry) {
+      arr.push(<option>{entry["abbreviation"]}</option>);
+    });
+    return arr;
   }
   render() {
     return (
@@ -27,7 +30,7 @@ class SignUp extends Component {
 
             <Form.Group as={Col} controlId="formGridDOB">
               <Form.Label>DOB</Form.Label>
-              <Form.Control placeholder="Enter date of birth" />
+              <Form.Control type="date" placeholder="Enter date of birth" />
             </Form.Group>
           </Form.Row>
 
@@ -63,9 +66,9 @@ class SignUp extends Component {
 
             <Form.Group as={Col} controlId="formGridState">
               <Form.Label>State</Form.Label>
-              <Form.Control as="select" value="Choose...">
-                <option>Choose...</option>
-                <option>...</option>
+              <Form.Control as="select" value="Choose">
+                <option>Choose</option>
+                {this.buildOptions()}
               </Form.Control>
             </Form.Group>
 
@@ -78,9 +81,9 @@ class SignUp extends Component {
           <Form.Row>
             <Form.Group as={Col} controlId="formGridLicenseState">
               <Form.Label>Licence state</Form.Label>
-              <Form.Control as="select" value="Choose...">
-                <option>Choose...</option>
-                <option>...</option>
+              <Form.Control as="select" value="Choose">
+                <option>Choose</option>
+                {this.buildOptions()}
               </Form.Control>
             </Form.Group>
 
@@ -89,11 +92,6 @@ class SignUp extends Component {
               <Form.Control placeholder="License ID" />
             </Form.Group>
           </Form.Row>
-
-          <Form.Group id="formGridCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group>
-
           <Button variant="primary" type="submit">
             Submit
           </Button>
