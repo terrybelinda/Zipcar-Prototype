@@ -12,12 +12,12 @@ class UserProfile extends Component {
             area: '',
             state: '',
             mapPosition: {
-                lat: this.props.center.lat,
-                lng: this.props.center.lng
+                //lat: this.props.center.lat,
+                //lng: this.props.center.lng
             },
             markerPosition: {
-                lat: this.props.center.lat,
-                lng: this.props.center.lng
+                //lat: this.props.center.lat,
+                //lng: this.props.center.lng
             }
         }
     }
@@ -60,7 +60,7 @@ class UserProfile extends Component {
                 defaultCenter = { { lat: 37.333791, lng: -121.910626 } }
                 defaultZoom = { 13 }
             >
-                <Autocomplete
+                {/* <Autocomplete
                     style={{
                         width: '100%',
                         height: '40px',
@@ -70,7 +70,7 @@ class UserProfile extends Component {
                     }}
                     // onPlaceSelected={ this.onPlaceSelected }
                     types={['(regions)']}
-                />
+                /> */}
             </GoogleMap>
         </div>
         ));
