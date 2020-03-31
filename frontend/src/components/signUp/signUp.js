@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import { UsaStates as usaStates } from "usa-states";
 class SignUp extends Component {
-  buildOptions() {
+  buildOptionsStates() {
     var usStates = new usaStates();
     var arr = [];
     usStates.states.forEach(function(entry) {
@@ -21,7 +21,6 @@ class SignUp extends Component {
             <Form.Label>Name</Form.Label>
             <Form.Control type="name" placeholder="Enter name" />
           </Form.Group>
-
           <Form.Row>
             <Form.Group as={Col} controlId="formGridMobile">
               <Form.Label>Mobile</Form.Label>
@@ -33,7 +32,6 @@ class SignUp extends Component {
               <Form.Control type="date" placeholder="Enter date of birth" />
             </Form.Group>
           </Form.Row>
-
           <Form.Row>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Email</Form.Label>
@@ -45,7 +43,6 @@ class SignUp extends Component {
               <Form.Control type="password" placeholder="Password" />
             </Form.Group>
           </Form.Row>
-
           <Form.Row>
             <Form.Group as={Col} controlId="formGridApartment">
               <Form.Label>Apartment #</Form.Label>
@@ -57,7 +54,6 @@ class SignUp extends Component {
               <Form.Control placeholder="Street" />
             </Form.Group>
           </Form.Row>
-
           <Form.Row>
             <Form.Group as={Col} controlId="formGridCity">
               <Form.Label>City</Form.Label>
@@ -68,7 +64,7 @@ class SignUp extends Component {
               <Form.Label>State</Form.Label>
               <Form.Control as="select" value="Choose">
                 <option>Choose</option>
-                {this.buildOptions()}
+                {this.buildOptionsStates()}
               </Form.Control>
             </Form.Group>
 
@@ -77,21 +73,41 @@ class SignUp extends Component {
               <Form.Control />
             </Form.Group>
           </Form.Row>
-
           <Form.Row>
             <Form.Group as={Col} controlId="formGridLicenseState">
               <Form.Label>Licence state</Form.Label>
               <Form.Control as="select" value="Choose">
                 <option>Choose</option>
-                {this.buildOptions()}
+                {this.buildOptionsStates()}
               </Form.Control>
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridLicenseId">
-              <Form.Label>License ID</Form.Label>
-              <Form.Control placeholder="License ID" />
+              <Form.Label>License #</Form.Label>
+              <Form.Control placeholder="License #" />
             </Form.Group>
           </Form.Row>
+          <Form.Group controlId="formGridcc#">
+            <Form.Label>Credit Card #</Form.Label>
+            <Form.Control placeholder="Enter 16 digit credit card number" />
+          </Form.Group>
+          <Form.Row>
+            <Form.Group as={Col} controlId="formGridMonth">
+              <Form.Label>Month</Form.Label>
+              <Form.Control />
+            </Form.Group>
+
+            <Form.Group as={Col} controlId="formGridYear">
+              <Form.Label>Year</Form.Label>
+              <Form.Control />
+            </Form.Group>
+
+            <Form.Group as={Col} controlId="formGridCvv">
+              <Form.Label>cvv</Form.Label>
+              <Form.Control />
+            </Form.Group>
+          </Form.Row>
+          your information
           <Button variant="primary" type="submit">
             Submit
           </Button>
