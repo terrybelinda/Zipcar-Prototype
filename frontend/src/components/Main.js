@@ -8,6 +8,7 @@ import RentalLogin from "./rentalLogin/rentalLogin";
 import SignUp from "./signUp/signUp";
 import Navigation from "./Navbar/Navbar";
 import { Types } from "./VehicleType/VehicleType";
+import { Vehicle } from "./vehicle/Vehicle";
 import UserProfile from './user/Profile';
 
 
@@ -20,6 +21,7 @@ class Home extends Component {
         <Route exact path="/signup" component={SignUp} />
         <Route exact path ='/profile' component={UserProfile}/>
         <Route path="/VehicleType" component={Types} />
+		<Route path="/vehicles" component={Vehicle} />
 		</div>
     );
   }
