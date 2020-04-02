@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rent.model.User;
+import com.rent.model.Login;
 import com.rent.service.UserService;
 
 @CrossOrigin(origins = "*")
@@ -21,9 +22,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("/user")
-	public List<User> get() {
-		return userService.get();
+	@PostMapping("/login")
+	public User login(@RequestBody Login user) {
+		return userService.get(user.getEmail());
 	}
 	
 	@PostMapping("/signup")
@@ -32,4 +33,3 @@ public class UserController {
 		return "Success";
 	}
 }
- 

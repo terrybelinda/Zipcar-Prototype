@@ -18,8 +18,7 @@ public class UserDAO_Impl implements UserDAO {
 	private EntityManager entityManager; 
 	
 	@Override
-	public List<User> get() {
-		
+	public List<User> get() {		
 		Session currentSession = entityManager.unwrap(Session.class);
 		Query<User> query = currentSession.createQuery("from User", User.class);
 		List<User> list = query.getResultList();
@@ -27,9 +26,12 @@ public class UserDAO_Impl implements UserDAO {
 	}
 
 	@Override
-	public User get(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public User get(String email) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		Query<User> query = currentSession.createQuery("from User where email = :email ", User.class);
+		query.setParameter("email", email);
+		User user = query.uniqueResult();	
+		return user;
 	}
 
 	@Override
