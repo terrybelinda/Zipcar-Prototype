@@ -56,6 +56,9 @@ CREATE TABLE `vehicle` (
   CONSTRAINT `rental_location` FOREIGN KEY (`rental_location`) REFERENCES `rental_location` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+ALTER TABLE `rent`.`vehicle` 
+ADD COLUMN `vehicle_picture` VARCHAR(255) NOT NULL AFTER `status`;
+
 
 CREATE TABLE `transaction` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
