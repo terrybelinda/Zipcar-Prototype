@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Button, Col, Image, Alert, Badge, Row } from "react-bootstrap";
-import car from '../../images/Lamborghini.jpg';
+
 export const Vehicle = props => {
   let vehicles = {
 	  veh1 : { 
@@ -23,7 +23,7 @@ export const Vehicle = props => {
 		<Card.Body>
 		<Row>
 			<Col xs={6} md={4}>
-				<Image src={car} xs={6} md={4} rounded className="w-100"/>
+				<Image src="http://localhost:3000/images/Lamborghini.jpg"xs={6} md={4} rounded className="w-100"/>
 			</Col>
 			<Col xs={6} md={4}>
 				{/* {vehicles[key].make} */}
