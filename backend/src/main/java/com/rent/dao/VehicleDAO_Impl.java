@@ -1,5 +1,6 @@
 package com.rent.dao;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -32,17 +33,22 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		query.setParameter("area", area);
 		query.setParameter("city", city);
 		query.setParameter("state", state);
-//		
-		
+
 		Location locqresult = query.uniqueResult();	
 		
+		if(locqresult != null) {
+			Query<Vehicle> query1 = currentSession.createQuery("from Vehicle where rental_location = :locid ", Vehicle.class);
+			query1.setParameter("locid", locqresult.getId());
 		
-		Query<Vehicle> query1 = currentSession.createQuery("from Vehicle where rental_location = :locid ", Vehicle.class);
-		query1.setParameter("locid", locqresult.getId());
-		
-		List<Vehicle> list = query1.getResultList();
-		return list;
+			List<Vehicle> list = query1.getResultList();
+			return list;
+			}
+		else {
+			
+			List<Vehicle> list = Collections.<Vehicle> emptyList();
+			return list;
 		}
+	}
 
 
 }
