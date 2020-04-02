@@ -1,7 +1,11 @@
 import React from 'react'
 import { Form, CardColumns, Button, Col, FormGroup } from "react-bootstrap";
 import { withGoogleMap, GoogleMap, withScriptjs, Marker, google } from "react-google-maps";
-import Autocomplete from 'react-google-autocomplete';
+import PlacesAutocomplete, {
+	geocodeByAddress,
+	getLatLng,
+  } from 'react-places-autocomplete';
+// import Autocomplete from 'react-google-autocomplete';
 import Geocode from "react-geocode";
 Geocode.setApiKey("AIzaSyBVIEDKRd2EILFmktGgvAcV4gpKUJ2x0mY");
 Geocode.enableDebug();
@@ -37,7 +41,7 @@ constructor( props ){
     //  area = this.getArea( addressArray ),
     //  state = this.getState( addressArray );
   
-    // console.log( 'city', city, area, state );
+    //  console.log( 'address', addressArray );
   
     this.setState( {
      address: ( address ) ? address : '',
@@ -51,6 +55,21 @@ constructor( props ){
    }
   );
  };
+ handleChange = address => {
+    this.setState({ address });
+  };
+
+  handleSelect = address => {
+    geocodeByAddress(address)
+      .then(results => {
+		  getLatLng(results[0])
+		  this.setState({
+			address: address 
+		  })
+	  })
+      .then(latLng => console.log('Success', latLng))
+      .catch(error => console.error('Error', error));
+  };
 /**
   * Component should only update ( meaning re-render ), when the user selects the address, or drags the pin
   *
@@ -158,6 +177,7 @@ const address = place.formatted_address,
     lng: lngValue
    },
   })
+  console.log('onPlaceSelected', addressArray);
  };
 /**
   * When the marker is dragged you get the lat and long using the functions available from event object.
@@ -191,6 +211,48 @@ this.setState( {
   );
  };
 render(){
+
+const searchPlace = (
+	<PlacesAutocomplete
+        value={this.state.address}
+        onChange={this.handleChange}
+        onSelect={this.handleSelect}
+      >
+        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+          <div>
+            <input
+              {...getInputProps({
+                placeholder: 'Search Places ...',
+                className: 'location-search-input',
+              })}
+            />
+            <div className="autocomplete-dropdown-container">
+              {loading && <div>Loading...</div>}
+              {suggestions.map(suggestion => {
+                const className = suggestion.active
+                  ? 'suggestion-item--active'
+                  : 'suggestion-item';
+                // inline style for demonstration purpose
+                const style = suggestion.active
+                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                  : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                return (
+                  <div
+                    {...getSuggestionItemProps(suggestion, {
+                      className,
+                      style,
+                    })}
+                  >
+                    <span>{suggestion.description}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </PlacesAutocomplete>
+);
+
 const AsyncMap = withScriptjs(
    withGoogleMap(
     props => (
@@ -238,7 +300,7 @@ const AsyncMap = withScriptjs(
 		  </Form.Group>
 	  </Form.Row>
 	  </Form> */}
-	  <Autocomplete
+	  {/* <Autocomplete
        style={{
         width: '100%',
         height: '40px',
@@ -248,7 +310,7 @@ const AsyncMap = withScriptjs(
        }}
        onPlaceSelected={ this.onPlaceSelected }
        types={['(regions)']}
-      />
+      /> */}
 	  
 {/*Marker*/}
       <Marker google={this.props.google}
@@ -269,7 +331,8 @@ let map;
 		<Form.Row>
           <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>Location</Form.Label>
-            <Form.Control type="name" placeholder="Enter name" value={ this.state.address} readOnly="readOnly"/>
+            {/* <Form.Control type="name" placeholder="Enter name" value={ this.state.address} readOnly="readOnly"/> */}
+			{searchPlace}
           </Form.Group>
 		  <Form.Group as={Col} controlId="formGridStartDate">
             <Form.Label>Start date</Form.Label>
@@ -323,6 +386,7 @@ let map;
        <div style={{ height: `100%` }} />
       }
      />
+	 {/* {searchPlace} */}
     </div>
 } else {
    map = <div style={{height: this.props.height}} />

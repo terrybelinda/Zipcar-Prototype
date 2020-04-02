@@ -26,13 +26,19 @@ class Navigation extends Component {
             Sign Up
           </Link>
         )}
-        {localStorage.getItem("token") && (
+        {/* {localStorage.getItem("token") && (
           <NavDropdown title={"User"} id="collasible-nav-dropdown">
             <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
           </NavDropdown>
-        )}
+        )} */}
+		{/* add logged in check after setting it from frontend */}
+		<NavDropdown title={"Account"} id="collasible-nav-dropdown">
+            <NavDropdown.Item href="/profile">Vehicles</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
+          </NavDropdown>
       </Navbar>
       //localStorage.getItem('first_name') ? localStorage.getItem('first_name') :
     );
