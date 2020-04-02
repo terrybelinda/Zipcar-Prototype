@@ -21,6 +21,13 @@ class Navigation extends Component {
           )}
         </Nav>
         {!localStorage.getItem("token") && <Link to="/login">Sign In</Link>}
+
+        {!localStorage.getItem("token") && (
+          <Link className="pl-5" to="/VehicleType">
+            Vehicle Type
+          </Link>
+        )}
+
         {!localStorage.getItem("token") && (
           <Link className="pl-5" to="/signup">
             Sign Up
