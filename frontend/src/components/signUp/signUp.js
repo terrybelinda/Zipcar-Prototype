@@ -21,6 +21,7 @@ class SignUp extends Component {
             <Form.Label>Name</Form.Label>
             <Form.Control type="name" placeholder="Enter name" />
           </Form.Group>
+
           <Form.Row>
             <Form.Group as={Col} controlId="formGridMobile">
               <Form.Label>Mobile</Form.Label>
@@ -32,6 +33,7 @@ class SignUp extends Component {
               <Form.Control type="date" placeholder="Enter date of birth" />
             </Form.Group>
           </Form.Row>
+
           <Form.Row>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Email</Form.Label>
@@ -43,6 +45,7 @@ class SignUp extends Component {
               <Form.Control type="password" placeholder="Password" />
             </Form.Group>
           </Form.Row>
+
           <Form.Row>
             <Form.Group as={Col} controlId="formGridApartment">
               <Form.Label>Apartment #</Form.Label>
@@ -54,6 +57,7 @@ class SignUp extends Component {
               <Form.Control placeholder="Street" />
             </Form.Group>
           </Form.Row>
+
           <Form.Row>
             <Form.Group as={Col} controlId="formGridCity">
               <Form.Label>City</Form.Label>
@@ -73,6 +77,7 @@ class SignUp extends Component {
               <Form.Control />
             </Form.Group>
           </Form.Row>
+
           <Form.Row>
             <Form.Group as={Col} controlId="formGridLicenseState">
               <Form.Label>Licence state</Form.Label>
@@ -87,10 +92,12 @@ class SignUp extends Component {
               <Form.Control placeholder="License #" />
             </Form.Group>
           </Form.Row>
+
           <Form.Group controlId="formGridcc#">
             <Form.Label>Credit Card #</Form.Label>
             <Form.Control placeholder="Enter 16 digit credit card number" />
           </Form.Group>
+
           <Form.Row>
             <Form.Group as={Col} controlId="formGridMonth">
               <Form.Label>Month</Form.Label>
@@ -107,7 +114,7 @@ class SignUp extends Component {
               <Form.Control />
             </Form.Group>
           </Form.Row>
-          your information
+
           <Button variant="primary" type="submit">
             Submit
           </Button>
