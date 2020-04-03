@@ -6,7 +6,8 @@ import com.rent.model.Vehicle;;
 
 public interface VehicleService {
 
-	List<Vehicle> getByLocation(String area, String city, String state);
-	
+	List<Vehicle> getByLocation(String zipcode);
+	List<Vehicle> getVehicle(String type);
+	List<Vehicle> vehicleRequest(String area, String city, String state, String make, String model);
 	
 }

@@ -6,5 +6,8 @@ import com.rent.model.Vehicle;
 
 public interface VehicleDAO {
 	
-	public List<Vehicle> getByLocation(String area, String city, String state);
+	public List<Vehicle> getByLocation(String zipcode);
+	public List<Vehicle> getVehicle(String type);
+	public List<Vehicle> vehicleRequest(String area,String city,String state, String make, String model);
+	public List<Vehicle> vehicleSimilar(String make, String model);
 }

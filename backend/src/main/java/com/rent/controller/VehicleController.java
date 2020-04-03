@@ -31,15 +31,19 @@ public class VehicleController {
 		return vehicleService.getByLocation(arrOfStr[0], arrOfStr[1], arrOfStr[2]);
 	}
 	
-//	@GetMapping("/vehicle")
-//	public List<Vehicle> getvehicle() {
-//		return VehicleService.getAllVechicle();
-//	}
-//	
-//	@GetMapping("/vehiclebytype")
-//	public List<Vehicle> get(int vTypeId) {
-//		return VehicleService.getAllVechicle(vTypeId);
-//	}
+	@GetMapping("/vehiclerequest")
+	public List<Vehicle> vehicleRequest(@RequestParam String address, @RequestParam String make, @RequestParam String model) {
+		
+		String[] arrOfStr = address.split(", ");
+		return vehicleService.vehicleRequest(arrOfStr[0], arrOfStr[1], arrOfStr[2], make, model);
+		
+		
+	}
+	
+	@GetMapping("/vehiclebytype")
+	public List<Vehicle> getVehicle(@RequestParam String type) {
+		return vehicleService.getVehicle(type);
+	}
 	
 	
 }

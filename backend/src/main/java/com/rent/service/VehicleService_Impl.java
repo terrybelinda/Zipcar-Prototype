@@ -17,9 +17,21 @@ public class VehicleService_Impl implements VehicleService{
 	
 	@Transactional
 	@Override
-	public List<Vehicle> getByLocation(String area, String city, String state) {
-		return vehicleDAO.getByLocation(area, city, state);
+	public List<Vehicle> getByLocation(String zipcode) {
+		return vehicleDAO.getByLocation(zipcode);
 	}
-
+	public List<Vehicle> getVehicle(String type){
+		return vehicleDAO.getVehicle(type);
+	}
 	
+	public List<Vehicle> vehicleRequest(String area, String city, String state, String make, String model) {
+		List<Vehicle> request = vehicleDAO.vehicleRequest(area, city, state, make, model); 
+		if(request.size() == 0){
+			 return vehicleDAO.vehicleSimilar(make, model);
+			
+		}
+		 else {
+			 return request;
+		 }
+	}
 }
