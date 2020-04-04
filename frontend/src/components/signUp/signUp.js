@@ -25,6 +25,7 @@ class SignUp extends Component {
       zipcode: "",
       licenseState: "",
       licenseId: "",
+      membership: "",
       creditCardNo: "",
       expiryMonth: "",
       expiryYear: "",
@@ -205,6 +206,32 @@ class SignUp extends Component {
               />
             </Form.Group>
           </Form.Row>
+          <Form.Row>
+            <Form.Group as={Col} controlId="formGridMobile">
+              <Form.Check
+                type="radio"
+                value="6"
+                label="6 months membership"
+                checked={this.state.membership === "6"}
+                onChange={(event) =>
+                  this.setState({ membership: event.target.value })
+                }
+              />
+            </Form.Group>
+
+            <Form.Group as={Col} controlId="formGridDOB">
+              <Form.Check
+                type="radio"
+                value="12"
+                label="12 months membership"
+                checked={this.state.membership === "12"}
+                onChange={(event) =>
+                  this.setState({ membership: event.target.value })
+                }
+              />
+            </Form.Group>
+          </Form.Row>
+
           <Form.Group controlId="formGridcc#">
             <Form.Label>Credit Card #</Form.Label>
             <Form.Control
