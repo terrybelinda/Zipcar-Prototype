@@ -1,6 +1,7 @@
 package com.rent.service;
 
-import java.util.List;
+import java.util.*;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,16 @@ public class VehicleService_Impl implements VehicleService{
 	
 	@Transactional
 	@Override
-	public List<Vehicle> getByLocation(String zipcode) {
-		return vehicleDAO.getByLocation(zipcode);
+	public List<Vehicle> getByLocation(String zipcode, Date startdatetime, Date enddatetime) {
+		return vehicleDAO.getByLocation(zipcode, startdatetime, enddatetime);
 	}
-	public List<Vehicle> getVehicle(String type){
+	
+	public HashSet<String> getVehicle(String type){
 		return vehicleDAO.getVehicle(type);
 	}
 	
-	public List<Vehicle> vehicleRequest(String area, String city, String state, String make, String model) {
-		List<Vehicle> request = vehicleDAO.vehicleRequest(area, city, state, make, model); 
+	public List<Vehicle> vehicleRequest(String zipcode, String make, String model) {
+		List<Vehicle> request = vehicleDAO.vehicleRequest(zipcode, make, model); 
 		if(request.size() == 0){
 			 return vehicleDAO.vehicleSimilar(make, model);
 			
@@ -33,5 +35,9 @@ public class VehicleService_Impl implements VehicleService{
 		 else {
 			 return request;
 		 }
+	}
+	
+	public List<Vehicle> getAllVehicle(){
+		return vehicleDAO.getAllVehicle();
 	}
 }

@@ -27,10 +27,10 @@ public class Vehicle {
 	@Column
 	private Date regisration_expiry;
 	
-	@Column
+	@Column(name = "make")
 	private String make;
 	
-	@Column
+	@Column(name = "model")
 	private String model;
 	
 	@Column
