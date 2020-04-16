@@ -7,7 +7,8 @@ import { Redirect } from "react-router";
 import RentalLogin from "./rentalLogin/rentalLogin";
 import SignUp from "./signUp/signUp";
 import Navigation from "./Navbar/Navbar";
-import { Types } from "./VehicleType/VehicleType";
+import VehicleType from "./VehicleType/VehicleType";
+//import { Types } from "./VehicleType/VehicleType";
 
 class Home extends Component {
   render() {
@@ -16,7 +17,7 @@ class Home extends Component {
         <Route path="/" component={Navigation} />
         <Route exact path="/login" component={RentalLogin} />
         <Route exact path="/signup" component={SignUp} />
-        <Route path="/VehicleType" component={Types} />
+        <Route path="/VehicleType" component={VehicleType} />
       </div>
     );
   }

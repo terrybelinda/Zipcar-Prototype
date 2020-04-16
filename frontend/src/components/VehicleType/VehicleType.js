@@ -1,38 +1,120 @@
 import React from "react";
 import { Card, Button, Modal, Form, Alert, Badge } from "react-bootstrap";
+import { useRef, useState, Component } from "react";
 
-export const Types = props => {
+class VehicleType extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      requiredItem: 0,
+      type: [
+        { id: 1, vehicle_type: "truck" },
+        { id: 2, vehicle_type: "car" },
+        { id: 3, vehicle_type: "bike" },
+      ],
+      show: false,
+    };
+    this.saveModalDetails = this.saveModalDetails.bind(this);
+  }
+  removeItem(item) {
+    const newItems = this.state.type.filter((type) => {
+      return type !== item;
+    });
+    this.setState({
+      type: [...newItems],
+    });
+  }
+
+  showModal = (key) => {
+    this.setState({ show: true });
+    this.setState({
+      requiredItem: key,
+    });
+  };
+
+  hideModal = () => {
+    this.setState({ show: false, type: this.state.type });
+  };
+  // saveVehicleType(e) {
+  //   const requiredItem = this.state.requiredItem;
+  //   let temptype = this.state.type;
+  //   temptype[requiredItem].vehicle_type = e.target.value;
+  //   //this.setState({ type: temptype });
+  //   // this.setState({ show: false });
+  // }
+
+  saveModalDetails(e) {
+    console.log(e.target.elements[0].value);
+    // make api call
+    // setstate
+    const requiredItem = this.state.requiredItem;
+    let temptype = this.state.type;
+    temptype[requiredItem].vehicle_type = e.target.elements[0].value;
+    this.setState({ type: temptype });
+    this.setState({ show: false });
+  }
+  /*
+export const Types = (props) => {
   let types = {
     a: { vehicle_type: "truck" },
     b: { vehicle_type: "car" },
-    c: { vehicle_type: "bike" }
+    c: { vehicle_type: "bike" },
   };
+*/
+  render() {
+    const list = this.state.type.map((item, index) => (
+      <Card
+        bg="light"
+        style={{ width: "45rem", paddingRight: "100px" }}
+        className="mt-2"
+        key={item.id}
+      >
+        <Card.Body>
+          <Card.Text id="type">{item.vehicle_type}</Card.Text>
+          <Card.Link href="#" onClick={() => this.showModal(index)}>
+            Edit
+          </Card.Link>
+          <Card.Link href="#" onClick={() => this.removeItem(item)}>
+            Delete
+          </Card.Link>
+        </Card.Body>
+      </Card>
+    ));
 
-  const list = Object.keys(types).map(key => (
-    <Card
-      bg="light"
-      style={{ width: "45rem", paddingRight: "100px" }}
-      className="mt-2"
-    >
-      <Card.Body>
-        <Button
-          type="button"
-          variant="link"
-          className="p-0"
-          onClick={() => props.controlModal(true, types[key])}
-        >
-          {types[key].vehicle_type}
-        </Button>
-        <Card.Text id="type">{types[key].vehicle_type}</Card.Text>
-        <Card.Link href="#">Update</Card.Link>
-        <Card.Link href="#">Delete</Card.Link>
-      </Card.Body>
-    </Card>
-  ));
-  return (
-    <div style={{ paddingLeft: "300px" }}>
-      <Button variant="outline-primary">Add</Button>
-      {list}
-    </div>
-  );
-};
+    const requiredItem = this.state.requiredItem;
+    let modalData = this.state.type[requiredItem];
+    console.log("hello");
+    return (
+      <div style={{ paddingLeft: "300px" }}>
+        <Button variant="outline-primary">Add</Button>
+        {list}
+        <Modal show={this.state.show} onHide={this.hideModal} animation={false}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Vehicles</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={this.saveModalDetails}>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>vehicle</Form.Label>
+                <Form.Control
+                  type="vehicle"
+                  //onChange={this.saveVehicleType}
+                  placeholder={modalData && modalData.vehicle_type}
+                />
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Save Changes
+              </Button>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.hideModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    );
+  }
+}
+export default VehicleType;
