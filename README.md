@@ -1,4 +1,4 @@
-# Rent-A-Ride
+# Hire-N-Hop
 Car Rental Service
 
 ##### CMPE 202
