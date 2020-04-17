@@ -20,5 +20,11 @@ public class AdminService_Impl implements AdminService{
 	public List<VehicleType> get() {
 		return adminDAO.get();
 	}
-
+	@Override
+	public void save(VehicleType vt){
+		adminDAO.save(vt);
+	}
+	public void deleteVehicletype(int id) {
+		adminDAO.deleteVehicletype(id);
+	}
 }
