@@ -46,9 +46,30 @@ class VehicleType extends Component {
     const newItems = this.state.type.filter((type) => {
       return type !== item;
     });
-    this.setState({
-      type: [...newItems],
-    });
+    const data = {
+      id: item.id,
+      vehicle_type: item.vehicle_type,
+      hours: item.hours,
+      price: item.price,
+      status: item.status,
+    };
+    console.log(data);
+    console.log(item);
+    axios
+      .post("http://localhost:8080/api/deletevehicletype", data)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("yay");
+          console.log(res);
+          this.setState({
+            type: [...newItems],
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        this.props.authFail(err.response.data.msg);
+      });
   }
 
   showModal = (key) => {

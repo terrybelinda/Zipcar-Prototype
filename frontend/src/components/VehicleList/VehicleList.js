@@ -87,7 +87,7 @@ class VehicleList extends Component {
           </Card.Header>
 
           <Card.Body>
-            <Card.Text id="year"> Year :{item.year}</Card.Text>
+            //<Card.Text id="year"> Year :{item.year}</Card.Text>
             Status:
             {item.status == 0 ? (
               <Button disabled size="sm" variant="success">
