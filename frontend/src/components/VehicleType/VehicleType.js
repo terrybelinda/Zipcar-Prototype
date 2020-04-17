@@ -61,9 +61,9 @@ class VehicleType extends Component {
         if (res.status === 200) {
           console.log("yay");
           console.log(res);
-          this.setState({
-            type: [...newItems],
-          });
+          //this.setState({
+          //type: [...newItems],
+          //});
         }
       })
       .catch((err) => {
