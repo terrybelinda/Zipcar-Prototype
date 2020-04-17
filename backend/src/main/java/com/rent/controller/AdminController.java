@@ -27,11 +27,23 @@ public class AdminController {
 	private AdminService AdminService;
 	
 	@GetMapping("/allvehicletype")
-	@ResponseStatus
-	public List<VehicleType> getAll(){
+	public List<VehicleType> get(){
 		
 		return AdminService.get();
 	}
+	
+	@PostMapping("/addvehicletype")
+	public String saveVehicleType(@RequestBody VehicleType vt) {
+		AdminService.save(vt);
+		return "Success";
+	}
+	
+	@GetMapping("/deletevehicletype")
+	public String deleteVehicleType(@RequestParam int id) {
+		AdminService.deleteVehicletype(id);
+		return "deleted";
+	}
+	
 	
 		
 }
