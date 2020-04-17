@@ -111,7 +111,7 @@ CREATE TABLE `reservation` (
 --Table: `Rent`.`vehicle_type`
 DROP TABLE IF EXISTS `Rent`.`vehicle_type` ;
 CREATE TABLE `vehicle_type` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `vehicle_type` varchar(255) NOT NULL,
   `hours` int NOT NULL,
   `price` varchar(45) NOT NULL,
