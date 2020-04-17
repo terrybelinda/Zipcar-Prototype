@@ -3,7 +3,6 @@ package com.rent.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -62,10 +61,16 @@ public class AdminController {
 	
 	@PostMapping("/addvehicle")
 	public String saveVehicle(@RequestBody Vehicle vehicle) {
+		
 		AdminService.saveVehicle(vehicle);
 		return "Success";
 	}
 	
+	@PostMapping("/updatevehicle")
+	public String updateVehicle(@RequestBody Vehicle vehicle) {
+		AdminService.updateVehicle(vehicle);
+		return "updated";
+	}
 	
 	
 		
