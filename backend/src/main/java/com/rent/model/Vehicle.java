@@ -27,10 +27,10 @@ public class Vehicle {
 	@Column
 	private Date regisration_expiry;
 	
-	@Column(name = "make")
+	@Column
 	private String make;
 	
-	@Column(name = "model")
+	@Column
 	private String model;
 	
 	@Column
@@ -53,6 +53,17 @@ public class Vehicle {
 	
 	@Column
 	private int status;
+	
+	@Column
+	private String vehicle_picture;
+
+	public String getVehicle_picture() {
+		return vehicle_picture;
+	}
+
+	public void setVehicle_picture(String vehicle_picture) {
+		this.vehicle_picture = vehicle_picture;
+	}
 
 	public Integer getId() {
 		return id;

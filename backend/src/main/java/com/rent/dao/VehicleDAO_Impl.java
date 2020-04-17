@@ -144,7 +144,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 	@Override
 	public List<Vehicle> getAllVehicle(){
 		Session currentSession = entityManager.unwrap(Session.class);
-		Query<Vehicle> query = currentSession.createQuery("from Vehicle", Vehicle.class);
+		Query<Vehicle> query = currentSession.createQuery("from Vehicle where status > 0", Vehicle.class);
 		List<Vehicle> list = query.getResultList();
 		return list;
 	}

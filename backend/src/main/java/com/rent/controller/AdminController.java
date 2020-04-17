@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rent.model.Vehicle;
 import com.rent.model.VehicleType;
 import com.rent.service.AdminService;
 
@@ -38,11 +39,33 @@ public class AdminController {
 		return "Success";
 	}
 	
-	@GetMapping("/deletevehicletype")
-	public String deleteVehicleType(@RequestParam int id) {
-		AdminService.deleteVehicletype(id);
+	@PostMapping("/deletevehicletype")
+	public String deleteVehicleType(@RequestBody VehicleType vt) {
+		
+		AdminService.deleteVehicletype(vt);
 		return "deleted";
 	}
+	
+	@PostMapping("/updatevehicletype")
+	public String updateVehicleType(@RequestBody VehicleType vt) {
+		
+		System.out.print(vt.getPrice());
+		AdminService.updateVehicletype(vt.getVehicle_type(),vt.getPrice(),vt.getHours());
+		return "updated";
+	}
+	
+	@PostMapping("/deletevehicle")
+	public void deleteVehicle(@RequestBody Vehicle vehicle) {
+		AdminService.deleteVehicle(vehicle);
+		
+	}
+	
+	@PostMapping("/addvehicle")
+	public String saveVehicle(@RequestBody Vehicle vehicle) {
+		AdminService.saveVehicle(vehicle);
+		return "Success";
+	}
+	
 	
 	
 		

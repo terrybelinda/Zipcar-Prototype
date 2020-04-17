@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rent.dao.AdminDAO;
 import com.rent.model.VehicleType;
+import com.rent.model.*;
 
 @Service
 public class AdminService_Impl implements AdminService{
@@ -24,7 +25,19 @@ public class AdminService_Impl implements AdminService{
 	public void save(VehicleType vt){
 		adminDAO.save(vt);
 	}
-	public void deleteVehicletype(int id) {
-		adminDAO.deleteVehicletype(id);
+	public void deleteVehicletype(VehicleType vt) {
+		String vtname = vt.getVehicle_type();
+		adminDAO.deleteVehicletype(vtname);
+	}
+	public void updateVehicletype(String vtname, String price, int hours) {
+		adminDAO.updateVehicletype(vtname,price,hours);
+	}
+	public void saveVehicle(Vehicle vehicle) {
+		adminDAO.saveVehicle(vehicle);
+	}
+	
+	public void deleteVehicle(Vehicle vehicle) {
+		String vid = vehicle.getVid();
+		adminDAO.deleteVehicle(vid);
 	}
 }
