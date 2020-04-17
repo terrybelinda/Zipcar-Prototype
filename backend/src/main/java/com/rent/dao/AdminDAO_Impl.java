@@ -33,8 +33,6 @@ public class AdminDAO_Impl implements AdminDAO {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		currentSession.save(vt);
-		
-		
 	}
 	
 	@Override
@@ -42,12 +40,12 @@ public class AdminDAO_Impl implements AdminDAO {
 	public void deleteVehicletype(String vtname) {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
-		Query query = currentSession.createQuery("UPDATE VehicleType SET status = 1 " + 
+		Query query = currentSession.createQuery("UPDATE VehicleType SET status = 0 " + 
 				"WHERE vehicle_type =:vtname");
 		query.setParameter("vtname", vtname);
 		query.executeUpdate();
 		
-		Query query1 = currentSession.createQuery("UPDATE Vehicle SET status =1 where vehicle_type=:vtname");
+		Query query1 = currentSession.createQuery("UPDATE Vehicle SET status =0 where vehicle_type=:vtname");
 		query1.setParameter("vtname", vtname);
 		query1.executeUpdate();
 		
@@ -63,6 +61,28 @@ public class AdminDAO_Impl implements AdminDAO {
 		query.setParameter("vtname", vtname);
 		query.setParameter("price", price);
 		query.setParameter("hours", hours);
+		query.executeUpdate();
+		
+		
+	}
+	
+	@Override
+	@Transactional
+	public void saveVehicle(Vehicle vehicle) {
+		
+		Session currentSession = entityManager.unwrap(Session.class);
+		currentSession.save(vehicle);
+		
+	}
+	
+	@Override
+	@Transactional
+	public void deleteVehicle(String vid) {
+		
+		Session currentSession = entityManager.unwrap(Session.class);
+		Query query = currentSession.createQuery("UPDATE Vehicle SET status = 0 " + 
+				"WHERE vid =:vid");
+		query.setParameter("vid", vid);
 		query.executeUpdate();
 		
 		

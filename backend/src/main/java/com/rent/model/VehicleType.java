@@ -18,7 +18,7 @@ public class VehicleType {
 	@Column
 	private Integer id;
 	
-	@Column
+	@Column( unique = true )
 	private String vehicle_type;
 	
 	@Column
@@ -27,7 +27,7 @@ public class VehicleType {
 	@Column
 	private String price;
 	
-	@Column
+	@Column 
 	private Integer status;
 
 	public Integer getStatus() {

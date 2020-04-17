@@ -4,12 +4,15 @@ import java.util.List;
 
 import com.rent.model.Customer;
 import com.rent.model.VehicleType;
+import com.rent.model.*;
 
 public interface AdminService {
 
 	List<VehicleType> get();
 	void save(VehicleType vt);
-	void deleteVehicletype(String vtname);
+	void deleteVehicletype(VehicleType vt);
 	void updateVehicletype(String vtname, String price, int hours);
+	void saveVehicle(Vehicle vehicle);
+	void deleteVehicle(Vehicle vehicle);
 	
 }
