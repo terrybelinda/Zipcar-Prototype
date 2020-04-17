@@ -39,11 +39,16 @@ public class AdminController {
 	}
 	
 	@GetMapping("/deletevehicletype")
-	public String deleteVehicleType(@RequestParam int id) {
-		AdminService.deleteVehicletype(id);
+	public String deleteVehicleType(@RequestParam String vtname) {
+		AdminService.deleteVehicletype(vtname);
 		return "deleted";
 	}
 	
+	@GetMapping("/updatevehicletype")
+	public String updateVehicleType(@RequestParam String vtname, @RequestParam String price, @RequestParam int hours) {
+		AdminService.updateVehicletype(vtname,price,hours);
+		return "updated";
+	}
 	
 		
 }

@@ -9,7 +9,7 @@ public interface AdminService {
 
 	List<VehicleType> get();
 	void save(VehicleType vt);
-	void deleteVehicletype(int id);
-	
+	void deleteVehicletype(String vtname);
+	void updateVehicletype(String vtname, String price, int hours);
 	
 }

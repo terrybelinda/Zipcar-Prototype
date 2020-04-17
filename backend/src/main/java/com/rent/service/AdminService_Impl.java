@@ -24,7 +24,10 @@ public class AdminService_Impl implements AdminService{
 	public void save(VehicleType vt){
 		adminDAO.save(vt);
 	}
-	public void deleteVehicletype(int id) {
-		adminDAO.deleteVehicletype(id);
+	public void deleteVehicletype(String vtname) {
+		adminDAO.deleteVehicletype(vtname);
+	}
+	public void updateVehicletype(String vtname, String price, int hours) {
+		adminDAO.updateVehicletype(vtname,price,hours);
 	}
 }

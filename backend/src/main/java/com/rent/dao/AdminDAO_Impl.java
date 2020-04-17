@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rent.model.VehicleType;
+import com.rent.model.Vehicle;
 
 @Repository
 public class AdminDAO_Impl implements AdminDAO {
@@ -38,12 +39,32 @@ public class AdminDAO_Impl implements AdminDAO {
 	
 	@Override
 	@Transactional
-	public void deleteVehicletype(int id) {
+	public void deleteVehicletype(String vtname) {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
-		Query query = currentSession.createQuery("DELETE FROM VehicleType WHERE id=:id");
-		query.setParameter("id", id);
+		Query query = currentSession.createQuery("UPDATE VehicleType SET status = 1 " + 
+				"WHERE vehicle_type =:vtname");
+		query.setParameter("vtname", vtname);
 		query.executeUpdate();
+		
+		Query query1 = currentSession.createQuery("UPDATE Vehicle SET status =1 where vehicle_type=:vtname");
+		query1.setParameter("vtname", vtname);
+		query1.executeUpdate();
+		
+	}
+	
+	@Override
+	@Transactional
+	public void updateVehicletype(String vtname, String price, int hours) {
+		
+		Session currentSession = entityManager.unwrap(Session.class);
+		Query query = currentSession.createQuery("UPDATE VehicleType SET price = :price, hours=:hours " + 
+				"WHERE vehicle_type =:vtname");
+		query.setParameter("vtname", vtname);
+		query.setParameter("price", price);
+		query.setParameter("hours", hours);
+		query.executeUpdate();
+		
 		
 	}
 	
