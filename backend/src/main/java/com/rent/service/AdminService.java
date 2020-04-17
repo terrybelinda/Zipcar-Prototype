@@ -13,6 +13,7 @@ public interface AdminService {
 	void deleteVehicletype(VehicleType vt);
 	void updateVehicletype(String vtname, String price, int hours);
 	void saveVehicle(Vehicle vehicle);
+	void updateVehicle(Vehicle vehicle);
 	void deleteVehicle(Vehicle vehicle);
 	
 }

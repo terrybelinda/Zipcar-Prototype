@@ -40,4 +40,7 @@ public class AdminService_Impl implements AdminService{
 		String vid = vehicle.getVid();
 		adminDAO.deleteVehicle(vid);
 	}
+	public void updateVehicle(Vehicle vehicle) {
+		adminDAO.updateVehicle(vehicle);
+	}
 }

@@ -13,4 +13,5 @@ public interface AdminDAO {
 	void updateVehicletype(String vtname, String price, int hours);
 	void saveVehicle(Vehicle vehicle);
 	void deleteVehicle(String vid);
+	void updateVehicle(Vehicle vehicle);
 }

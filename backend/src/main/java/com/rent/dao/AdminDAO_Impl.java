@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import org.hibernate.Session;
+import org.hibernate.*;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -85,6 +85,14 @@ public class AdminDAO_Impl implements AdminDAO {
 		query.setParameter("vid", vid);
 		query.executeUpdate();
 		
+		
+	}
+	@Override
+	@Transactional
+	public void updateVehicle(Vehicle vehicle) {
+		
+		Session currentSession = entityManager.unwrap(Session.class);
+		currentSession.update(vehicle);
 		
 	}
 	
