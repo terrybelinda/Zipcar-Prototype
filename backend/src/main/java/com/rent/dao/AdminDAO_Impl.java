@@ -23,7 +23,7 @@ public class AdminDAO_Impl implements AdminDAO {
 	public List<VehicleType> get() {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
-		Query<VehicleType> query = currentSession.createQuery("from VehicleType", VehicleType.class);
+		Query<VehicleType> query = currentSession.createQuery("from VehicleType where status>0", VehicleType.class);
 		List<VehicleType> list = query.getResultList();
 		return list;
 	}

@@ -37,6 +37,7 @@ public class AdminService_Impl implements AdminService{
 	}
 	
 	public void deleteVehicle(Vehicle vehicle) {
+		System.out.println("someting " + vehicle.getMake() + " got this");
 		String vid = vehicle.getVid();
 		adminDAO.deleteVehicle(vid);
 	}
