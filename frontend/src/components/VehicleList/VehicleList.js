@@ -15,6 +15,8 @@ import { Icon } from "semantic-ui-react";
 class VehicleList extends Component {
   constructor(props) {
     super(props);
+    const year = new Date().getFullYear();
+    this.years = Array.from(new Array(20), (val, index) => year - 1 - index);
     this.state = {
       requiredItem: 0,
       type: [],
@@ -46,9 +48,22 @@ class VehicleList extends Component {
     const newItems = this.state.type.filter((type) => {
       return type !== item;
     });
-    this.setState({
-      type: [...newItems],
-    });
+
+    axios
+      .post("http://localhost:8080/api/deletevehicle", item)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("yay");
+          console.log(res);
+          this.setState({
+            type: [...newItems],
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        this.props.authFail(err.response.data.msg);
+      });
   }
 
   showModal = (key) => {
@@ -89,7 +104,7 @@ class VehicleList extends Component {
           <Card.Body>
             //<Card.Text id="year"> Year :{item.year}</Card.Text>
             Status:
-            {item.status == 0 ? (
+            {item.status == 1 ? (
               <Button disabled size="sm" variant="success">
                 Active
               </Button>
@@ -137,18 +152,107 @@ class VehicleList extends Component {
         </Container>
         <Modal show={this.state.show} onHide={this.hideModal} animation={false}>
           <Modal.Header closeButton>
-            <Modal.Title>Add Vehicles</Modal.Title>
+            <Modal.Title>Edit {modalData && modalData.license_no}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={this.saveModalDetails}>
-              <Form.Group controlId="formBasicEmail">
-                <Form.Label>vehicle</Form.Label>
-                <Form.Control
-                  type="vehicle"
-                  //onChange={this.saveVehicleType}
-                  placeholder={modalData && modalData.vehicle_type}
-                />
-              </Form.Group>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formBasicvid">
+                  <Form.Label>Vehicle Identification Number</Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder={modalData && modalData.vid}
+                    maxLength="16"
+                  />
+                </Form.Group>
+                <Form.Group as={Col} controlId="formBasicLicenseNo">
+                  <Form.Label>License #</Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder={modalData && modalData.license_no}
+                  />
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formBasicMake">
+                  <Form.Label>Make</Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder={modalData && modalData.make}
+                  />
+                </Form.Group>
+                <Form.Group as={Col} controlId="formBasicModel">
+                  <Form.Label>Model</Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder={modalData && modalData.model}
+                  />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridYear">
+                  <Form.Label>Year</Form.Label>
+                  <Form.Control as="select" placeholder="Choose">
+                    <option>{modalData && modalData.year}</option>
+                    {this.years.map((year, index) => {
+                      return (
+                        <option key={`year${index}`} value={year}>
+                          {year}
+                        </option>
+                      );
+                    })}
+                  </Form.Control>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formBasicCurrentMileage">
+                  <Form.Label>Current Mileage</Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder={modalData && modalData.current_mileage}
+                  />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formBasicCondition">
+                  <Form.Label>Condition</Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder={modalData && modalData.condition}
+                  />
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formBasicRegistrationExpiry">
+                  <Form.Label>Registration Expiry</Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder={modalData && modalData.regisration_expiry}
+                  />
+                </Form.Group>
+                <Form.Group as={Col} controlId="formBasicLastServiced">
+                  <Form.Label>Last Serviced</Form.Label>
+                  <Form.Control
+                    type="date"
+                    placeholder={modalData && modalData.last_serviced}
+                  />
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formBasicVehicleType">
+                  <Form.Label>Vehicle Type</Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder={modalData && modalData.vehicle_type}
+                  />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formBasicRentalLocation">
+                  <Form.Label>Rental Location</Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder={modalData && modalData.rental_location}
+                  />
+                </Form.Group>
+              </Form.Row>
               <Button variant="primary" type="submit">
                 Save Changes
               </Button>

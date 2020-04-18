@@ -46,24 +46,16 @@ class VehicleType extends Component {
     const newItems = this.state.type.filter((type) => {
       return type !== item;
     });
-    const data = {
-      id: item.id,
-      vehicle_type: item.vehicle_type,
-      hours: item.hours,
-      price: item.price,
-      status: item.status,
-    };
-    console.log(data);
     console.log(item);
     axios
-      .post("http://localhost:8080/api/deletevehicletype", data)
+      .post("http://localhost:8080/api/deletevehicletype", item)
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");
           console.log(res);
-          //this.setState({
-          //type: [...newItems],
-          //});
+          this.setState({
+            type: [...newItems],
+          });
         }
       })
       .catch((err) => {
@@ -82,13 +74,6 @@ class VehicleType extends Component {
   hideModal = () => {
     this.setState({ show: false, type: this.state.type });
   };
-  // saveVehicleType(e) {
-  //   const requiredItem = this.state.requiredItem;
-  //   let temptype = this.state.type;
-  //   temptype[requiredItem].vehicle_type = e.target.value;
-  //   //this.setState({ type: temptype });
-  //   // this.setState({ show: false });
-  // }
 
   saveModalDetails(e) {
     //console.log(e.target.elements[0].value);
@@ -100,14 +85,7 @@ class VehicleType extends Component {
     this.setState({ type: temptype });
     this.setState({ show: false });
   }
-  /*
-export const Types = (props) => {
-  let types = {
-    a: { vehicle_type: "truck" },
-    b: { vehicle_type: "car" },
-    c: { vehicle_type: "bike" },
-  };
-*/
+
   render() {
     const list = this.state.type.map((item, index) => (
       <Col sm="3">
@@ -122,7 +100,7 @@ export const Types = (props) => {
           <Card.Body>
             <Row>
               Status:
-              {item.status == 0 ? (
+              {item.status == 1 ? (
                 <Button disabled size="sm" variant="success">
                   Active
                 </Button>
@@ -163,7 +141,7 @@ export const Types = (props) => {
         </Container>
         <Modal show={this.state.show} onHide={this.hideModal} animation={false}>
           <Modal.Header closeButton>
-            <Modal.Title>Add Vehicles</Modal.Title>
+            <Modal.Title>Edit {modalData.vehicle_type} </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={this.saveModalDetails}>
