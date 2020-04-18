@@ -98,6 +98,7 @@ class VehicleType extends Component {
           <Card.Header as="h5">Type: {item.vehicle_type}</Card.Header>
 
           <Card.Body>
+            {/*
             <Row>
               Status:
               {item.status == 1 ? (
@@ -110,20 +111,27 @@ class VehicleType extends Component {
                 </Button>
               )}
             </Row>
-
+              */}
             <Row>
               <Card.Text id="vid">
                 <b>price : </b> {item.price}
               </Card.Text>
             </Row>
-
             <Row>
               <Card.Text id="condition">hours: {item.hours}</Card.Text>
             </Row>
             <Card.Link href="#" onClick={() => this.showModal(index)}>
               Edit
             </Card.Link>
-            <Card.Link href="#" onClick={() => this.removeItem(item)}>
+            <Card.Link
+              href="#"
+              onClick={() => {
+                if (
+                  window.confirm("Are you sure you wish to delete this item?")
+                )
+                  this.removeItem(item);
+              }}
+            >
               Delete
             </Card.Link>
           </Card.Body>
@@ -141,7 +149,7 @@ class VehicleType extends Component {
         </Container>
         <Modal show={this.state.show} onHide={this.hideModal} animation={false}>
           <Modal.Header closeButton>
-            <Modal.Title>Edit {modalData.vehicle_type} </Modal.Title>
+            <Modal.Title>Edits</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={this.saveModalDetails}>

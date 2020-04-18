@@ -102,7 +102,7 @@ class VehicleList extends Component {
           </Card.Header>
 
           <Card.Body>
-            //<Card.Text id="year"> Year :{item.year}</Card.Text>
+            <Card.Text id="year"> Year :{item.year}</Card.Text>
             Status:
             {item.status == 1 ? (
               <Button disabled size="sm" variant="success">
@@ -123,6 +123,9 @@ class VehicleList extends Component {
               <b>Miles:</b> {item.current_mileage}
             </Card.Text>
             <Card.Text id="condition">Condition: {item.condition}</Card.Text>
+            <Card.Text id="last_service">
+              Last Serviced: {item.last_serviced}
+            </Card.Text>
             <Card.Text id="vehicle_type">
               <b>vehicle type:</b>
               {item.vehicle_type}
@@ -134,7 +137,15 @@ class VehicleList extends Component {
             <Card.Link href="#" onClick={() => this.showModal(index)}>
               Edit
             </Card.Link>
-            <Card.Link href="#" onClick={() => this.removeItem(item)}>
+            <Card.Link
+              href="#"
+              onClick={() => {
+                if (
+                  window.confirm("Are you sure you wish to delete this item?")
+                )
+                  this.removeItem(item);
+              }}
+            >
               Delete
             </Card.Link>
           </Card.Body>
@@ -163,6 +174,7 @@ class VehicleList extends Component {
                     type="name"
                     placeholder={modalData && modalData.vid}
                     maxLength="16"
+                    disabled
                   />
                 </Form.Group>
                 <Form.Group as={Col} controlId="formBasicLicenseNo">
@@ -191,8 +203,13 @@ class VehicleList extends Component {
 
                 <Form.Group as={Col} controlId="formGridYear">
                   <Form.Label>Year</Form.Label>
-                  <Form.Control as="select" placeholder="Choose">
-                    <option>{modalData && modalData.year}</option>
+                  <Form.Control
+                    as="select"
+                    placeholder={modalData && modalData.year}
+                  >
+                    <option selected="selected" disabled="disabled">
+                      {modalData && modalData.year}
+                    </option>
                     {this.years.map((year, index) => {
                       return (
                         <option key={`year${index}`} value={year}>
@@ -215,24 +232,27 @@ class VehicleList extends Component {
                 <Form.Group as={Col} controlId="formBasicCondition">
                   <Form.Label>Condition</Form.Label>
                   <Form.Control
-                    type="name"
+                    as="select"
                     placeholder={modalData && modalData.condition}
                   />
+                  <option selected="selected" disabled="disabled">
+                    {modalData && modalData.condition}
+                  </option>
                 </Form.Group>
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col} controlId="formBasicRegistrationExpiry">
                   <Form.Label>Registration Expiry</Form.Label>
                   <Form.Control
-                    type="name"
-                    placeholder={modalData && modalData.regisration_expiry}
+                    type="date"
+                    defaultValue={modalData && modalData.regisration_expiry}
                   />
                 </Form.Group>
                 <Form.Group as={Col} controlId="formBasicLastServiced">
                   <Form.Label>Last Serviced</Form.Label>
                   <Form.Control
                     type="date"
-                    placeholder={modalData && modalData.last_serviced}
+                    defaultValue={modalData && modalData.last_serviced}
                   />
                 </Form.Group>
               </Form.Row>
