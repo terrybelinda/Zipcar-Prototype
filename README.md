@@ -5,7 +5,7 @@ Car Rental Service
 
 <h3>Architecture Diagram</h3>
 
-![Architecture diagram](Architecture.jpeg)
+![Architecture diagram](Architecture.jpg)
 
 
 # Database
