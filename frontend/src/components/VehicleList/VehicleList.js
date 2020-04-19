@@ -21,6 +21,7 @@ class VehicleList extends Component {
       requiredItem: 0,
       type: [],
       show: false,
+      showAdd: false,
     };
     this.saveModalDetails = this.saveModalDetails.bind(this);
   }
@@ -73,6 +74,14 @@ class VehicleList extends Component {
     });
   };
 
+  showModalAdd = () => {
+    this.setState({ showAdd: true });
+  };
+
+  hideModalAdd = () => {
+    this.setState({ showAdd: false });
+  };
+
   hideModal = () => {
     this.setState({ show: false, type: this.state.type });
   };
@@ -87,7 +96,7 @@ class VehicleList extends Component {
 
   render() {
     const list = this.state.type.map((item, index) => (
-      <Col sm="3">
+      <Col md="3">
         <Card
           bg="light"
           //style={{ width: "18rem" }}
@@ -96,13 +105,12 @@ class VehicleList extends Component {
         >
           <Card.Img variant="top" src={require("./Capture.PNG")} />
           <Card.Header as="h5">
-            licence #: {item.license_no}
-            Make: {item.make}
-            Model: {item.model}
+            licence #: {item.license_no} {item.make}, {item.model}
           </Card.Header>
 
           <Card.Body>
             <Card.Text id="year"> Year :{item.year}</Card.Text>
+            {/*
             Status:
             {item.status == 1 ? (
               <Button disabled size="sm" variant="success">
@@ -113,6 +121,7 @@ class VehicleList extends Component {
                 Inactive
               </Button>
             )}
+            */}
             <Card.Text id="regisration_expiry">
               <b>Registration Expiry:</b> {item.regisration_expiry}
             </Card.Text>
@@ -158,7 +167,9 @@ class VehicleList extends Component {
     return (
       <div>
         <Container fluid>
-          <Button variant="primary">Add Vehicle</Button>
+          <Button variant="primary" onClick={() => this.showModalAdd()}>
+            Add Vehicle
+          </Button>
           <Row>{list}</Row>
         </Container>
         <Modal show={this.state.show} onHide={this.hideModal} animation={false}>
@@ -278,8 +289,119 @@ class VehicleList extends Component {
               </Button>
             </Form>
           </Modal.Body>
+
           <Modal.Footer>
             <Button variant="secondary" onClick={this.hideModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        {/* Modal for add*/}
+        <Modal
+          show={this.state.showAdd}
+          onHide={this.hideModalAdd}
+          animation={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Add Vehicle</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={this.saveModalDetails}>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formBasicvid">
+                  <Form.Label>Vehicle Identification Number</Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder="Enter VIN"
+                    maxLength="16"
+                    disabled
+                  />
+                </Form.Group>
+                <Form.Group as={Col} controlId="formBasicLicenseNo">
+                  <Form.Label>License #</Form.Label>
+                  <Form.Control type="name" placeholder="Enter License #" />
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formBasicMake">
+                  <Form.Control type="name" placeholder="Enter Make" />
+                </Form.Group>
+                <Form.Group as={Col} controlId="formBasicModel">
+                  <Form.Control type="name" placeholder="Enter Model" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridYear">
+                  <Form.Control as="select" placeholder="Enter Model Year">
+                    <option selected="selected" disabled="disabled">
+                      {"Year"}
+                    </option>
+                    {this.years.map((year, index) => {
+                      return (
+                        <option key={`year${index}`} value={year}>
+                          {year}
+                        </option>
+                      );
+                    })}
+                  </Form.Control>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formBasicCurrentMileage">
+                  <Form.Control
+                    type="name"
+                    placeholder="Enter Current Mileage"
+                  />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formBasicCondition">
+                  <Form.Control
+                    as="select"
+                    placeholder="Choose Vehicle condition"
+                  >
+                    <option selected="selected" disabled="disabled">
+                      {"Choose Vehicle condition"}
+                    </option>
+                  </Form.Control>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formBasicRegistrationExpiry">
+                  <Form.Label>Registration Expiry</Form.Label>
+                  <Form.Control type="date" />
+                </Form.Group>
+                <Form.Group as={Col} controlId="formBasicLastServiced">
+                  <Form.Label>Last Serviced</Form.Label>
+                  <Form.Control type="date" />
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formBasicVehicleType">
+                  <Form.Control as="select" placeholder="Choose Vehicle type">
+                    <option selected="selected" disabled="disabled">
+                      {"Choose Vehicle type"}
+                    </option>
+                  </Form.Control>
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formBasicRentalLocation">
+                  <Form.Control
+                    as="select"
+                    placeholder="Choose Rental condition"
+                  >
+                    <option selected="selected" disabled="disabled">
+                      {"Choose Rental condition"}
+                    </option>
+                  </Form.Control>
+                </Form.Group>
+              </Form.Row>
+              <Button variant="primary" type="submit">
+                Save Changes
+              </Button>
+            </Form>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.hideModalAdd}>
               Close
             </Button>
           </Modal.Footer>
