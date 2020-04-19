@@ -111,6 +111,7 @@ CREATE TABLE `vehicle_type` (
   `vehicle_type` varchar(255) NOT NULL,
   `hours` int NOT NULL,
   `price` varchar(45) NOT NULL,
+  `status` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `vehicle_type_idx` (`vehicle_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
