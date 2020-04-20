@@ -18,12 +18,9 @@ class Home extends Component {
         <Route path="/" component={Navigation} />
         <Route exact path="/login" component={RentalLogin} />
         <Route exact path="/signup" component={SignUp} />
-<<<<<<< HEAD
         <Route path="/VehicleList" component={VehicleList} />
         <Route path="/VehicleType" component={VehicleType} />
-=======
         <Route exact path="/feedback" component={Feedback} />
->>>>>>> integrateLogin
       </div>
     );
   }
