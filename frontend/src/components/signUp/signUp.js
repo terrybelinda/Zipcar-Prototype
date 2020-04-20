@@ -4,11 +4,14 @@ import { Grid, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import { UsaStates as usaStates } from "usa-states";
+import axios from "axios";
+import moment from "moment";
 
 class SignUp extends Component {
   constructor(props) {
     super(props);
     const year = new Date().getFullYear();
+    this.membership = "";
     this.years = Array.from(new Array(20), (val, index) => index + year);
     this.months = Array.from(new Array(12), (val, index) => index + 1);
     this.state = {
@@ -25,11 +28,12 @@ class SignUp extends Component {
       zipcode: "",
       licenseState: "",
       licenseId: "",
-      membership: "",
-      creditCardNo: "",
-      expiryMonth: "",
-      expiryYear: "",
-      cvv: "",
+      membershipStartDate: moment().format("YYYY-MM-DD"),
+      membershipEndDate: "",
+      cardNumber: "",
+      cardExpiryMonth: "",
+      cardExpiryYear: "",
+      cardCvv: "",
     };
   }
   buildOptionsStates() {
@@ -46,22 +50,17 @@ class SignUp extends Component {
 
     console.log(this.state);
     console.log("FORM 11!");
-    /*
-    axios
-      .post("http://localhost:8080/api/login", data)
-      .then((res) => {
-        if (res.status === 200) {
-          console.log("yay");
-          console.log(res);
-          //this.props.history.push('/profile');
-          localStorage.setItem("admin", res.data.admin);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        this.props.authFail(err.response.data.msg);
-      });
-      */
+    console.log(moment().add(6, "months").format("YYYY-MM-DD"));
+
+    axios.post("http://localhost:8080/api/signup", this.state).then((res) => {
+      if (res.status === 200) {
+        console.log("yay");
+
+        console.log(res);
+        this.props.history.push("/login");
+        localStorage.setItem("admin", res.data.admin);
+      }
+    });
   };
 
   render() {
@@ -216,9 +215,16 @@ class SignUp extends Component {
                 type="radio"
                 value="6"
                 label="6 months membership"
-                checked={this.state.membership === "6"}
+                checked={
+                  this.state.membershipEndDate ===
+                  moment().add(6, "months").format("YYYY-MM-DD")
+                }
                 onChange={(event) =>
-                  this.setState({ membership: event.target.value })
+                  this.setState({
+                    membershipEndDate: moment()
+                      .add(event.target.value, "months")
+                      .format("YYYY-MM-DD"),
+                  })
                 }
               />
             </Form.Group>
@@ -228,9 +234,16 @@ class SignUp extends Component {
                 type="radio"
                 value="12"
                 label="12 months membership"
-                checked={this.state.membership === "12"}
+                checked={
+                  this.state.membershipEndDate ===
+                  moment().add(12, "months").format("YYYY-MM-DD")
+                }
                 onChange={(event) =>
-                  this.setState({ membership: event.target.value })
+                  this.setState({
+                    membershipEndDate: moment()
+                      .add(event.target.value, "months")
+                      .format("YYYY-MM-DD"),
+                  })
                 }
               />
             </Form.Group>
@@ -241,7 +254,7 @@ class SignUp extends Component {
             <Form.Control
               placeholder="Enter 16 digit credit card number"
               onChange={(event) =>
-                this.setState({ creditCardNo: event.target.value })
+                this.setState({ cardNumber: event.target.value })
               }
               maxLength="16"
             />
@@ -254,7 +267,7 @@ class SignUp extends Component {
                 as="select"
                 placeholder="Choose"
                 onChange={(event) =>
-                  this.setState({ expiryMonth: event.target.value })
+                  this.setState({ cardExpiryMonth: event.target.value })
                 }
               >
                 <option>Choose</option>
@@ -274,7 +287,7 @@ class SignUp extends Component {
                 as="select"
                 placeholder="Choose"
                 onChange={(event) =>
-                  this.setState({ expiryYear: event.target.value })
+                  this.setState({ cardExpiryYear: event.target.value })
                 }
               >
                 <option>Choose</option>
@@ -291,7 +304,9 @@ class SignUp extends Component {
             <Form.Group as={Col} controlId="formGridCvv">
               <Form.Label>cvv</Form.Label>
               <Form.Control
-                onChange={(event) => this.setState({ cvv: event.target.value })}
+                onChange={(event) =>
+                  this.setState({ cardCvv: event.target.value })
+                }
                 maxLength="3"
               />
             </Form.Group>
