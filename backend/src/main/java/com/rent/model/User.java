@@ -68,6 +68,18 @@ public class User {
 	
 	@Column
 	private boolean isActive;
+	
+	@Column
+	private Long cardNumber;
+	
+	@Column
+	private Byte cardExpiryMonth;
+	
+	@Column
+	private Integer cardExpiryYear;
+	
+	@Column
+	private Short cardCvv;
 
 	public String getName() {
 		return name;
@@ -203,5 +215,37 @@ public class User {
 
 	public void setIsActive(boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public Long getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(Long cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+
+	public Byte getCardExpiryMonth() {
+		return cardExpiryMonth;
+	}
+
+	public void setCardExpiryMonth(Byte cardExpiryMonth) {
+		this.cardExpiryMonth = cardExpiryMonth;
+	}
+
+	public Integer getCardExpiryYear() {
+		return cardExpiryYear;
+	}
+
+	public void setCardExpiryYear(Integer cardExpiryYear) {
+		this.cardExpiryYear = cardExpiryYear;
+	}
+
+	public Short getCardCvv() {
+		return cardCvv;
+	}
+
+	public void setCardCvv(Short cardCvv) {
+		this.cardCvv = cardCvv;
 	}
 }
