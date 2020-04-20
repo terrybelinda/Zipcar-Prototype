@@ -12,10 +12,15 @@
     "react-cookies": "^0.1.1",
     "react-dom": "^16.13.0",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "react-redux": "^7.2.0",
 =======
     "react-rating": "^2.0.5",
 >>>>>>> integrateLogin
+=======
+    "react-rating": "^2.0.5",
+    "react-redux": "^7.2.0",
+>>>>>>> eeacb59ca2954ea2f74056c70870ad2ddfb003c8
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "1.1.5",
