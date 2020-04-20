@@ -2,12 +2,12 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
---Schema: Rent
-CREATE SCHEMA IF NOT EXISTS `Rent` DEFAULT CHARACTER SET utf8 ;
-USE `Rent` ;
+--Schema: rent
+CREATE SCHEMA IF NOT EXISTS `rent` DEFAULT CHARACTER SET utf8 ;
+USE `rent` ;
 
---Table: `Rent`.`user`
-DROP TABLE IF EXISTS `Rent`.`user` ;
+--Table: `rent`.`user`
+DROP TABLE IF EXISTS `rent`.`user` ;
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -36,8 +36,8 @@ CREATE TABLE `user` (
   UNIQUE KEY `license_id_UNIQUE` (`license_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---Table: `Rent`.`rental_location`
-DROP TABLE IF EXISTS `Rent`.`rental_location` ;
+--Table: `ren`.`rental_location`
+DROP TABLE IF EXISTS `rent`.`rental_location` ;
 CREATE TABLE `rental_location` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -53,8 +53,8 @@ CREATE TABLE `rental_location` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---Table: `Rent`.`vehicle`
-DROP TABLE IF EXISTS `Rent`.`vehicle` ;
+--Table: `rent`.`vehicle`
+DROP TABLE IF EXISTS `rent`.`vehicle` ;
 CREATE TABLE `vehicle` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `license_no` varchar(255) NOT NULL,
@@ -74,8 +74,8 @@ CREATE TABLE `vehicle` (
   KEY `rental_location_idx` (`rental_location`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
---Table: `Rent`.`transaction`
-DROP TABLE IF EXISTS `Rent`.`transaction` ;
+--Table: `rent`.`transaction`
+DROP TABLE IF EXISTS `rent`.`transaction` ;
 CREATE TABLE `transaction` (
   `id` int NOT NULL AUTO_INCREMENT,
   `transaction_id` varchar(45) NOT NULL,
@@ -87,8 +87,8 @@ CREATE TABLE `transaction` (
   CONSTRAINT `id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---Table: `Rent`.`reservation`
-DROP TABLE IF EXISTS `Rent`.`reservation` ;
+--Table: `rent`.`reservation`
+DROP TABLE IF EXISTS `rent`.`reservation` ;
 CREATE TABLE `reservation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -104,20 +104,21 @@ CREATE TABLE `reservation` (
   KEY `location_id_idx` (`location_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
---Table: `Rent`.`vehicle_type`
-DROP TABLE IF EXISTS `Rent`.`vehicle_type` ;
+--Table: `rent`.`vehicle_type`
+DROP TABLE IF EXISTS `rent`.`vehicle_type` ;
 CREATE TABLE `vehicle_type` (
   `id` int NOT NULL AUTO_INCREMENT,
   `vehicle_type` varchar(255) NOT NULL,
   `hours` int NOT NULL,
   `price` varchar(45) NOT NULL,
+  `status` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `vehicle_type_idx` (`vehicle_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
---Table: `Rent`.`membership_price`
-DROP TABLE IF EXISTS `Rent`.`membership_price` ;
+--Table: `rent`.`membership_price`
+DROP TABLE IF EXISTS `rent`.`membership_price` ;
 CREATE TABLE `membership_price` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `membership_type` varchar(45) NOT NULL,
@@ -125,8 +126,8 @@ CREATE TABLE `membership_price` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---Table: `Rent`.`feedback`
-DROP TABLE IF EXISTS `Rent`.`feedback` ;
+--Table: `rent`.`feedback`
+DROP TABLE IF EXISTS `rent`.`feedback` ;
 CREATE TABLE `feedback` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
