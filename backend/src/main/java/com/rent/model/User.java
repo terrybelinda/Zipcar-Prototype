@@ -1,11 +1,13 @@
 package com.rent.model;
 
 import java.sql.Date;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Column;
 
@@ -80,6 +82,9 @@ public class User {
 	
 	@Column
 	private Short cardCvv;
+	
+	@OneToMany(mappedBy="userId")
+	private Set<Feedback> feedback;
 
 	public String getName() {
 		return name;

@@ -1,11 +1,13 @@
 package com.rent.model;
 
 import java.sql.Date;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Column;
 
@@ -53,6 +55,9 @@ public class Vehicle {
 	
 	@Column
 	private int status;
+	
+	@OneToMany(mappedBy="vehicleId")
+	private Set<Feedback> feedback;
 
 	public Integer getId() {
 		return id;
