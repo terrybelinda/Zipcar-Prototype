@@ -18,12 +18,10 @@ public class Feedback {
 	@Column
 	private Integer id;
 	
-	@ManyToOne
-	@JoinColumn
+	@ManyToOne(targetEntity = User.class)
 	private Integer userId;
 	
-	@ManyToOne
-	@JoinColumn
+	@ManyToOne(targetEntity = Vehicle.class)
 	private Integer vehicleId;
 	
 	@Column

@@ -7,9 +7,11 @@ import javax.persistence.EntityManager;
 import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.rent.model.Feedback;
 
+@Repository
 public class FeedbackDAO_Impl implements FeedbackDAO {
 	
 	@Autowired
