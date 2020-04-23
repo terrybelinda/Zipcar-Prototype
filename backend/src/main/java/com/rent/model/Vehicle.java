@@ -36,17 +36,11 @@ public class Vehicle {
 	private String model;
 	
 	@Column
-	private int year;
-	
-	@Column
 	private int current_mileage;
 	
 	@Column
 	private Date last_serviced;
-	
-	@Column
-	private String condition;
-	
+		
 	@Column
 	private String vehicle_type;
 	
@@ -58,6 +52,17 @@ public class Vehicle {
 	
 	@OneToMany(mappedBy="vehicleId")
 	private Set<Feedback> feedback;
+	
+	@Column
+	private String vehicle_picture;
+
+	public String getVehicle_picture() {
+		return vehicle_picture;
+	}
+
+	public void setVehicle_picture(String vehicle_picture) {
+		this.vehicle_picture = vehicle_picture;
+	}
 
 	public Integer getId() {
 		return id;
@@ -107,14 +112,6 @@ public class Vehicle {
 		this.model = model;
 	}
 
-	public int getYear() {
-		return year;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
-	}
-
 	public int getCurrent_mileage() {
 		return current_mileage;
 	}
@@ -131,13 +128,7 @@ public class Vehicle {
 		this.last_serviced = last_serviced;
 	}
 
-	public String getCondition() {
-		return condition;
-	}
-
-	public void setCondition(String condition) {
-		this.condition = condition;
-	}
+	
 
 	public String getVehicle_type() {
 		return vehicle_type;
