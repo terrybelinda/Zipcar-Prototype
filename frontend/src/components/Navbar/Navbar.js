@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, NavDropdown, NavbarBrand } from "react-bootstrap";
-import logo from '../../images/logo.png';
+import logo from "./logo.png";
 
 //import { withRouter } from "react-router-dom";
 //import { connect } from "react-redux";
@@ -10,17 +10,18 @@ class Navigation extends Component {
   render() {
     return (
       <Navbar bg="dark" variant="dark">
-		  <Navbar.Brand href="/profile">
-			<img
-				alt=""
-				src={logo}
-				width="30"
-				height="30"
-				className="d-inline-block align-top"
-			/>{' '}Home
-			{/* <Nav.Link href="/profile">Home</Nav.Link> */}
-    	</Navbar.Brand>
-		
+        <Navbar.Brand href="/profile">
+          <img
+            alt=""
+            src={logo}
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+          />{" "}
+          Home
+          {/* <Nav.Link href="/profile">Home</Nav.Link> */}
+        </Navbar.Brand>
+
         <Nav className="mr-auto">
           {localStorage.getItem("token") && (
             <Nav.Link href="/dashboard">Dashboard</Nav.Link>
@@ -32,8 +33,8 @@ class Navigation extends Component {
             <Nav.Link href="/event">Events</Nav.Link>
           )}
         </Nav>
-		
-		{/* </Navbar.Brand> */}
+
+        {/* </Navbar.Brand> */}
         {!localStorage.getItem("token") && <Link to="/login">Sign In</Link>}
 
         {!localStorage.getItem("token") && (
@@ -54,12 +55,12 @@ class Navigation extends Component {
             <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
           </NavDropdown>
         )} */}
-		{/* add logged in check after setting it from frontend */}
-		<NavDropdown title={"Account"} id="collasible-nav-dropdown">
-            <NavDropdown.Item href="/vehicles">Vehicles</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
-          </NavDropdown>
+        {/* add logged in check after setting it from frontend */}
+        <NavDropdown title={"Account"} id="collasible-nav-dropdown">
+          <NavDropdown.Item href="/vehicles">Vehicles</NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
+        </NavDropdown>
       </Navbar>
       //localStorage.getItem('first_name') ? localStorage.getItem('first_name') :
     );
