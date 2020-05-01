@@ -10,33 +10,21 @@ import {
 } from "react-bootstrap";
 import { useRef, useState, Component } from "react";
 import axios from "axios";
-import "rc-slider/assets/index.css";
-import Slider from "rc-slider";
 
 class VehicleType extends Component {
   constructor(props) {
     super(props);
     this.state = {
       requiredItem: 0,
-      type: [
-        {
-          vehicle_type: "Sedan",
-          price: [2, 7, 4, 5, 6],
-          hours: [2, 10, 4, 5, 6],
-          value: 0,
-        },
-        { vehicle_type: "Coupe", price: [2, 7], hours: [2, 10], value: 0 },
-      ],
-
+      type: [],
       show: false,
     };
     this.saveModalDetails = this.saveModalDetails.bind(this);
   }
-
-  /*
-    componentDidMount() {
+  componentDidMount() {
     this.getVehicles();
   }
+
   getVehicles = () => {
     axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
       "token"
@@ -54,7 +42,6 @@ class VehicleType extends Component {
       })
       .catch((err) => {});
   };
-  */
   removeItem(item) {
     const newItems = this.state.type.filter((type) => {
       return type !== item;
@@ -98,43 +85,6 @@ class VehicleType extends Component {
     this.setState({ type: temptype });
     this.setState({ show: false });
   }
-  handleSelectPrice(type, event) {
-    console.log(type);
-    console.log(event.target.value);
-  }
-  handleSelectHours(event) {
-    console.log(event.target.value);
-  }
-  handleChangeStart = () => {
-    console.log("Change event started");
-  };
-
-  handleChange = (value) => {
-    this.setState({
-      value: value,
-    });
-  };
-
-  handleChangeComplete = (x, event) => {
-    var obj = this.state.type[0].price.reduce(function (o, val) {
-      o[val] = val;
-      return o;
-    }, {});
-
-    console.log(JSON.stringify(obj));
-
-    console.log();
-    console.log(event);
-    console.log(x);
-    let typeCopy = JSON.parse(JSON.stringify(this.state.type));
-    console.log();
-    typeCopy[x].value = this.state.type[x].price[
-      this.state.type[x].hours.findIndex((v) => v === event)
-    ];
-    this.setState({
-      type: typeCopy,
-    });
-  };
 
   render() {
     const list = this.state.type.map((item, index) => (
@@ -163,26 +113,13 @@ class VehicleType extends Component {
             </Row>
               */}
             <Row>
-              <div style={{ width: 400, margin: 5 }}>
-                <p>Hours:</p>
-                <Slider
-                  min={0}
-                  max={Math.max(...item.hours)}
-                  defaultValue={0}
-                  marks={Object.assign(
-                    { 0: 0 },
-                    ...item.hours.map((value) => ({
-                      [value]: value,
-                    }))
-                  )}
-                  step={null}
-                  onChange={(e) => this.handleChangeComplete(index, e)}
-                />
-                &nbsp;
-                <p>Price: {item.value}$</p>
-              </div>
+              <Card.Text id="vid">
+                <b>price : </b> {item.price}
+              </Card.Text>
             </Row>
-
+            <Row>
+              <Card.Text id="condition">hours: {item.hours}</Card.Text>
+            </Row>
             <Card.Link href="#" onClick={() => this.showModal(index)}>
               Edit
             </Card.Link>

@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import { UsaStates as usaStates } from "usa-states";
 import axios from "axios";
 import moment from "moment";
+import ReactBootstrapSlider from "react-bootstrap-slider";
 
 class SignUp extends Component {
   constructor(props) {
