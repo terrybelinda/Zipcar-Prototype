@@ -1,6 +1,9 @@
 package com.rent.dao;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -16,8 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rent.model.Vehicle;
+import com.rent.model.Customer;
 import com.rent.model.Location;
-import com.rent.model.User;
+import com.rent.model.Reservation;;
 
 @Repository
 public class VehicleDAO_Impl implements VehicleDAO {
@@ -26,8 +30,8 @@ public class VehicleDAO_Impl implements VehicleDAO {
 	private EntityManager entityManager; 
 	
 	@Override
-	public List<Vehicle> getByLocation(String zipcode) {
-		
+	public List<Vehicle> getByLocation(String zipcode, Date startdatetime, Date enddatetime) {
+		//TODO
 		Session currentSession = entityManager.unwrap(Session.class);
 		Query<Location> query = currentSession.createQuery("from Location where zipcode=:zipcode", Location.class);
 		query.setParameter("zipcode", zipcode);
@@ -36,11 +40,30 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		Location locqresult = query.uniqueResult();	
 		
 		if(locqresult != null) {
-			Query<Vehicle> query1 = currentSession.createQuery("from Vehicle where rental_location = :locid and status=0", Vehicle.class);
-			query1.setParameter("locid", locqresult.getId());
-		
-			List<Vehicle> list = query1.getResultList();
-			return list;
+			
+			
+			Query<Vehicle> query1 = currentSession.createQuery("select v from Vehicle v JOIN "
+					+ "Reservation r on v.id = r.vehicle_id and" +
+					"(r.end_time >= :startdatetime and r.end_time <= :enddatetime) or " +
+					"(r.start_time >= :startdatetime and r.start_time <= :enddatetime) and " +
+					"(r.location_id = v.rental_location)", Vehicle.class);
+			
+			query1.setParameter("startdatetime",startdatetime);
+			query1.setParameter("enddatetime", enddatetime);
+			List<Vehicle> list1 = query1.getResultList();
+			
+			Query<Vehicle> query2 = currentSession.createQuery("from Vehicle v where " +
+			"rental_location=:locid", Vehicle.class);
+			query2.setParameter("locid",locqresult.getId());
+			List<Vehicle> list2 = query2.getResultList();
+			
+			List<Vehicle> list3 = new ArrayList<Vehicle>();
+			
+			for(Vehicle temp:list2) {
+				if(!list1.contains(temp)){
+					list3.add(temp);}
+			}
+			return list1;
 			}
 		else {
 			List<Vehicle> list = Collections.<Vehicle> emptyList();
@@ -49,24 +72,43 @@ public class VehicleDAO_Impl implements VehicleDAO {
 	}
 	
 	@Override
-	public List<Vehicle> getVehicle(String type){
+	public HashSet<String> getVehicle(String type){
 		
 		Session currentSession = entityManager.unwrap(Session.class);
-		Query<Vehicle> query = currentSession.createQuery("from Vehicle where vehicle_type = :vtype", Vehicle.class);
-		query.setParameter("vtype", type);
 		
-		List<Vehicle> list = query.getResultList();
-		return list;
+		if(type.isEmpty() == false) {
+			Query<Vehicle> query = currentSession.createQuery("from Vehicle where vehicle_type = :vtype", Vehicle.class);
+			query.setParameter("vtype", type);
+		
+			List<Vehicle> list = query.getResultList();
+			HashSet<String> makemodel = new HashSet<String>();
+			
+			for(Vehicle temp:list) {
+				makemodel.add(temp.getMake() + "," + temp.getModel());
+			}
+			
+			return makemodel;}
+		else {
+			Query<Vehicle> query = currentSession.createQuery("select distinct make,model from Vehicle", Vehicle.class);
+			
+		
+			List<Vehicle> list = query.getResultList();
+			HashSet<String> makemodel = new HashSet<String>();
+			
+			for(Vehicle temp:list) {
+				makemodel.add(temp.getMake() + "," + temp.getModel());
+			}
+			
+			return makemodel;
+		}
 	}
 	
 	@Override
-	public List<Vehicle> vehicleRequest(String area,String city,String state, String make, String model){
-		
+	public List<Vehicle> vehicleRequest(String zipcode, String make, String model){
+		//TODO: add startdate and enddate
 		Session currentSession = entityManager.unwrap(Session.class);
-		Query<Location> query = currentSession.createQuery("from Location where street = :area and city = :city and state= :state", Location.class);
-		query.setParameter("area", area);
-		query.setParameter("city", city);
-		query.setParameter("state", state);
+		Query<Location> query = currentSession.createQuery("from Location where zipcode = :zipcode", Location.class);
+		query.setParameter("zipcode", zipcode);
 
 		Location locqresult = query.uniqueResult();	
 		
@@ -97,6 +139,14 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		List<Vehicle> list = query1.getResultList();
 		return list;
 	
+	}
+	
+	@Override
+	public List<Vehicle> getAllVehicle(){
+		Session currentSession = entityManager.unwrap(Session.class);
+		Query<Vehicle> query = currentSession.createQuery("from Vehicle where status > 0", Vehicle.class);
+		List<Vehicle> list = query.getResultList();
+		return list;
 	}
 
 }
