@@ -18,23 +18,13 @@ class VehicleType extends Component {
     super(props);
     this.state = {
       requiredItem: 0,
-      type: [
-        {
-          vehicle_type: "Sedan",
-          price: [2, 7, 4, 5, 6],
-          hours: [2, 10, 4, 5, 6],
-          value: 0,
-        },
-        { vehicle_type: "Coupe", price: [2, 7], hours: [2, 10], value: 0 },
-      ],
-
+      type: [],
       show: false,
     };
     this.saveModalDetails = this.saveModalDetails.bind(this);
   }
 
-  /*
-    componentDidMount() {
+  componentDidMount() {
     this.getVehicles();
   }
   getVehicles = () => {
@@ -54,7 +44,7 @@ class VehicleType extends Component {
       })
       .catch((err) => {});
   };
-  */
+
   removeItem(item) {
     const newItems = this.state.type.filter((type) => {
       return type !== item;
