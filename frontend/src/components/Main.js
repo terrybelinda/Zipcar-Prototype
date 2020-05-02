@@ -6,6 +6,7 @@ import cookie from "react-cookies";
 import { Redirect } from "react-router";
 import RentalLogin from "./rentalLogin/rentalLogin";
 import SignUp from "./signUp/signUp";
+import Feedback from "./feedback/feedback";
 import Navigation from "./Navbar/Navbar";
 import { Types } from "./VehicleType/VehicleType";
 import { Vehicle } from "./vehicle/Vehicle";
@@ -19,10 +20,11 @@ class Home extends Component {
         <Route path="/" component={Navigation} />
         <Route exact path="/login" component={RentalLogin} />
         <Route exact path="/signup" component={SignUp} />
-        <Route exact path ='/profile' component={UserProfile}/>
+        <Route exact path="/feedback" component={Feedback} />
+		<Route exact path ='/profile' component={UserProfile}/>
         <Route path="/VehicleType" component={Types} />
 		<Route path="/vehicles" component={Vehicle} />
-		</div>
+      </div>
     );
   }
 }

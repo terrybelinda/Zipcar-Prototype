@@ -3,7 +3,7 @@ CREATE TABLE `user` (
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` char(60) NOT NULL,
-  `is_admin` tinyint(4) NOT NULL,
+  `is_admin` tinyint(4) NOT NULL DEFAULT '0',
   `dob` datetime NOT NULL,
   `mobile` varchar(45) NOT NULL,
   `apt` varchar(45) DEFAULT NULL,
@@ -14,9 +14,9 @@ CREATE TABLE `user` (
   `zipcode` varchar(45) NOT NULL,
   `membership_start_date` datetime NOT NULL,
   `membership_end_date` datetime NOT NULL,
-  `license_state` tinyint(4) NOT NULL,
+  `license_state` varchar(2) NOT NULL,
   `license_id` varchar(45) NOT NULL,
-  `is_active` tinyint(4) NOT NULL,
+  `is_active` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `license_id_UNIQUE` (`license_id`)
@@ -55,6 +55,9 @@ CREATE TABLE `vehicle` (
   KEY `rental_location_idx` (`rental_location`),
   CONSTRAINT `rental_location` FOREIGN KEY (`rental_location`) REFERENCES `rental_location` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+ALTER TABLE `rent`.`vehicle` 
+ADD COLUMN `vehicle_picture` VARCHAR(255) NOT NULL AFTER `status`;
 
 
 CREATE TABLE `transaction` (

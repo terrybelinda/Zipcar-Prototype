@@ -23,9 +23,8 @@ public class UserService_Impl implements UserService{
 
 	@Transactional
 	@Override
-	public User get(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public User get(String email) {		
+		return userDAO.get(email);
 	}
 
 	@Transactional
