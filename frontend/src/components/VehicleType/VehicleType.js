@@ -106,7 +106,7 @@ class VehicleType extends Component {
   };
 
   handleChangeComplete = (x, event) => {
-    var obj = this.state.type[0].price.reduce(function (o, val) {
+    var obj = this.state.type[0].priceList.reduce(function (o, val) {
       o[val] = val;
       return o;
     }, {});
@@ -118,8 +118,8 @@ class VehicleType extends Component {
     console.log(x);
     let typeCopy = JSON.parse(JSON.stringify(this.state.type));
     console.log();
-    typeCopy[x].value = this.state.type[x].price[
-      this.state.type[x].hours.findIndex((v) => v === event)
+    typeCopy[x].value = this.state.type[x].priceList[
+      this.state.type[x].hourList.findIndex((v) => v === event)
     ];
     this.setState({
       type: typeCopy,
@@ -157,11 +157,11 @@ class VehicleType extends Component {
                 <p>Hours:</p>
                 <Slider
                   min={0}
-                  max={Math.max(...item.hours)}
+                  max={Math.max(...item.hourList)}
                   defaultValue={0}
                   marks={Object.assign(
                     { 0: 0 },
-                    ...item.hours.map((value) => ({
+                    ...item.hourList.map((value) => ({
                       [value]: value,
                     }))
                   )}
