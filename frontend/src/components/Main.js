@@ -10,17 +10,22 @@ import Feedback from "./feedback/feedback";
 import Navigation from "./Navbar/Navbar";
 import VehicleList from "./VehicleList/VehicleList";
 import VehicleType from "./VehicleType/VehicleType";
+import { Vehicle } from "./vehicle/Vehicle";
+import UserProfile from './user/Profile';
+
 
 class Home extends Component {
   render() {
     return (
-      <div>
+		<div>
         <Route path="/" component={Navigation} />
         <Route exact path="/login" component={RentalLogin} />
         <Route exact path="/signup" component={SignUp} />
         <Route path="/VehicleList" component={VehicleList} />
         <Route path="/VehicleType" component={VehicleType} />
         <Route exact path="/feedback" component={Feedback} />
+		<Route exact path ='/profile' component={UserProfile}/>
+		<Route path="/vehicles" component={Vehicle} />
       </div>
     );
   }

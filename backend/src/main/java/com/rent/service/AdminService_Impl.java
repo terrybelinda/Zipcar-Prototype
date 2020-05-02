@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rent.dao.AdminDAO;
+import com.rent.dao.VehicleTypeGroup;
 import com.rent.model.VehicleType;
 import com.rent.model.*;
 
@@ -18,7 +19,7 @@ public class AdminService_Impl implements AdminService{
 	
 	@Transactional
 	@Override
-	public List<VehicleType> get() {
+	public List<VehicleTypeGroup> get() {
 		return adminDAO.get();
 	}
 	@Override
