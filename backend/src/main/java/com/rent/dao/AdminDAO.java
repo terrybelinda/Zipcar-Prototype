@@ -7,7 +7,7 @@ import com.rent.model.VehicleType;
 
 public interface AdminDAO {
 
-	List<VehicleType> get();
+	List<VehicleTypeGroup> get();
 	void save(VehicleType vt);
 	void deleteVehicletype(String vtname);
 	void updateVehicletype(String vtname, String price, int hours);

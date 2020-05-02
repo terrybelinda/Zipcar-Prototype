@@ -1,6 +1,9 @@
 package com.rent.dao;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -20,13 +23,41 @@ public class AdminDAO_Impl implements AdminDAO {
 	private EntityManager entityManager; 
 	
 	@Override
-	public List<VehicleType> get() {
+	public List<VehicleTypeGroup> get() {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		Query<VehicleType> query = currentSession.createQuery("from VehicleType where status>0", VehicleType.class);
 		List<VehicleType> list = query.getResultList();
-		return list;
+		HashMap<String, VehicleTypeGroup> map = new HashMap();
+		List<VehicleTypeGroup> result = new ArrayList();
+		for(VehicleType type : list) {
+			if(map.containsKey(type.getVehicle_type())) {
+				VehicleTypeGroup entry = map.get(type.getVehicle_type());
+				entry.addInHourList(type.getHours());
+				entry.addInPriceList(type.getPrice());
+				map.put(type.getVehicle_type(), entry);
+			} else {
+				VehicleTypeGroup entry = new VehicleTypeGroup(type.getVehicle_type());
+				entry.addInHourList(type.getHours());
+				entry.addInPriceList(type.getPrice());
+				
+				map.put(type.getVehicle_type(), entry);
+			}
+			
+			
+		}
+		
+		Iterator hmIterator = map.entrySet().iterator(); 
+		
+		while (hmIterator.hasNext()) { 
+			Map.Entry mapElement = (Map.Entry)hmIterator.next();
+			VehicleTypeGroup entry = (VehicleTypeGroup)mapElement.getValue();
+			result.add(entry);
+		}
+		return result;
 	}
+	
+
 	
 	@Override
 	public void save(VehicleType vt) {
@@ -97,3 +128,4 @@ public class AdminDAO_Impl implements AdminDAO {
 	}
 	
 }
+
