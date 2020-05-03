@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rent.dao.VehicleDAO;
+import com.rent.model.Reservation;
 import com.rent.model.Vehicle;
 
 @Service
@@ -39,5 +40,10 @@ public class VehicleService_Impl implements VehicleService{
 	
 	public List<Vehicle> getAllVehicle(){
 		return vehicleDAO.getAllVehicle();
+	}
+	
+	public void reservation(Reservation r) {
+		vehicleDAO.reservation(r);
+		
 	}
 }

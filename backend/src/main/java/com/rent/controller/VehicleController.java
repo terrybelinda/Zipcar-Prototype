@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rent.model.Reservation;
 import com.rent.model.Vehicle;
+import com.rent.model.VehicleType;
 import com.rent.service.VehicleService;
 
 @CrossOrigin(origins = "*")
@@ -37,12 +39,6 @@ public class VehicleController {
 		startdatetime = startdatetime + ":00";
 		enddatetime = enddatetime + ":00";
 		
-		
-//		Date startdatetime1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(startdatetime);
-//		
-//		Date enddatetime1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(enddatetime);
-//		System.out.println(startdatetime);
-//		System.out.println(enddatetime);
 		return vehicleService.getByLocation(zipcode[1], startdatetime, enddatetime);
 	}
 	
@@ -61,6 +57,14 @@ public class VehicleController {
 	@GetMapping("/allvehicles")
 	public List<Vehicle> get(){
 		 return vehicleService.getAllVehicle();
+		
+	}
+	@PostMapping("/reservation")
+	public String reservation(@RequestBody Reservation r) {
+		
+		
+		vehicleService.reservation(r);
+		return "success";
 		
 	}
 		

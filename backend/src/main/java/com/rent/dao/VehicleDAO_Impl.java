@@ -183,5 +183,10 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		List<Vehicle> list = query.getResultList();
 		return list;
 	}
+	
+	public void reservation(Reservation r) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		currentSession.save(r);
+	}
 
 }

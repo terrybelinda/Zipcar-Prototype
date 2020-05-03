@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+import com.rent.model.Reservation;
 import com.rent.model.Vehicle;
 
 public interface VehicleDAO {
@@ -13,4 +14,5 @@ public interface VehicleDAO {
 	public List<Vehicle> vehicleRequest(String zipcode, String make, String model);
 	public List<Vehicle> vehicleSimilar(String make, String model);
 	public List<Vehicle> getAllVehicle();
+	public void reservation(Reservation r);
 }

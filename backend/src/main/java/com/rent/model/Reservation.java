@@ -1,10 +1,14 @@
 package com.rent.model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Column;
@@ -28,13 +32,16 @@ public class Reservation {
 	private int location_id;
 	
 	@Column
-	private Date start_time;
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
+	private Timestamp start_time;
 	
 	@Column
-	private Date end_time;
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
+	private Timestamp end_time;
 	
 	@Column
-	private Date return_time;
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
+	private Timestamp return_time;
 	
 	@Column
 	private int return_status;
@@ -71,28 +78,28 @@ public class Reservation {
 		this.location_id = location_id;
 	}
 
-	public Date getStart_time() {
+	public Timestamp getStart_time() {
 		return start_time;
 	}
 
-	public void setStart_time(Date start_time) {
-		this.start_time = start_time;
+	public void setStart_time(Timestamp start_time) {
+		this.start_time = new java.sql.Timestamp(start_time.getYear(), start_time.getMonth(), start_time.getDay(), start_time.getHours(), start_time.getMinutes(), start_time.getSeconds(), 0);
 	}
 
-	public Date getEnd_time() {
+	public Timestamp getEnd_time() {
 		return end_time;
 	}
 
-	public void setEnd_time(Date end_time) {
-		this.end_time = end_time;
+	public void setEnd_time(Timestamp end_time) {
+		this.end_time = new java.sql.Timestamp(end_time.getYear(), end_time.getMonth(), end_time.getDay(), end_time.getHours(), end_time.getMinutes(), end_time.getSeconds(), 0);
 	}
 
-	public Date getReturn_time() {
+	public Timestamp getReturn_time() {
 		return return_time;
 	}
 
-	public void setReturn_time(Date return_time) {
-		this.return_time = return_time;
+	public void setReturn_time(Timestamp return_time) {
+		this.return_time = new java.sql.Timestamp(return_time.getYear(), return_time.getMonth(), return_time.getDay(), return_time.getHours(), return_time.getMinutes(), return_time.getSeconds(), 0);;
 	}
 
 	public int getReturn_status() {

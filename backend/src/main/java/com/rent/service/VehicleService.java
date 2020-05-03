@@ -3,6 +3,7 @@ package com.rent.service;
 
 import java.util.*;
 
+import com.rent.model.Reservation;
 import com.rent.model.Vehicle;
 
 
@@ -12,5 +13,6 @@ public interface VehicleService {
 	HashSet<String> getVehicle(String type);
 	List<Vehicle> vehicleRequest(String zipcode, String make, String model);
 	List<Vehicle> getAllVehicle();
+	void reservation(Reservation r);
 	
 }
