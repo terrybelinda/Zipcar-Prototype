@@ -32,7 +32,7 @@ public class VehicleController {
 		
 		String[] arrOfStr = address.split(", ");  
 		String[] zipcode = arrOfStr[2].split(" ");
-		System.out.print(zipcode);
+		
 		startdatetime = startdatetime + ":00";
 		enddatetime = enddatetime + ":00";
 		Date startdatetime1 = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(startdatetime);
