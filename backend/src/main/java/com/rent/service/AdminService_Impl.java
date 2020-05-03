@@ -1,6 +1,8 @@
 package com.rent.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +21,10 @@ public class AdminService_Impl implements AdminService{
 	
 	@Transactional
 	@Override
+
 	public List<VehicleTypeGroup> get() {
 		return adminDAO.get();
+
 	}
 	@Override
 	public void save(VehicleType vt){
