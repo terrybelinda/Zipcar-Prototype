@@ -31,8 +31,8 @@ public class VehicleController {
 	public List<Vehicle> getByLocation(@RequestParam String address, @RequestParam String startdatetime, @RequestParam String enddatetime) throws ParseException {
 		
 		String[] arrOfStr = address.split(", ");   
-		Date startdatetime1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(startdatetime);
-		Date enddatetime1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(enddatetime);
+		Date startdatetime1 = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(startdatetime);
+		Date enddatetime1 = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(enddatetime);
 		return vehicleService.getByLocation(arrOfStr[3], startdatetime1, enddatetime1);
 	}
 	@GetMapping("/vehiclerequest")
