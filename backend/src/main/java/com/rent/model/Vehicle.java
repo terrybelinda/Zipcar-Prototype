@@ -52,8 +52,6 @@ public class Vehicle {
 
 	@OneToMany(mappedBy="vehicleId")
 	private Set<Feedback> feedback;
-	@OneToMany(mappedBy="vehicleId")
-	private Set<Feedback> feedback;
 	
 	@Column( nullable = false )
 	private String vehicle_picture;
