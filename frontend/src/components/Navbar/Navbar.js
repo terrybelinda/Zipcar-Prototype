@@ -9,17 +9,18 @@ class Navigation extends Component {
   render() {
     return (
       <Navbar bg="dark" variant="dark">
-		  <Navbar.Brand href="/profile">
-			<img
-				alt=""
-				src={"http://localhost:3000/images/logo.png"}
-				width="30"
-				height="30"
-				className="d-inline-block align-top"
-			/>{' '}Home
-			{/* <Nav.Link href="/profile">Home</Nav.Link> */}
-    	</Navbar.Brand>
-		
+        <Navbar.Brand href="/profile">
+          <img
+            alt=""
+            src={"http://localhost:3000/images/logo.png"}
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+          />{" "}
+          Home
+          {/* <Nav.Link href="/profile">Home</Nav.Link> */}
+        </Navbar.Brand>
+
         <Nav className="mr-auto">
           {localStorage.getItem("token") && (
             <Nav.Link href="/dashboard">Dashboard</Nav.Link>
@@ -31,8 +32,8 @@ class Navigation extends Component {
             <Nav.Link href="/event">Events</Nav.Link>
           )}
         </Nav>
-		
-		{/* </Navbar.Brand> */}
+
+        {/* </Navbar.Brand> */}
         {!localStorage.getItem("token") && <Link to="/login">Sign In</Link>}
 
         {!localStorage.getItem("token") && (
@@ -47,6 +48,11 @@ class Navigation extends Component {
           </Link>
         )}
         {!localStorage.getItem("token") && (
+          <Link className="pl-5" to="/RentalLocation">
+            Rental Locations
+          </Link>
+        )}
+        {!localStorage.getItem("token") && (
           <Link className="pl-5" to="/signup">
             Sign Up
           </Link>
@@ -58,12 +64,12 @@ class Navigation extends Component {
             <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
           </NavDropdown>
         )} */}
-		{/* add logged in check after setting it from frontend */}
-		<NavDropdown title={"Account"} id="collasible-nav-dropdown">
-            <NavDropdown.Item href="/vehicles">Vehicles</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
-          </NavDropdown>
+        {/* add logged in check after setting it from frontend */}
+        <NavDropdown title={"Account"} id="collasible-nav-dropdown">
+          <NavDropdown.Item href="/vehicles">Vehicles</NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
+        </NavDropdown>
       </Navbar>
       //localStorage.getItem('first_name') ? localStorage.getItem('first_name') :
     );

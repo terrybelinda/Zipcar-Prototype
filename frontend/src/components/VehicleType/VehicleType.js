@@ -55,7 +55,7 @@ class VehicleType extends Component {
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");
-          console.log(res);
+          console.log(item);
           this.setState({
             type: [...newItems],
           });
@@ -84,7 +84,7 @@ class VehicleType extends Component {
     // setstate
     const requiredItem = this.state.requiredItem;
     let temptype = this.state.type;
-    temptype[requiredItem].vehicle_type = e.target.elements[0].value;
+    temptype[requiredItem].vehicleType = e.target.elements[0].value;
     this.setState({ type: temptype });
     this.setState({ show: false });
   }
@@ -112,10 +112,6 @@ class VehicleType extends Component {
     }, {});
 
     console.log(JSON.stringify(obj));
-
-    console.log();
-    console.log(event);
-    console.log(x);
     let typeCopy = JSON.parse(JSON.stringify(this.state.type));
     console.log();
     typeCopy[x].value = this.state.type[x].priceList[
@@ -135,23 +131,9 @@ class VehicleType extends Component {
           className="mt-2 border border-primary"
           key={item.id}
         >
-          <Card.Header as="h5">Type: {item.vehicle_type}</Card.Header>
+          <Card.Header as="h5">Type: {item.vehicleType}</Card.Header>
 
           <Card.Body>
-            {/*
-            <Row>
-              Status:
-              {item.status == 1 ? (
-                <Button disabled size="sm" variant="success">
-                  Active
-                </Button>
-              ) : (
-                <Button disabled size="sm" variant="danger">
-                  Inactive
-                </Button>
-              )}
-            </Row>
-              */}
             <Row>
               <div style={{ width: 400, margin: 5 }}>
                 <p>Hours:</p>
@@ -194,6 +176,7 @@ class VehicleType extends Component {
 
     const requiredItem = this.state.requiredItem;
     let modalData = this.state.type[requiredItem];
+    let data = [[2, 3], [], []];
     return (
       <div>
         <Container>
@@ -202,7 +185,7 @@ class VehicleType extends Component {
         </Container>
         <Modal show={this.state.show} onHide={this.hideModal} animation={false}>
           <Modal.Header closeButton>
-            <Modal.Title>Edits</Modal.Title>
+            <Modal.Title>Edit</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={this.saveModalDetails}>
@@ -210,8 +193,41 @@ class VehicleType extends Component {
                 <Form.Label>vehicle</Form.Label>
                 <Form.Control
                   type="vehicle"
-                  placeholder={modalData && modalData.vehicle_type}
+                  placeholder={modalData && modalData.vehicleType}
+                  disabled
                 />
+                <table className="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Hour</th>
+                      <th>Price $</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.map((row) => {
+                      return (
+                        <tr>
+                          <td>
+                            <input
+                              type="number"
+                              className="form-control"
+                              step="1"
+                              min="1"
+                              value={row[0]}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              className="form-control"
+                              value={row[1]}
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </Form.Group>
               <Button variant="primary" type="submit">
                 Save Changes

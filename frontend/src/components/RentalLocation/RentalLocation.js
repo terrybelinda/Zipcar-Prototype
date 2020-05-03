@@ -10,10 +10,8 @@ import {
 } from "react-bootstrap";
 import { useRef, useState, Component } from "react";
 import axios from "axios";
-import { Icon } from "semantic-ui-react";
-import { SocialPeople } from "material-ui/svg-icons";
 
-class VehicleList extends Component {
+class RentalLocation extends Component {
   constructor(props) {
     super(props);
     const year = new Date().getFullYear();
@@ -32,7 +30,7 @@ class VehicleList extends Component {
     this.getVehicles();
   }
 
-  getVehicles = () => {
+  getRentalLocations = () => {
     axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
       "token"
     );
@@ -166,11 +164,6 @@ class VehicleList extends Component {
           className="mt-2 border border-primary"
           key={item.id}
         >
-          <Card.Img variant="top" src={require("./Capture.PNG")} />
-          <Card.Header as="h5">
-            licence #: {item.license_no} {item.make}, {item.model}
-          </Card.Header>
-
           <Card.Body>
             <Card.Text id="year"> Year :{item.model_year}</Card.Text>
             {/*
@@ -471,4 +464,4 @@ class VehicleList extends Component {
     );
   }
 }
-export default VehicleList;
+export default RentalLocation;
