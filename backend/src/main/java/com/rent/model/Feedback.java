@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,20 +16,20 @@ public class Feedback {
 	@Column
 	private Integer id;
 	
-	@ManyToOne(targetEntity = User.class)
-	private Integer userId;
+	@Column
+	private Integer user_id;
 	
-	@ManyToOne(targetEntity = Vehicle.class)
-	private Integer vehicleId;
+	@Column
+	private Integer vehicle_id;
 	
 	@Column
 	private String comments;
 	
 	@Column
-	private Integer serviceSatisfaction;
+	private Integer service_satisfaction;
 	
 	@Column
-	private Integer carSatisfaction;
+	private Integer car_satisfaction;
 
 	public Integer getId() {
 		return id;
@@ -41,20 +39,21 @@ public class Feedback {
 		this.id = id;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	
+	public int getUser_id() {
+		return user_id;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
 	}
 
-	public Integer getVehicleId() {
-		return vehicleId;
+	public int getVehicle_id() {
+		return vehicle_id;
 	}
 
-	public void setVehicleId(Integer vehicleId) {
-		this.vehicleId = vehicleId;
+	public void setVehicle_id(int vehicle_id) {
+		this.vehicle_id = vehicle_id;
 	}
 
 	public String getComments() {
@@ -65,19 +64,19 @@ public class Feedback {
 		this.comments = comments;
 	}
 
-	public Integer getServiceSatisfaction() {
-		return serviceSatisfaction;
+	public Integer getService_satisfaction() {
+		return service_satisfaction;
 	}
 
-	public void setServiceSatisfaction(Integer serviceSatisfaction) {
-		this.serviceSatisfaction = serviceSatisfaction;
+	public void setService_satisfaction(Integer serviceSatisfaction) {
+		this.service_satisfaction = serviceSatisfaction;
 	}
 
-	public Integer getCarSatisfaction() {
-		return carSatisfaction;
+	public Integer getCar_satisfaction() {
+		return car_satisfaction;
 	}
 
-	public void setCarSatisfaction(Integer carSatisfaction) {
-		this.carSatisfaction = carSatisfaction;
+	public void setCar_satisfaction(Integer carSatisfaction) {
+		this.car_satisfaction = carSatisfaction;
 	}
 }

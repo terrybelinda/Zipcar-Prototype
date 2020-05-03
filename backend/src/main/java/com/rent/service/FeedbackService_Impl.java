@@ -17,7 +17,7 @@ public class FeedbackService_Impl implements FeedbackService {
 	
 	@Transactional
 	@Override
-	public List<Feedback> get(String userId) {
+	public List<Feedback> get(Integer userId) {
 		return feedbackDAO.get(userId);
 	}
 	

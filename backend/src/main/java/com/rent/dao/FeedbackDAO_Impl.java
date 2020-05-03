@@ -18,9 +18,9 @@ public class FeedbackDAO_Impl implements FeedbackDAO {
 	private EntityManager entityManager;
 	
 	@Override
-	public List<Feedback> get(String userId) {
+	public List<Feedback> get(Integer userId) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		Query<Feedback> query = currentSession.createQuery("from Feedback where user_id =: userId", Feedback.class);
+		Query<Feedback> query = currentSession.createQuery("from Feedback where user_id =: userId", Feedback.class).setParameter("userId", userId);
 		List<Feedback> list = query.getResultList();
 		return list;
 	}

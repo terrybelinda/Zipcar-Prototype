@@ -6,7 +6,7 @@ import com.rent.model.Feedback;
 
 public interface FeedbackDAO {
 	
-	List<Feedback> get(String userId);
+	List<Feedback> get(Integer userId);
 	
 	void save(Feedback feedback);
 }
