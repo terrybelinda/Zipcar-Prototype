@@ -18,10 +18,11 @@ class VehicleList extends Component {
     const year = new Date().getFullYear();
     this.years = Array.from(new Array(20), (val, index) => year - 1 - index);
     this.state = {
-      requiredItem: 0,
+      requiredItem: [],
       type: [],
       show: false,
       showAdd: false,
+      key: "",
     };
     this.saveModalDetails = this.saveModalDetails.bind(this);
   }
@@ -68,9 +69,11 @@ class VehicleList extends Component {
   }
 
   showModal = (key) => {
-    this.setState({ show: true });
+    this.setState({});
     this.setState({
-      requiredItem: key,
+      requiredItem: this.state.type[key],
+      show: true,
+      index: key,
     });
   };
 
@@ -87,11 +90,37 @@ class VehicleList extends Component {
   };
 
   saveModalDetails(e) {
-    const requiredItem = this.state.requiredItem;
-    let temptype = this.state.type;
-    temptype[requiredItem].vehicle_type = e.target.elements[0].value;
-    this.setState({ type: temptype });
-    this.setState({ show: false });
+    e.preventDefault();
+    console.log("here");
+    const newIds = this.state.requiredItem;
+    newIds.vid = e.target.elements[0].value;
+    newIds.license_no = e.target.elements[1].value;
+    newIds.make = e.target.elements[2].value;
+    newIds.model = e.target.elements[3].value;
+    newIds.model_year = e.target.elements[4].value;
+    newIds.current_mileage = e.target.elements[5].value;
+    newIds.car_condition = e.target.elements[6].value;
+    newIds.regisration_expiry = e.target.elements[7].value;
+    newIds.last_serviced = e.target.elements[8].value;
+    newIds.vehicle_type = e.target.elements[9].value;
+    newIds.rental_location = e.target.elements[10].value;
+    this.setState({ requiredItem: newIds });
+    let temptype = this.state.requiredItem;
+    console.log(newIds.model_year);
+    console.log(this.state.requiredItem);
+    axios
+      .post("http://localhost:8080/api/updatevehicle", temptype)
+      .then((res) => {
+        if (res.status == 200) {
+          if (res.data) {
+            console.log(res.data);
+            const vehicles = this.state.type;
+            vehicles[this.state.index] = temptype;
+            this.setState({ show: false, type: vehicles });
+          }
+        }
+      })
+      .catch((err) => {});
   }
 
   render() {
@@ -109,7 +138,7 @@ class VehicleList extends Component {
           </Card.Header>
 
           <Card.Body>
-            <Card.Text id="year"> Year :{item.year}</Card.Text>
+            <Card.Text id="year"> Year :{item.model_year}</Card.Text>
             {/*
             Status:
             {item.status == 1 ? (
@@ -162,8 +191,7 @@ class VehicleList extends Component {
       </Col>
     ));
 
-    const requiredItem = this.state.requiredItem;
-    let modalData = this.state.type[requiredItem];
+    let modalData = this.state.requiredItem;
     return (
       <div>
         <Container fluid>
@@ -183,7 +211,7 @@ class VehicleList extends Component {
                   <Form.Label>Vehicle Identification Number</Form.Label>
                   <Form.Control
                     type="name"
-                    placeholder={modalData && modalData.vid}
+                    defaultValue={modalData && modalData.vid}
                     maxLength="16"
                     disabled
                   />
@@ -192,7 +220,7 @@ class VehicleList extends Component {
                   <Form.Label>License #</Form.Label>
                   <Form.Control
                     type="name"
-                    placeholder={modalData && modalData.license_no}
+                    defaultValue={modalData && modalData.license_no}
                   />
                 </Form.Group>
               </Form.Row>
@@ -201,14 +229,14 @@ class VehicleList extends Component {
                   <Form.Label>Make</Form.Label>
                   <Form.Control
                     type="name"
-                    placeholder={modalData && modalData.make}
+                    defaultValue={modalData && modalData.make}
                   />
                 </Form.Group>
                 <Form.Group as={Col} controlId="formBasicModel">
                   <Form.Label>Model</Form.Label>
                   <Form.Control
                     type="name"
-                    placeholder={modalData && modalData.model}
+                    defaultValue={modalData && modalData.model}
                   />
                 </Form.Group>
 
@@ -216,14 +244,14 @@ class VehicleList extends Component {
                   <Form.Label>Year</Form.Label>
                   <Form.Control
                     as="select"
-                    placeholder={modalData && modalData.year}
+                    value={modalData && modalData.model_year}
                   >
                     <option selected="selected" disabled="disabled">
-                      {modalData && modalData.year}
+                      {modalData && modalData.model_year}
                     </option>
                     {this.years.map((year, index) => {
                       return (
-                        <option key={`year${index}`} value={year}>
+                        <option key={`year${index}`} defaultValue={year}>
                           {year}
                         </option>
                       );
@@ -236,7 +264,7 @@ class VehicleList extends Component {
                   <Form.Label>Current Mileage</Form.Label>
                   <Form.Control
                     type="name"
-                    placeholder={modalData && modalData.current_mileage}
+                    defaultValue={modalData && modalData.current_mileage}
                   />
                 </Form.Group>
 
@@ -244,7 +272,7 @@ class VehicleList extends Component {
                   <Form.Label>Condition</Form.Label>
                   <Form.Control
                     as="select"
-                    placeholder={modalData && modalData.condition}
+                    defaultValue={modalData && modalData.condition}
                   />
                   <option selected="selected" disabled="disabled">
                     {modalData && modalData.condition}
@@ -272,7 +300,7 @@ class VehicleList extends Component {
                   <Form.Label>Vehicle Type</Form.Label>
                   <Form.Control
                     type="name"
-                    placeholder={modalData && modalData.vehicle_type}
+                    defaultValue={modalData && modalData.vehicle_type}
                   />
                 </Form.Group>
 
@@ -280,7 +308,7 @@ class VehicleList extends Component {
                   <Form.Label>Rental Location</Form.Label>
                   <Form.Control
                     type="name"
-                    placeholder={modalData && modalData.rental_location}
+                    defaultValue={modalData && modalData.rental_location}
                   />
                 </Form.Group>
               </Form.Row>
@@ -306,7 +334,7 @@ class VehicleList extends Component {
             <Modal.Title>Add Vehicle</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form onSubmit={this.saveModalDetails}>
+            <Form>
               <Form.Row>
                 <Form.Group as={Col} controlId="formBasicvid">
                   <Form.Label>Vehicle Identification Number</Form.Label>
@@ -394,7 +422,11 @@ class VehicleList extends Component {
                   </Form.Control>
                 </Form.Group>
               </Form.Row>
-              <Button variant="primary" type="submit">
+              <Button
+                variant="primary"
+                type="button"
+                onClick={this.saveModalDetails}
+              >
                 Save Changes
               </Button>
             </Form>
