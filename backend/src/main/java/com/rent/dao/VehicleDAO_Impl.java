@@ -43,7 +43,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 			
 			
 			Query<Vehicle> query1 = currentSession.createQuery("select v from Vehicle v JOIN "
-					+ "Reservation r on v.id = r.vehicle_id and" +
+					+ "Reservation r on v.id = r.vehicle_id and " +
 					"(r.end_time >= :startdatetime and r.end_time <= :enddatetime) or " +
 					"(r.start_time >= :startdatetime and r.start_time <= :enddatetime) and " +
 					"(r.location_id = v.rental_location) and v.rental_location =:locid", Vehicle.class);
@@ -54,7 +54,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 			List<Vehicle> list1 = query1.getResultList();
 			
 			Query<Vehicle> query4 = currentSession.createQuery("select v from Vehicle v JOIN "
-					+ "Reservation r on v.id = r.vehicle_id and" +
+					+ "Reservation r on v.id = r.vehicle_id and " +
 					"(r.end_time >= :startdatetime and r.end_time >= :enddatetime) and " +
 					"(r.start_time <= :startdatetime and r.start_time <= :enddatetime) and " +
 					"(r.location_id = v.rental_location) and v.rental_location =:locid", Vehicle.class);
@@ -64,13 +64,13 @@ public class VehicleDAO_Impl implements VehicleDAO {
 			query4.setParameter("locid",locqresult.getId());
 			List<Vehicle> list4 = query4.getResultList();
 			
-			Query<Vehicle> query2 = currentSession.createQuery("from Vehicle v where " +
+			Query<Vehicle> query2 = currentSession.createQuery("select v from Vehicle v where " +
 			"rental_location=:locid", Vehicle.class);
 			query2.setParameter("locid",locqresult.getId());
 			List<Vehicle> list2 = query2.getResultList();
 			
 			List<Vehicle> list3 = new ArrayList<Vehicle>();
-			list2.addAll(list4);
+			list1.addAll(list4);
 			for(Vehicle temp: list2) {
 				if(!list1.contains(temp) ){
 					list3.add(temp);}
