@@ -30,8 +30,11 @@ class RentalLogin extends Component {
         if (res.status === 200) {
           console.log("yay");
           console.log(res);
-          //this.props.history.push('/profile');
-          localStorage.setItem("admin", res.data.admin);
+		  //this.props.history.push('/profile');
+		  
+		  localStorage.setItem("admin", res.data.admin);
+		  localStorage.setItem("email", res.data.email);
+		  this.props.history.push('/profile');
         }
       })
       .catch((err) => {
