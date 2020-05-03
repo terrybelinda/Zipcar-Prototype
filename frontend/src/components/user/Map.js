@@ -1,15 +1,40 @@
-import React from 'react'
-import { Form, CardColumns, Button, Col, FormGroup } from "react-bootstrap";
+import React from 'react';
+import { useRef, useState, Component } from "react";
+import { Form, Card, Button, Col, FormGroup } from "react-bootstrap";
 import { withGoogleMap, GoogleMap, withScriptjs, Marker, google } from "react-google-maps";
 import PlacesAutocomplete, {
 	geocodeByAddress,
 	getLatLng,
   } from 'react-places-autocomplete';
 // import Autocomplete from 'react-google-autocomplete';
+import {rooturl} from '../../config';
+// import { connect } from 'react-redux';
+import axios from 'axios';
 import Geocode from "react-geocode";
 Geocode.setApiKey("AIzaSyBVIEDKRd2EILFmktGgvAcV4gpKUJ2x0mY");
 Geocode.enableDebug();
 
+
+
+// const mapStateToProps = (state) => {
+//     return {
+//         showvehicles: state.profileData.showvehicles,
+// 		allvehicles: state.profileData.allvehicles,
+// 		address: state.profileData.address,
+// 		mapPosition: state.profileData.mapPosition,
+// 		markerPosition: state.profileData.markerPosition,
+//     };
+// }
+
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         allVehicles: (data) => dispatch(allVehicles(data)),
+// 		showVehicles: (data) => dispatch(showVehicles(data)),
+// 		setAddress: (data) => dispatch(setAddress(data)),
+// 		setMapPosition: (data) => dispatch(setMapPosition(data)),
+// 		setMarkerPosition: (data) => dispatch(setMarkerPosition(data)),
+//     }
+// }
 
 class Map extends React.Component{
 constructor( props ){
@@ -26,8 +51,23 @@ constructor( props ){
    markerPosition: {
     lat: this.props.center.lat,
     lng: this.props.center.lng
-}
+	},
+   showvehicles: false,
+   allvehicles: []
   }
+
+// this.props.setMapPosition({
+// 	lat: this.props.center.lat,
+// 	lng: this.props.center.lng
+// 	});
+
+// this.props.setMarkerPosition({
+// 	lat: this.props.center.lat,
+// 	lng: this.props.center.lng
+// 	})
+
+
+  this.search = this.search.bind(this);
  }
 /**
   * Get the current address from the default map position and set those values in the state
@@ -48,15 +88,20 @@ constructor( props ){
     //  area: ( area ) ? area : '',
     //  city: ( city ) ? city : '',
     //  state: ( state ) ? state : '',
-    } )
+	} )
+	// this.props.setAddress(( address ) ? address : '')
    },
    error => {
     console.error(error);
    }
   );
+
  };
+
+
  handleChange = address => {
-    this.setState({ address });
+	this.setState({ address });
+	// this.props.setAddress({address})
   };
 
   handleSelect = address => {
@@ -66,6 +111,7 @@ constructor( props ){
 		  this.setState({
 			address: address 
 		  })
+		//   this.props.setAddress({address})
 	  })
       .then(latLng => console.log('Success', latLng))
       .catch(error => console.error('Error', error));
@@ -80,7 +126,8 @@ constructor( props ){
  shouldComponentUpdate( nextProps, nextState ){
   if (
    this.state.markerPosition.lat !== this.props.center.lat ||
-   this.state.address !== nextState.address
+   this.state.address !== nextState.address ||
+   this.state.allvehicles !== nextState.allvehicles
 //    this.state.city !== nextState.city ||
 //    this.state.area !== nextState.area ||
 //    this.state.state !== nextState.state
@@ -177,7 +224,16 @@ const address = place.formatted_address,
     lng: lngValue
    },
   })
-  console.log('onPlaceSelected', addressArray);
+
+	// this.props.setAddress(( address ) ? address : '');
+	// this.props.setMarkerPosition({
+	// 	lat: latValue,
+    // 	lng: lngValue
+	// });
+	// this.props.setMapPosition({
+	// 	lat: latValue,
+    // 	lng: lngValue
+	// });
  };
 /**
   * When the marker is dragged you get the lat and long using the functions available from event object.
@@ -204,12 +260,47 @@ this.setState( {
     //  city: ( city ) ? city : '',
     //  state: ( state ) ? state : ''
     } )
+	// this.props.setAddress(( address ) ? address : '');
    },
    error => {
     console.error(error);
    }
   );
  };
+
+ search = (event) => {
+	event.preventDefault();
+	let params = new URLSearchParams();
+	params.set('address', event.target.elements[0].value);
+	params.set('startdatetime', event.target.elements[1].value + ' ' + event.target.elements[2].value);
+	params.set('enddatetime', event.target.elements[3].value + ' ' + event.target.elements[4].value);
+
+	axios.get(rooturl  + "/location?"+params.toString())
+	.then(res => {
+		if(res.status === 200){
+			if(res.data){
+				// this.props.allVehicles(res.data);
+				// this.props.showVehicles(true);
+				this.setState( {
+					//showvehicles: !this.state.showvehicles,
+					allvehicles: res.data
+				   } )
+				//this.setVehicles(res.data);
+			}
+		}
+	})
+	.catch(err=>{
+		//this.props.setError(err.response.data);
+	})
+ }
+
+ setVehicles = (data) => {
+	this.setState({
+		showvehicles: true,
+		allvehicles: [...data]
+	   })
+ }
+
 render(){
 
 const searchPlace = (
@@ -327,7 +418,7 @@ const AsyncMap = withScriptjs(
 let map;
   if( this.props.center.lat !== undefined ) {
    map = <div>
-	    {/* <Form> */}
+	    <Form onSubmit={this.search}>
 		<Form.Row>
           <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>Location</Form.Label>
@@ -336,7 +427,7 @@ let map;
           </Form.Group>
 		  <Form.Group as={Col} controlId="formGridStartDate">
             <Form.Label>Start date</Form.Label>
-            <Form.Control type="date"/>
+            <Form.Control type="date" onload="getDate()"/>
           </Form.Group>
 		  <Form.Group as={Col} controlId="formGridTime">
             <Form.Label>Time</Form.Label>
@@ -356,6 +447,7 @@ let map;
           </Button>
 		  </Form.Group>
 		</Form.Row>
+		</Form>
            {/* <Form.Row>
             <Form.Group as={Col} controlId="formGridCity">
               <Form.Label>City</Form.Label>
@@ -391,7 +483,36 @@ let map;
 } else {
    map = <div style={{height: this.props.height}} />
   }
-  return( map )
+
+
+  let list;
+  //if(){
+  list = Object.keys(this.state.allvehicles).map(key => (
+    <Card
+      bg="light"
+      style={{ width: "45rem", paddingRight: "100px" }}
+      className="mt-2"
+    >
+      <Card.Body>
+        {/* <Button
+          type="button"
+          variant="link"
+          className="p-0"
+          onClick={() => props.controlModal(true, this.props.allvehicles[key])}
+        >
+          {this.props.allvehicles[key].vehicle_type}
+        </Button> */}
+        <Card.Text id="type">{this.state.allvehicles[key].vehicle_type}</Card.Text>
+      </Card.Body>
+    </Card>
+  ));
+  //}
+  return(
+	  <div>
+	  	{map}
+		{this.state.allvehicles && this.state.allvehicles.length > 0 && list}
+	  </div>
+  )
  }
 }
 export default Map;
