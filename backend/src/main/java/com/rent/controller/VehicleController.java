@@ -2,6 +2,8 @@ package com.rent.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 
@@ -35,9 +37,14 @@ public class VehicleController {
 		
 		startdatetime = startdatetime + ":00";
 		enddatetime = enddatetime + ":00";
-		Date startdatetime1 = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(startdatetime);
-		Date enddatetime1 = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(enddatetime);
-		return vehicleService.getByLocation(zipcode[1], startdatetime1, enddatetime1);
+		
+		
+//		Date startdatetime1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(startdatetime);
+//		
+//		Date enddatetime1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(enddatetime);
+//		System.out.println(startdatetime);
+//		System.out.println(enddatetime);
+		return vehicleService.getByLocation(zipcode[1], startdatetime, enddatetime);
 	}
 	@GetMapping("/vehiclerequest")
 	public List<Vehicle> vehicleRequest(@RequestParam String address, @RequestParam String make, @RequestParam String model) {

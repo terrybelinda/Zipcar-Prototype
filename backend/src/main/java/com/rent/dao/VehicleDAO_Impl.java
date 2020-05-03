@@ -1,5 +1,6 @@
 package com.rent.dao;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -7,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TemporalType;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -30,7 +32,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 	private EntityManager entityManager; 
 	
 	@Override
-	public List<Vehicle> getByLocation(String zipcode, Date startdatetime, Date enddatetime) {
+	public List<Vehicle> getByLocation(String zipcode, String startdatetime, String enddatetime) {
 		//TODO
 		Session currentSession = entityManager.unwrap(Session.class);
 		Query<Location> query = currentSession.createQuery("from Location where zipcode=:zipcode", Location.class);
@@ -40,27 +42,43 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		Location locqresult = query.uniqueResult();	
 		
 		if(locqresult != null) {
-			
-			
+		
 			Query<Vehicle> query1 = currentSession.createQuery("select v from Vehicle v JOIN "
-					+ "Reservation r on v.id = r.vehicle_id and" +
-					"(r.end_time >= :startdatetime and r.end_time <= :enddatetime) or " +
-					"(r.start_time >= :startdatetime and r.start_time <= :enddatetime) and " +
-					"(r.location_id = v.rental_location) and v.rental_location =:locid", Vehicle.class);
+					+ "Reservation r on v.id = r.vehicle_id and " +
+					" (r.end_time >=: startdatetime and r.end_time <= :enddatetime)" +
+					" and "+
+					"v.rental_location =:locid", Vehicle.class);
+			//DATE(r.end_time) >= :startdatetime
 			
-			query1.setParameter("startdatetime",startdatetime);
-			query1.setParameter("enddatetime", enddatetime);
+			
+			//query1.setParameter("startdatetime",startdatetime);
+			query1.setString("startdatetime", startdatetime);
+			query1.setString("enddatetime", enddatetime);
 			query1.setParameter("locid",locqresult.getId());
 			List<Vehicle> list1 = query1.getResultList();
 			
+			
+			
+			Query<Vehicle> query5 = currentSession.createQuery("select v from Vehicle v JOIN "
+					+ "Reservation r on v.id = r.vehicle_id and " +
+					"(r.start_time >= :startdatetime and r.start_time <= :enddatetime) and " +
+					"v.rental_location =:locid", Vehicle.class);
+			
+			
+			query5.setString("startdatetime",startdatetime);
+			query5.setString("enddatetime", enddatetime);
+			query5.setParameter("locid",locqresult.getId());
+			List<Vehicle> list5 = query5.getResultList();
+			
+			
 			Query<Vehicle> query4 = currentSession.createQuery("select v from Vehicle v JOIN "
-					+ "Reservation r on v.id = r.vehicle_id and" +
+					+ "Reservation r on v.id = r.vehicle_id and " +
 					"(r.end_time >= :startdatetime and r.end_time >= :enddatetime) and " +
 					"(r.start_time <= :startdatetime and r.start_time <= :enddatetime) and " +
-					"(r.location_id = v.rental_location) and v.rental_location =:locid", Vehicle.class);
+					"v.rental_location =:locid", Vehicle.class);
 			
-			query4.setParameter("startdatetime",startdatetime);
-			query4.setParameter("enddatetime", enddatetime);
+			query4.setString("startdatetime",startdatetime);
+			query4.setString("enddatetime", enddatetime);
 			query4.setParameter("locid",locqresult.getId());
 			List<Vehicle> list4 = query4.getResultList();
 			
@@ -70,7 +88,9 @@ public class VehicleDAO_Impl implements VehicleDAO {
 			List<Vehicle> list2 = query2.getResultList();
 			
 			List<Vehicle> list3 = new ArrayList<Vehicle>();
-			list2.addAll(list4);
+			
+			list1.addAll(list5);
+			list1.addAll(list4);
 			for(Vehicle temp: list2) {
 				if(!list1.contains(temp) ){
 					list3.add(temp);}

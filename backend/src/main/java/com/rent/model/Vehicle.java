@@ -48,7 +48,7 @@ public class Vehicle {
 	@Column
 	private int status;
 	
-	@Column( nullable = false )
+	@Column
 	private String vehicle_picture;
 	
 	@Column

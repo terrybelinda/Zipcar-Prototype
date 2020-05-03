@@ -8,7 +8,7 @@ import com.rent.model.Vehicle;
 
 public interface VehicleDAO {
 	
-	public List<Vehicle> getByLocation(String zipcode, Date startdatetime, Date enddatetime);
+	public List<Vehicle> getByLocation(String zipcode, String startdatetime, String enddatetime);
 	public HashSet<String> getVehicle(String type);
 	public List<Vehicle> vehicleRequest(String zipcode, String make, String model);
 	public List<Vehicle> vehicleSimilar(String make, String model);

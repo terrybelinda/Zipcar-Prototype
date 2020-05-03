@@ -18,7 +18,7 @@ public class VehicleService_Impl implements VehicleService{
 	
 	@Transactional
 	@Override
-	public List<Vehicle> getByLocation(String zipcode, Date startdatetime, Date enddatetime) {
+	public List<Vehicle> getByLocation(String zipcode, String startdatetime, String enddatetime) {
 		return vehicleDAO.getByLocation(zipcode, startdatetime, enddatetime);
 	}
 	
