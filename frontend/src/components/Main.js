@@ -30,8 +30,7 @@ class Home extends Component {
         <Route exact path="/feedback" component={Feedback} />
         <Route path="/RentalLocation" component={RentalLocation} />
         <Route path="/Members" component={Members} />
-		<Route exact path ='/profile' component={UserProfile}/>
-        <Route path="/VehicleType" component={VehicleType} />
+		<Route exact path ='/profile' component={UserProfile}/> 
 		<Route path="/vehicles" component={Vehicle} />
 		<Route path="/rides" component={Rides} />
 		<Route path="/logout" component={Logout} />

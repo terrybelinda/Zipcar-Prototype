@@ -50,9 +50,10 @@ class VehicleType extends Component {
     const newItems = this.state.type.filter((type) => {
       return type !== item;
     });
-    console.log(item);
+    console.log(item.vehicleType);
+    console.log("kk")
     axios
-      .post("http://localhost:8080/api/deletevehicletype", item)
+      .post("http://localhost:8080/api/deletevehicletype", item.vehicleType)
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");
@@ -93,17 +94,20 @@ class VehicleType extends Component {
     console.log("calle?3");
     console.log(e.target.value);
   }
+  /*
   handleSelectPrice(type, event) {
     console.log(type);
     console.log(event.target.value);
   }
+
   handleSelectHours(event) {
     console.log(event.target.value);
   }
+ 
   handleChangeStart = () => {
     console.log("Change event started");
   };
-
+*/
   handleChange = (value) => {
     this.setState({
       value: value,
