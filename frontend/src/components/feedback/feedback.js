@@ -19,6 +19,28 @@ class Feedback extends Component {
     };
   }
 
+  componentDidMount() {
+    this.getUserId();
+  }
+
+  getUserId = () => {
+    axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
+      "token"
+    );
+    axios
+      .get("http://localhost:8080/api/allvehicletype")
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
+          if (res.data) {
+            console.log(res.data);
+            this.setState({ type: res.data });
+          }
+        }
+      })
+      .catch((err) => {});
+  };
+
   submitHandler = (event) => {
     event.preventDefault();
     console.log(this.state);
@@ -28,7 +50,7 @@ class Feedback extends Component {
   render() {
     return (
       <Container className="m-5 d-flex justify-content-center">
-        <Form>
+        <Form onSubmit={this.submitHandler}>
           <Form.Group controlId="formBasicComments">
             <Form.Label>How was the service?</Form.Label>
             <Form.Control
@@ -65,7 +87,7 @@ class Feedback extends Component {
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit" onClick={this.submitHandler}>
+          <Button variant="primary" type="submit">
             Submit
           </Button>
         </Form>

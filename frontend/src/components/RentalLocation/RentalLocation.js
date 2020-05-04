@@ -27,25 +27,24 @@ class RentalLocation extends Component {
     this.addModalDetails = this.addModalDetails.bind(this);
   }
   componentDidMount() {
-    this.getVehicles();
+    this.getRentalLocations();
   }
 
   getRentalLocations = () => {
     axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
       "token"
     );
-    axios
-      .get("http://localhost:8080/api/allvehicles")
-      .then((res) => {
-        if (res.status == 200) {
-          if (res.data) {
-            console.log(res.data);
-            this.setState({ type: res.data });
-          }
+    axios.get("http://localhost:8080/api/locations").then((res) => {
+      if (res.status == 200) {
+        if (res.data) {
+          console.log(res.data);
+          this.setState({ type: res.data });
         }
-      })
-      .catch((err) => {});
+      }
+    });
+    // .catch((err) => {});
   };
+
   removeItem(item) {
     const newItems = this.state.type.filter((type) => {
       return type !== item;

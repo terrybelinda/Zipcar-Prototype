@@ -20,6 +20,7 @@ class VehicleType extends Component {
       requiredItem: 0,
       type: [],
       show: false,
+      modalData: {},
     };
     this.saveModalDetails = this.saveModalDetails.bind(this);
   }
@@ -68,25 +69,29 @@ class VehicleType extends Component {
   }
 
   showModal = (key) => {
-    this.setState({ show: true });
+    console.log("calle?1");
+    let edit = [];
+    const requiredItem = this.state.requiredItem;
+    Object.assign(this.state.modalData, this.state.type[requiredItem]);
+    //Object.assign(edit, this.state.type[key]);
+    //const edit = [...this.state.type][key];
     this.setState({
       requiredItem: key,
+      show: true,
+      // tempType: edit,
     });
   };
 
   hideModal = () => {
-    this.setState({ show: false, type: this.state.type });
+    console.log("calle?2");
+    //this.setState({ show: false, type: this.state.type });
+    this.setState({ show: false });
   };
 
   saveModalDetails(e) {
-    //console.log(e.target.elements[0].value);
-    // make api call
-    // setstate
-    const requiredItem = this.state.requiredItem;
-    let temptype = this.state.type;
-    temptype[requiredItem].vehicleType = e.target.elements[0].value;
-    this.setState({ type: temptype });
-    this.setState({ show: false });
+    e.preventDefault();
+    console.log("calle?3");
+    console.log(e.target.value);
   }
   handleSelectPrice(type, event) {
     console.log(type);
@@ -103,6 +108,20 @@ class VehicleType extends Component {
     this.setState({
       value: value,
     });
+  };
+
+  handleAddRow = () => {
+    console.log("calle?4");
+    this.state.modalData.priceList = [...this.state.modalData.priceList, ""];
+    this.state.modalData.hourList = [...this.state.modalData.hourList, ""];
+    console.log("wow");
+    console.log(this.state.modalData);
+    console.log("checking modal");
+  };
+
+  handleRemoveRow = (key) => {
+    this.state.modalData.priceList.splice(key, 1);
+    this.state.modalData.hourList.splice(key, 1);
   };
 
   handleChangeComplete = (x, event) => {
@@ -155,7 +174,7 @@ class VehicleType extends Component {
               </div>
             </Row>
 
-            <Card.Link href="#" onClick={() => this.showModal(index)}>
+            <Card.Link href="#" onClick={(e) => this.showModal(e, index)}>
               Edit
             </Card.Link>
             <Card.Link
@@ -174,9 +193,9 @@ class VehicleType extends Component {
       </Col>
     ));
 
-    const requiredItem = this.state.requiredItem;
-    let modalData = this.state.type[requiredItem];
-    let data = [[2, 3], [], []];
+    console.log(this.state.type);
+    console.log(this.state.modalData);
+
     return (
       <div>
         <Container>
@@ -188,12 +207,14 @@ class VehicleType extends Component {
             <Modal.Title>Edit</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form onSubmit={this.saveModalDetails}>
+            <Form>
               <Form.Group controlId="formBasicEmail">
-                <Form.Label>vehicle</Form.Label>
+                <Form.Label>Vehicle Type</Form.Label>
                 <Form.Control
                   type="vehicle"
-                  placeholder={modalData && modalData.vehicleType}
+                  placeholder={
+                    this.state.modalData && this.state.modalData.vehicleType
+                  }
                   disabled
                 />
                 <table className="table table-bordered">
@@ -204,32 +225,58 @@ class VehicleType extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {data.map((row) => {
-                      return (
-                        <tr>
-                          <td>
-                            <input
-                              type="number"
-                              className="form-control"
-                              step="1"
-                              min="1"
-                              value={row[0]}
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="text"
-                              className="form-control"
-                              value={row[1]}
-                            />
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    {this.state.modalData &&
+                      this.state.modalData.hourList &&
+                      this.state.modalData.hourList.map((row, index) => {
+                        return (
+                          <tr>
+                            <td>
+                              <input
+                                type="text"
+                                className="form-control"
+                                step="1"
+                                defaultValue={row}
+                                onChange={(e) =>
+                                  this.handleHourChange(e, index)
+                                }
+                              />
+                            </td>
+                            <td>
+                              <input
+                                type="text"
+                                className="form-control"
+                                defaultValue={
+                                  this.state.modalData &&
+                                  this.state.modalData.priceList &&
+                                  this.state.modalData.priceList[index]
+                                }
+                              />
+                            </td>
+                            <td>
+                              <button
+                                className="btn btn-outline-danger btn-sm"
+                                onClick={() => this.handleRemoveRow(index)}
+                              >
+                                Remove
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
+                <button
+                  className="btn btn-outline-danger btn-sm"
+                  onClick={this.handleAddRow}
+                >
+                  Add Row
+                </button>
               </Form.Group>
-              <Button variant="primary" type="submit">
+              <Button
+                variant="primary"
+                type="submit"
+                onClick={this.saveModalDetails}
+              >
                 Save Changes
               </Button>
             </Form>
