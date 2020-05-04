@@ -23,8 +23,8 @@ public class FeedbackController {
 	private FeedbackService feedbackService;
 	
 	@GetMapping("/feedback")
-	public List<Feedback> getFeedback(@RequestParam Integer userId) {
-		return feedbackService.get(userId);
+	public List<Feedback> getFeedback(@RequestParam String userEmail) {
+		return feedbackService.get(userEmail);
 	}
 	
 	@PostMapping("/feedback")

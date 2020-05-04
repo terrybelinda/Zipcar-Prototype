@@ -6,7 +6,7 @@ import com.rent.model.Feedback;
 
 public interface FeedbackService {
 	
-	List<Feedback> get(Integer userId);
+	List<Feedback> get(String userEmail);
 	
 	void save(Feedback feedback);
 	

@@ -50,9 +50,6 @@ public class Vehicle {
 	@Column
 	private int status;
 	
-	@OneToMany(mappedBy="vehicleId")
-	private Set<Feedback> feedback;
-	
 	@Column
 	private String vehicle_picture;
 

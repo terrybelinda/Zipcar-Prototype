@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table ( name = "feedback" )
@@ -30,6 +31,9 @@ public class Feedback {
 	
 	@Column
 	private Integer car_satisfaction;
+	
+	@Transient
+	private String user_email;
 
 	public Integer getId() {
 		return id;
@@ -38,7 +42,6 @@ public class Feedback {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
 	
 	public int getUser_id() {
 		return user_id;
@@ -78,5 +81,13 @@ public class Feedback {
 
 	public void setCar_satisfaction(Integer carSatisfaction) {
 		this.car_satisfaction = carSatisfaction;
+	}
+
+	public String getUser_email() {
+		return user_email;
+	}
+
+	public void setUser_email(String user_email) {
+		this.user_email = user_email;
 	}
 }
