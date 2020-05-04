@@ -2,7 +2,7 @@ package com.rent.model;
 
 import java.sql.Date;
 import java.util.Set;
-import javax.persistence.OneToMany;
+
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
@@ -50,33 +50,8 @@ public class Vehicle {
 	@Column
 	private int status;
 
-	@OneToMany(mappedBy="vehicleId")
-	private Set<Feedback> feedback;
-	
 	@Column
 	private String vehicle_picture;
-	
-	@Column
-	private String car_condition;
-	
-	@Column
-	private Integer model_year;
-
-	public String getCar_condition() {
-		return car_condition;
-	}
-
-	public void setCar_condition(String car_condition) {
-		this.car_condition = car_condition;
-	}
-
-	public Integer getModel_year() {
-		return model_year;
-	}
-
-	public void setModel_year(Integer model_year) {
-		this.model_year = model_year;
-	}
 
 	public String getVehicle_picture() {
 		return vehicle_picture;
