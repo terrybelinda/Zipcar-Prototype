@@ -87,8 +87,6 @@ public class User {
 		return id;
 	}
 	
-	@OneToMany(mappedBy="userId")
-	private Set<Feedback> feedback;
 
 	public String getName() {
 		return name;
