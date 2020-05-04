@@ -14,9 +14,8 @@ import { Vehicle } from "./vehicle/Vehicle";
 import RentalLocation from "./RentalLocation/RentalLocation";
 import Members from "./Members/Members";
 import { Logout } from "./logout/logout";
-import UserProfile from './user/Profile';
-import  Rides  from  './rides/rides';
-
+import UserProfile from "./user/Profile";
+import Rides from "./rides/rides";
 
 class Home extends Component {
   render() {
@@ -30,12 +29,10 @@ class Home extends Component {
         <Route exact path="/feedback" component={Feedback} />
         <Route path="/RentalLocation" component={RentalLocation} />
         <Route path="/Members" component={Members} />
-		<Route exact path ='/profile' component={UserProfile}/>
-        <Route path="/VehicleType" component={VehicleType} />
-		<Route path="/vehicles" component={Vehicle} />
-		<Route path="/rides" component={Rides} />
-		<Route path="/logout" component={Logout} />
-		
+        <Route exact path="/profile" component={UserProfile} />
+        <Route path="/vehicles" component={Vehicle} />
+        <Route path="/rides" component={Rides} />
+        <Route path="/logout" component={Logout} />
       </div>
     );
   }
