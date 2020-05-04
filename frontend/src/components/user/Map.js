@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRef, useState, Component } from "react";
-import { Form, Card, Button, Col, FormGroup } from "react-bootstrap";
+import { Form, Card, Button, Col, FormGroup, Row } from "react-bootstrap";
 import { withGoogleMap, GoogleMap, withScriptjs, Marker, google } from "react-google-maps";
 import PlacesAutocomplete, {
 	geocodeByAddress,
@@ -52,8 +52,11 @@ constructor( props ){
     lat: this.props.center.lat,
     lng: this.props.center.lng
 	},
-   showvehicles: false,
-   allvehicles: []
+   showvehicle: false,
+   allvehicles: [],
+   selectedvehicle: null,
+   startdatetime: '',
+   enddatetime: ''
   }
 
 // this.props.setMapPosition({
@@ -127,7 +130,11 @@ constructor( props ){
   if (
    this.state.markerPosition.lat !== this.props.center.lat ||
    this.state.address !== nextState.address ||
-   this.state.allvehicles !== nextState.allvehicles
+   this.state.allvehicles !== nextState.allvehicles ||
+   this.state.showvehicle !== nextState.showvehicle ||
+   this.state.selectedvehicle !== nextState.selectedvehicle ||
+   this.state.startdatetime !== nextState.startdatetime ||
+   this.state.enddatetime !== nextState.enddatetime
 //    this.state.city !== nextState.city ||
 //    this.state.area !== nextState.area ||
 //    this.state.state !== nextState.state
@@ -274,7 +281,18 @@ this.setState( {
 	params.set('address', event.target.elements[0].value);
 	params.set('startdatetime', event.target.elements[1].value + ' ' + event.target.elements[2].value);
 	params.set('enddatetime', event.target.elements[3].value + ' ' + event.target.elements[4].value);
-
+	this.setState( {
+		//showvehicles: !this.state.showvehicles,
+		// startdatetime: res.data
+		// startdatetime: event.target.elements[1].value + ' ' + event.target.elements[2].value,
+		enddatetime: event.target.elements[3].value + ' ' + event.target.elements[4].value
+	   } )
+	   this.setState( {
+		//showvehicles: !this.state.showvehicles,
+		// startdatetime: res.data
+		startdatetime: event.target.elements[1].value + ' ' + event.target.elements[2].value,
+		// enddatetime: event.target.elements[3].value + ' ' + event.target.elements[4].value
+	   } )
 	axios.get(rooturl  + "/location?"+params.toString())
 	.then(res => {
 		if(res.status === 200){
@@ -284,6 +302,20 @@ this.setState( {
 				this.setState( {
 					//showvehicles: !this.state.showvehicles,
 					allvehicles: res.data
+					// startdatetime: event.target.elements[1].value + ' ' + event.target.elements[2].value,
+					// enddatetime: event.target.elements[3].value + ' ' + event.target.elements[4].value
+				   } )
+				   this.setState( {
+					//showvehicles: !this.state.showvehicles,
+					// startdatetime: res.data
+					// startdatetime: event.target.elements[1].value + ' ' + event.target.elements[2].value,
+					enddatetime: event.target.elements[3].value + ' ' + event.target.elements[4].value
+				   } )
+				   this.setState( {
+					//showvehicles: !this.state.showvehicles,
+					// startdatetime: res.data
+					startdatetime: event.target.elements[1].value + ' ' + event.target.elements[2].value,
+					// enddatetime: event.target.elements[3].value + ' ' + event.target.elements[4].value
 				   } )
 				//this.setVehicles(res.data);
 			}
@@ -296,9 +328,39 @@ this.setState( {
 
  setVehicles = (data) => {
 	this.setState({
-		showvehicles: true,
+		showvehicle: true,
 		allvehicles: [...data]
 	   })
+ }
+
+ showSelectedCar = (action, vehicle) => {
+	this.setState({
+		showvehicle: action,
+		selectedvehicle: vehicle
+	})
+ }
+
+ reserve = (action, vehicle) => {
+	const data = {
+		//email : localStorage.getItem("email"),
+		vehicle_id : vehicle.id,
+		location_id : vehicle.rental_location,
+		start_time : this.state.startdatetime+":00",
+		end_time : this.state.enddatetime+":00",
+		user_id: 3
+		//change this later
+	}
+	axios.post(rooturl + '/reservation', data)
+	.then(response => {
+		console.log("Response Status: " + response.status);
+                if(response.status === 200){
+					this.setState({
+						showvehicle: false,
+					})
+				}
+			})
+			.catch(err => {
+			})
  }
 
 render(){
@@ -484,13 +546,37 @@ let map;
    map = <div style={{height: this.props.height}} />
   }
 
+  let vehicle;
+  if(this.state.showvehicle){
+	vehicle = (
+		<Card
+		bg="light"
+		style={{ width: "40rem", paddingRight: "100px" }}
+		className="mt-2"
+	  >
+		<Card.Body>
+			<Card.Header style={{fontWeight: "900"}}>Check that everything is correct:</Card.Header>
+	
+		  <Card.Text id="type">Type: {this.state.selectedvehicle.vehicle_type}</Card.Text>
+		  <Card.Text id="make">Make: {this.state.selectedvehicle.make}</Card.Text>
+		  <Card.Text id="model">Model: {this.state.selectedvehicle.model}</Card.Text>
+		  <Card.Text id="car_condition">Condition: {this.state.selectedvehicle.car_condition}</Card.Text>
+		  <Card.Text id="model_year">Model Year: {this.state.selectedvehicle.model_year}</Card.Text>
+		  <Card.Text id="rental_location">Address:</Card.Text>
+		  {/* onClick={() => this.showSelectedJob(true, this.state.allvehicles[key]) */}
+		  <Button variant="success" onClick={() => this.reserve(true, this.state.selectedvehicle)}>Book this car</Button>
+		</Card.Body>
+	  </Card>
+	  )
+  };
+	
 
   let list;
-  //if(){
   list = Object.keys(this.state.allvehicles).map(key => (
+	<Col >
     <Card
       bg="light"
-      style={{ width: "45rem", paddingRight: "100px" }}
+      style={{ width: "30rem", paddingRight: "100px" }}
       className="mt-2"
     >
       <Card.Body>
@@ -502,15 +588,34 @@ let map;
         >
           {this.props.allvehicles[key].vehicle_type}
         </Button> */}
-        <Card.Text id="type">{this.state.allvehicles[key].vehicle_type}</Card.Text>
+        <Card.Text id="type">Type: {this.state.allvehicles[key].vehicle_type}</Card.Text>
+		<Row>
+			<Col id="make">Make: {this.state.allvehicles[key].make} </Col>
+		<Col style={{color: "Green", fontWeight: "900", textAlign: "right"}}>$13.00/hr </Col>
+		</Row>
+		<Row>
+			<Col id="model">Model: {this.state.allvehicles[key].model}</Col>
+			<Col style={{color: "Green", fontWeight: "500", textAlign: "right"}}>$100.00/day</Col>
+		</Row>
+		<Row>
+			<Col id="car_condition">Condition: {this.state.allvehicles[key].car_condition}</Col>
+		</Row>
+		<Row>
+			<Col id="model_year"> Model Year: {this.state.allvehicles[key].model_year}</Col>
+		</Row>
+		<Button variant="success" onClick={() => this.showSelectedCar(true, this.state.allvehicles[key])}>Select Car</Button>
       </Card.Body>
     </Card>
+	</Col>
   ));
   //}
   return(
 	  <div>
 	  	{map}
-		{this.state.allvehicles && this.state.allvehicles.length > 0 && list}
+		<Row>
+			<Col md={4}>{list}</Col>
+			<Col >{vehicle}</Col>
+		</Row>
 	  </div>
   )
  }
