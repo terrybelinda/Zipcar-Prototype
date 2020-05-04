@@ -25,7 +25,8 @@ import com.rent.model.VehicleType;
 import com.rent.model.Customer;
 import com.rent.model.Location;
 import com.rent.model.Reservation;
-import com.rent.model.Transaction;;
+import com.rent.model.Transaction;
+import com.rent.model.User;
 
 @Repository
 public class VehicleDAO_Impl implements VehicleDAO {
@@ -186,6 +187,11 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		
 
 		Session currentSession = entityManager.unwrap(Session.class);
+		String userEmail = r.getUser_email();
+		Query<User> userQuery = currentSession.createQuery("from User where email =: userEmail", User.class);
+		userQuery.setParameter("userEmail", userEmail);
+		User user = userQuery.getSingleResult();
+		r.setUser_id(user.getId());
 //		Query<Vehicle> query = currentSession.createQuery("from Vehicle where id= :id", Vehicle.class);
 //		query.setParameter("id", id);
 //		Vehicle v = query.uniqueResult();
