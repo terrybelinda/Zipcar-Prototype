@@ -12,7 +12,7 @@ import com.rent.model.*;
 public interface AdminService {
 
 	List<VehicleTypeGroup> get();
-	void save(VehicleType vt);
+	void save(VehicleTypeGroup vtg);
 	void deleteVehicletype(VehicleType vt);
 	void updateVehicletype(String vtname, String price, int hours);
 	void saveVehicle(Vehicle vehicle);

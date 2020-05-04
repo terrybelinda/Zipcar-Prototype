@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jackson.JsonObjectSerializer;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,9 +36,11 @@ public class AdminController {
 	}
 	
 	@PostMapping("/addvehicletype")
-	public String saveVehicleType(@RequestBody VehicleType vt) {
-		AdminService.save(vt);
-		return "Success";
+	public VehicleTypeGroup saveVehicleType(@RequestBody VehicleTypeGroup vtg) {
+		
+		
+		AdminService.save(vtg);
+		return vtg;
 	}
 	
 	@PostMapping("/deletevehicletype")
@@ -63,7 +66,7 @@ public class AdminController {
 	
 	@PostMapping("/addvehicle")
 	public Vehicle saveVehicle(@RequestBody Vehicle vehicle) {
-		
+		vehicle.setStatus(1);
 		AdminService.saveVehicle(vehicle);
 		return vehicle;
 	}

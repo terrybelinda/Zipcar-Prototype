@@ -6,7 +6,7 @@ public class VehicleTypeGroup {
 	
 	private String vehicleType;
 	
-	private List<Integer> hrList;
+	private List<Integer> hourList;
 	private List<String> priceList;
 	
 	public String getVehicleType() {
@@ -16,10 +16,10 @@ public class VehicleTypeGroup {
 		this.vehicleType = vehicleType;
 	}
 	public List<Integer> getHrList() {
-		return hrList;
+		return hourList;
 	}
 	public void setHrList(List<Integer> hrList) {
-		this.hrList = hrList;
+		this.hourList = hrList;
 	}
 	public List<String> getPriceList() {
 		return priceList;
