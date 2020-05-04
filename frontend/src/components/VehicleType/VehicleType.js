@@ -21,8 +21,11 @@ class VehicleType extends Component {
       type: [],
       show: false,
       modalData: {},
+      showAdd: false,
+      modalAddData: { vehicleType: "", hourList: [""], priceList: [""] },
     };
     this.saveModalDetails = this.saveModalDetails.bind(this);
+    this.saveModalDetailsAdd = this.saveModalDetailsAdd.bind(this);
   }
 
   componentDidMount() {
@@ -51,7 +54,7 @@ class VehicleType extends Component {
       return type !== item;
     });
     console.log(item.vehicleType);
-    console.log("kk")
+    console.log("kk");
     axios
       .post("http://localhost:8080/api/deletevehicletype", item.vehicleType)
       .then((res) => {
@@ -69,51 +72,132 @@ class VehicleType extends Component {
       });
   }
 
-  showModal = (key) => {
+  showModal = (e, key) => {
     console.log("calle?1");
-    let edit = [];
-    const requiredItem = this.state.requiredItem;
-    Object.assign(this.state.modalData, this.state.type[requiredItem]);
+    console.log(key);
+    //const requiredItem = this.state.requiredItem;
+    console.log(this.state.type[key]);
+    let edit = JSON.parse(JSON.stringify(this.state.type[key]));
+
+    //Object.assign(this.state.modalData, this.state.type[requiredItem]);
     //Object.assign(edit, this.state.type[key]);
     //const edit = [...this.state.type][key];
+
     this.setState({
+      modalData: edit,
       requiredItem: key,
       show: true,
-      // tempType: edit,
     });
+    console.log(this.state.modalData);
   };
 
   hideModal = () => {
     console.log("calle?2");
-    //this.setState({ show: false, type: this.state.type });
     this.setState({ show: false });
   };
 
+  showModalAdd = () => {
+    console.log("check here");
+
+    this.setState({
+      showAdd: true,
+      modalAddData: { vehicleType: "", hourList: [""], priceList: [""] },
+    });
+  };
+
+  hideModalAdd = () => {
+    this.setState({ showAdd: false });
+  };
   saveModalDetails(e) {
     e.preventDefault();
-    console.log("calle?3");
-    console.log(e.target.value);
-  }
-  /*
-  handleSelectPrice(type, event) {
-    console.log(type);
-    console.log(event.target.value);
+    console.log(this.state.modalData);
   }
 
-  handleSelectHours(event) {
-    console.log(event.target.value);
+  saveModalDetailsAdd(e) {
+    e.preventDefault();
+    console.log("why?");
+    console.log(this.state.modalAddData);
   }
- 
-  handleChangeStart = () => {
-    console.log("Change event started");
-  };
-*/
+
+  handleHourChange(event, index) {
+    let tempHourModal = JSON.parse(JSON.stringify(this.state.modalData));
+    if (index > tempHourModal.hourList.length) {
+      tempHourModal.hourList = [
+        ...tempHourModal.hourList,
+        parseInt(event.target.value),
+      ];
+    } else {
+      tempHourModal.hourList[index] = parseInt(event.target.value);
+    }
+    this.setState({
+      modalData: tempHourModal,
+    });
+  }
+
+  handlePriceChange(event, index) {
+    let tempHourModal = JSON.parse(JSON.stringify(this.state.modalData));
+    if (index > tempHourModal.priceList.length) {
+      tempHourModal.priceList = [
+        ...tempHourModal.priceList,
+        parseInt(event.target.value),
+      ];
+    } else {
+      tempHourModal.priceList[index] = parseInt(event.target.value);
+    }
+    this.setState({
+      modalData: tempHourModal,
+    });
+  }
+
+  handleAddVehicleType(e) {
+    console.log(this.state.modalAddData);
+    let tempNameModal = JSON.parse(JSON.stringify(this.state.modalAddData));
+    tempNameModal.vehicleType = e.target.value;
+    this.setState({
+      modalAddData: tempNameModal,
+    });
+  }
+
+  handleHourChangeAdd(event, index) {
+    let tempHourModal = JSON.parse(JSON.stringify(this.state.modalAddData));
+    console.log(tempHourModal);
+    if (index > tempHourModal.hourList.length) {
+      tempHourModal.hourList = [
+        ...tempHourModal.hourList,
+        parseInt(event.target.value),
+      ];
+    } else {
+      tempHourModal.hourList[index] = parseInt(event.target.value);
+    }
+    this.setState({
+      modalAddData: tempHourModal,
+    });
+    console.log(this.state.modalAddData);
+  }
+
+  handlePriceChangeAdd(event, index) {
+    let tempPriceModal = JSON.parse(JSON.stringify(this.state.modalAddData));
+    if (index > tempPriceModal.priceList.length) {
+      tempPriceModal.priceList = [
+        ...tempPriceModal.priceList,
+        parseInt(event.target.value),
+      ];
+    } else {
+      console.log("comming here?");
+      tempPriceModal.priceList[index] = event.target.value;
+    }
+    this.setState({
+      modalAddData: tempPriceModal,
+    });
+    console.log(this.state.modalAddData);
+  }
+  /*
   handleChange = (value) => {
     this.setState({
       value: value,
     });
   };
-
+*/
   handleAddRow = () => {
     console.log("calle?4");
     this.state.modalData.priceList = [...this.state.modalData.priceList, ""];
@@ -123,9 +207,29 @@ class VehicleType extends Component {
     console.log("checking modal");
   };
 
+  handleAddRowAdd = () => {
+    this.state.modalAddData.priceList = [
+      ...this.state.modalAddData.priceList,
+      "",
+    ];
+    this.state.modalAddData.hourList = [
+      ...this.state.modalAddData.hourList,
+      "",
+    ];
+  };
+
   handleRemoveRow = (key) => {
-    this.state.modalData.priceList.splice(key, 1);
-    this.state.modalData.hourList.splice(key, 1);
+    if (this.state.modalData.priceList.length > 1) {
+      this.state.modalData.priceList.splice(key, 1);
+      this.state.modalData.hourList.splice(key, 1);
+    }
+  };
+
+  handleRemoveRowAdd = (key) => {
+    if (this.state.modalAddData.priceList.length > 1) {
+      this.state.modalAddData.priceList.splice(key, 1);
+      this.state.modalAddData.hourList.splice(key, 1);
+    }
   };
 
   handleChangeComplete = (x, event) => {
@@ -197,13 +301,12 @@ class VehicleType extends Component {
       </Col>
     ));
 
-    console.log(this.state.type);
-    console.log(this.state.modalData);
-
     return (
       <div>
         <Container>
-          <Button variant="primary">Add Vehicle Type</Button>
+          <Button variant="primary" onClick={() => this.showModalAdd()}>
+            Add Vehicle Type
+          </Button>
           <Row>{list}</Row>
         </Container>
         <Modal show={this.state.show} onHide={this.hideModal} animation={false}>
@@ -224,7 +327,7 @@ class VehicleType extends Component {
                 <table className="table table-bordered">
                   <thead>
                     <tr>
-                      <th>Hour</th>
+                      <th>Hours</th>
                       <th>Price $</th>
                     </tr>
                   </thead>
@@ -253,6 +356,9 @@ class VehicleType extends Component {
                                   this.state.modalData &&
                                   this.state.modalData.priceList &&
                                   this.state.modalData.priceList[index]
+                                }
+                                onChange={(e) =>
+                                  this.handlePriceChange(e, index)
                                 }
                               />
                             </td>
@@ -287,6 +393,97 @@ class VehicleType extends Component {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.hideModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal
+          show={this.state.showAdd}
+          onHide={this.hideModalAdd}
+          animation={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Add Vehicle Type</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>Vehicle Type</Form.Label>
+                <Form.Control
+                  type="vehicle"
+                  placeholder="Enter Vehicle Type"
+                  onChange={() => this.handleAddVehicleType}
+                />
+                <table className="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Hours</th>
+                      <th>Price $</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.modalAddData &&
+                      this.state.modalAddData.hourList &&
+                      this.state.modalAddData.hourList.map((row, index) => {
+                        return (
+                          <tr>
+                            <td>
+                              <input
+                                type="text"
+                                className="form-control"
+                                step="1"
+                                defaultValue={row}
+                                onChange={(e) =>
+                                  this.handleHourChangeAdd(e, index)
+                                }
+                              />
+                            </td>
+                            <td>
+                              <input
+                                type="text"
+                                className="form-control"
+                                defaultValue={
+                                  this.state.modalAddData &&
+                                  this.state.modalAddData.priceList &&
+                                  this.state.modalAddData.priceList[index]
+                                }
+                                onChange={(e) =>
+                                  this.handlePriceChangeAdd(e, index)
+                                }
+                              />
+                            </td>
+                            <td>
+                              <button
+                                className="btn btn-outline-danger btn-sm"
+                                onClick={() => this.handleRemoveRowAdd(index)}
+                              >
+                                Remove
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+                <button
+                  className="btn btn-outline-danger btn-sm"
+                  onClick={this.handleAddRowAdd}
+                >
+                  Add Row
+                </button>
+              </Form.Group>
+              <Button
+                variant="primary"
+                type="submit"
+                onClick={this.saveModalDetailsAdd}
+              >
+                Save Changes
+              </Button>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.hideModalAdd}>
               Close
             </Button>
           </Modal.Footer>
