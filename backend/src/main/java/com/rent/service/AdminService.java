@@ -3,12 +3,10 @@ package com.rent.service;
 import java.util.HashMap;
 import java.util.List;
 
-<<<<<<< HEAD
+
 import com.rent.model.Customer;
 import com.rent.model.VehicleType;
 import com.rent.dao.VehicleTypeGroup;
-=======
->>>>>>> rentalLocBackend
 import com.rent.model.*;
 
 public interface AdminService {

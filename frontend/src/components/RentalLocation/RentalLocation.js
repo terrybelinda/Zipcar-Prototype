@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import { useRef, useState, Component } from "react";
 import axios from "axios";
+import { UsaStates as usaStates } from "usa-states";
 
 class RentalLocation extends Component {
   constructor(props) {
@@ -25,6 +26,14 @@ class RentalLocation extends Component {
     };
     this.saveModalDetails = this.saveModalDetails.bind(this);
     this.addModalDetails = this.addModalDetails.bind(this);
+  }
+  buildOptionsStates() {
+    var usStates = new usaStates();
+    var arr = [];
+    usStates.states.forEach(function (entry) {
+      arr.push(<option>{entry["abbreviation"]}</option>);
+    });
+    return arr;
   }
   componentDidMount() {
     this.getRentalLocations();
@@ -51,7 +60,7 @@ class RentalLocation extends Component {
     });
 
     axios
-      .post("http://localhost:8080/api/deletevehicle", item)
+      .post("http://localhost:8080/api/deletelocation", item)
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");
@@ -90,34 +99,42 @@ class RentalLocation extends Component {
 
   addModalDetails(e) {
     e.preventDefault();
-    const newIds = this.state.requiredItem;
-    newIds.vid = e.target.elements[0].value;
-    newIds.license_no = e.target.elements[1].value;
-    newIds.make = e.target.elements[2].value;
-    newIds.model = e.target.elements[3].value;
-    newIds.model_year = e.target.elements[4].value;
-    newIds.current_mileage = e.target.elements[5].value;
-    newIds.car_condition = "good";
-    newIds.regisration_expiry = e.target.elements[7].value;
-    newIds.last_serviced = e.target.elements[8].value;
-    newIds.vehicle_type = 1;
-    newIds.rental_location = 1;
+    const newIds = {};
+    newIds.name = e.target.elements[0].value;
+    newIds.capcity = e.target.elements[1].value;
+    newIds.phone = e.target.elements[2].value;
+    newIds.apt = e.target.elements[3].value;
+    newIds.street = e.target.elements[4].value;
+    newIds.city = e.target.elements[5].value;
+    newIds.state = e.target.elements[6].value;
+    newIds.country = e.target.elements[7].value;
+    newIds.zipcode = e.target.elements[8].value;
 
     console.log(newIds);
     console.log("great");
 
-    axios
-      .post("http://localhost:8080/api/addvehicle", newIds)
-      .then((res) => {
-        if (res.status === 200) {
-          console.log("yay");
-          console.log(res);
-        }
-      })
+    axios.post("http://localhost:8080/api/addlocation", newIds).then((res) => {
+      if (res.status === 200) {
+        console.log("yay");
+        console.log(res);
+        console.log(res.config.data);
+        console.log(this.state.type);
+
+        this.setState({
+          //     type: this.state.type.concat([res.config.data]),
+          type: [...this.state.type, res.config.data],
+          showAdd: false,
+        });
+        console.log(this.state.type);
+        console.log("ok");
+      }
+    });
+    /*
       .catch((err) => {
         console.log(err);
         this.props.authFail(err.response.data.msg);
       });
+      */
   }
 
   saveModalDetails(e) {
@@ -164,40 +181,29 @@ class RentalLocation extends Component {
           key={item.id}
         >
           <Card.Body>
-            <Card.Text id="year"> Year :{item.model_year}</Card.Text>
-            {/*
-            Status:
-            {item.status == 1 ? (
-              <Button disabled size="sm" variant="success">
-                Active
-              </Button>
-            ) : (
-              <Button disabled size="sm" variant="danger">
-                Inactive
-              </Button>
-            )}
-            */}
-            <Card.Text id="regisration_expiry">
-              <b>Registration Expiry:</b> {item.regisration_expiry}
+            <Card.Text id="rental_name">
+              <b>Rental Location Name: </b>
+              {item.name}
             </Card.Text>
-            <Card.Text id="vid">
-              <b>Vehicle ID: </b> {item.vid}
+            <Card.Text id="rental_phone">
+              <b>Phone: </b> {item.phone}
             </Card.Text>
-            <Card.Text id="current_mileage">
-              <b>Miles:</b> {item.current_mileage}
+
+            <Card.Text id="rental_capacity">
+              <b>Capacity: </b>
+              {item.capcity}
             </Card.Text>
-            <Card.Text id="condition">Condition: {item.condition}</Card.Text>
-            <Card.Text id="last_service">
-              Last Serviced: {item.last_serviced}
-            </Card.Text>
-            <Card.Text id="vehicle_type">
-              <b>vehicle type:</b>
-              {item.vehicle_type}
-            </Card.Text>
+
             <Card.Text id="rental_location">
-              <b>Rental Location:</b>
-              {item.rental_location}
+              <b>Address: </b>
+              {item.apt} {item.street} {item.state} {item.zipcode}
+              {/* {
+                item.apt + ", " + item.street,
+                ", " + item.state,
+                "- " + item.zipcode
+              } */}
             </Card.Text>
+
             <Card.Link href="#" onClick={() => this.showModal(index)}>
               Edit
             </Card.Link>
@@ -234,110 +240,68 @@ class RentalLocation extends Component {
             <Form>
               <Form.Row>
                 <Form.Group as={Col} controlId="formBasicvid">
-                  <Form.Label>Vehicle Identification Number</Form.Label>
+                  <Form.Label>Rental Location Name</Form.Label>
                   <Form.Control
                     type="name"
-                    defaultValue={modalData && modalData.vid}
-                    maxLength="16"
-                    disabled
-                  />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formBasicLicenseNo">
-                  <Form.Label>License #</Form.Label>
-                  <Form.Control
-                    type="name"
-                    defaultValue={modalData && modalData.license_no}
+                    defaultValue={modalData && modalData.name}
                   />
                 </Form.Group>
               </Form.Row>
               <Form.Row>
-                <Form.Group as={Col} controlId="formBasicMake">
-                  <Form.Label>Make</Form.Label>
+                <Form.Group as={Col} controlId="capacity">
+                  <Form.Label>Capacity</Form.Label>
                   <Form.Control
-                    type="name"
-                    defaultValue={modalData && modalData.make}
+                    type="capacity"
+                    defaultValue={modalData && modalData.capcity}
                   />
                 </Form.Group>
-                <Form.Group as={Col} controlId="formBasicModel">
-                  <Form.Label>Model</Form.Label>
+                <Form.Group as={Col} controlId="phone">
+                  <Form.Label>Phone #</Form.Label>
                   <Form.Control
-                    type="name"
-                    defaultValue={modalData && modalData.model}
+                    type="phone"
+                    defaultValue={modalData && modalData.phone}
                   />
+                </Form.Group>
+              </Form.Row>
+
+              <Form.Row>
+                <Form.Group as={Col} controlId="apt">
+                  <Form.Label>Apartment #</Form.Label>
+                  <Form.Control defaultValue={modalData && modalData.apt} />
                 </Form.Group>
 
-                <Form.Group as={Col} controlId="formGridYear">
-                  <Form.Label>Year</Form.Label>
+                <Form.Group as={Col} controlId="street">
+                  <Form.Label>Street</Form.Label>
+                  <Form.Control defaultValue={modalData && modalData.street} />
+                </Form.Group>
+                <Form.Group as={Col} controlId="formGridCity">
+                  <Form.Label>City</Form.Label>
+                  <Form.Control defaultValue={modalData && modalData.city} />
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="state">
+                  <Form.Label>State</Form.Label>
                   <Form.Control
                     as="select"
-                    value={modalData && modalData.model_year}
+                    defaultValue={modalData && modalData.state}
                   >
-                    <option selected="selected" disabled="disabled">
-                      {modalData && modalData.model_year}
-                    </option>
-                    {this.years.map((year, index) => {
-                      return (
-                        <option key={`year${index}`} defaultValue={year}>
-                          {year}
-                        </option>
-                      );
-                    })}
+                    <option>Choose</option>
+                    {this.buildOptionsStates()}
                   </Form.Control>
                 </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formBasicCurrentMileage">
-                  <Form.Label>Current Mileage</Form.Label>
-                  <Form.Control
-                    type="name"
-                    defaultValue={modalData && modalData.current_mileage}
-                  />
+
+                <Form.Group as={Col} controlId="country">
+                  <Form.Label>Country</Form.Label>
+                  <Form.Control type="name" readonly="readOnly" value="US" />
                 </Form.Group>
 
-                <Form.Group as={Col} controlId="formBasicCondition">
-                  <Form.Label>Condition</Form.Label>
-                  <Form.Control
-                    as="select"
-                    defaultValue={modalData && modalData.condition}
-                  />
-                  <option selected="selected" disabled="disabled">
-                    {modalData && modalData.condition}
-                  </option>
+                <Form.Group as={Col} controlId="zip">
+                  <Form.Label>Zip</Form.Label>
+                  <Form.Control defaultValue={modalData && modalData.zipcode} />
                 </Form.Group>
               </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formBasicRegistrationExpiry">
-                  <Form.Label>Registration Expiry</Form.Label>
-                  <Form.Control
-                    type="date"
-                    defaultValue={modalData && modalData.regisration_expiry}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formBasicLastServiced">
-                  <Form.Label>Last Serviced</Form.Label>
-                  <Form.Control
-                    type="date"
-                    defaultValue={modalData && modalData.last_serviced}
-                  />
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formBasicVehicleType">
-                  <Form.Label>Vehicle Type</Form.Label>
-                  <Form.Control
-                    type="name"
-                    defaultValue={modalData && modalData.vehicle_type}
-                  />
-                </Form.Group>
 
-                <Form.Group as={Col} controlId="formBasicRentalLocation">
-                  <Form.Label>Rental Location</Form.Label>
-                  <Form.Control
-                    type="name"
-                    defaultValue={modalData && modalData.rental_location}
-                  />
-                </Form.Group>
-              </Form.Row>
               <Button variant="primary" type="submit">
                 Save Changes
               </Button>
@@ -362,91 +326,61 @@ class RentalLocation extends Component {
           <Modal.Body>
             <Form onSubmit={this.addModalDetails}>
               <Form.Row>
-                <Form.Group as={Col} controlId="formBasicvid">
-                  <Form.Label>Vehicle Identification Number</Form.Label>
+                <Form.Group as={Col} controlId="name">
+                  <Form.Label>Retal Location Name</Form.Label>
+                  <Form.Control type="text" placeholder="Enter name" />
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="capcity">
+                  <Form.Label>Capacity</Form.Label>
+                  <Form.Control type="number" placeholder="cpty." />
+                </Form.Group>
+                <Form.Group as={Col} controlId="phone">
+                  <Form.Label>Phone #</Form.Label>
+                  <Form.Control type="name" placeholder="Enter Phone #" />
+                </Form.Group>
+              </Form.Row>
+
+              <Form.Row>
+                <Form.Group as={Col} controlId="apt">
+                  <Form.Label>Apartment #</Form.Label>
+                  <Form.Control placeholder="Apartment" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="street">
+                  <Form.Label>Street</Form.Label>
+                  <Form.Control placeholder="Street" />
+                </Form.Group>
+                <Form.Group as={Col} controlId="formGridCity">
+                  <Form.Label>City</Form.Label>
+                  <Form.Control placeholder="City" />
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="state">
+                  <Form.Label>State</Form.Label>
+                  <Form.Control as="select">
+                    <option>Choose</option>
+                    {this.buildOptionsStates()}
+                  </Form.Control>
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="country">
+                  <Form.Label>Country</Form.Label>
+                  <Form.Control type="text" readonly="readOnly" value="US" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="zip">
+                  <Form.Label>Zip</Form.Label>
                   <Form.Control
-                    type="name"
-                    placeholder="Enter VIN"
-                    maxLength="16"
+                    type="text"
+                    placeholder="Zipcode"
+                    maxLength="5"
                   />
                 </Form.Group>
-                <Form.Group as={Col} controlId="formBasicLicenseNo">
-                  <Form.Label>License #</Form.Label>
-                  <Form.Control type="name" placeholder="Enter License #" />
-                </Form.Group>
               </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formBasicMake">
-                  <Form.Control type="name" placeholder="Enter Make" />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formBasicModel">
-                  <Form.Control type="name" placeholder="Enter Model" />
-                </Form.Group>
 
-                <Form.Group as={Col} controlId="formGridYear">
-                  <Form.Control as="select" placeholder="Enter Model Year">
-                    <option selected="selected" disabled="disabled">
-                      {"Year"}
-                    </option>
-                    {this.years.map((year, index) => {
-                      return (
-                        <option key={`year${index}`} value={year}>
-                          {year}
-                        </option>
-                      );
-                    })}
-                  </Form.Control>
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formBasicCurrentMileage">
-                  <Form.Control
-                    type="name"
-                    placeholder="Enter Current Mileage"
-                  />
-                </Form.Group>
-
-                <Form.Group as={Col} controlId="formBasicCondition">
-                  <Form.Control
-                    as="select"
-                    placeholder="Choose Vehicle condition"
-                  >
-                    <option selected="selected" disabled="disabled">
-                      {"Choose Vehicle condition"}
-                    </option>
-                  </Form.Control>
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formBasicRegistrationExpiry">
-                  <Form.Label>Registration Expiry</Form.Label>
-                  <Form.Control type="date" />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formBasicLastServiced">
-                  <Form.Label>Last Serviced</Form.Label>
-                  <Form.Control type="date" />
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formBasicVehicleType">
-                  <Form.Control as="select" placeholder="Choose Vehicle type">
-                    <option selected="selected" disabled="disabled">
-                      {"Choose Vehicle type"}
-                    </option>
-                  </Form.Control>
-                </Form.Group>
-
-                <Form.Group as={Col} controlId="formBasicRentalLocation">
-                  <Form.Control
-                    as="select"
-                    placeholder="Choose Rental condition"
-                  >
-                    <option selected="selected" disabled="disabled">
-                      {"Choose Rental condition"}
-                    </option>
-                  </Form.Control>
-                </Form.Group>
-              </Form.Row>
               <Button variant="primary" type="submit">
                 Add
               </Button>
