@@ -21,9 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rent.model.Vehicle;
+import com.rent.model.VehicleType;
 import com.rent.model.Customer;
 import com.rent.model.Location;
-import com.rent.model.Reservation;;
+import com.rent.model.Reservation;
+import com.rent.model.Transaction;;
 
 @Repository
 public class VehicleDAO_Impl implements VehicleDAO {
@@ -49,11 +51,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 					" (r.end_time > : startdatetime and r.end_time < :enddatetime)" +
 					" and "+
 					"v.rental_location =:locid", Vehicle.class);
-			//DATE(r.end_time) >= :startdatetime
-
 			
-			
-			//query1.setParameter("startdatetime",startdatetime);
 			query1.setString("startdatetime", startdatetime);
 			query1.setString("enddatetime", enddatetime);
 			query1.setParameter("locid",locqresult.getId());
@@ -185,7 +183,35 @@ public class VehicleDAO_Impl implements VehicleDAO {
 	}
 	
 	public void reservation(Reservation r) {
+		
+
 		Session currentSession = entityManager.unwrap(Session.class);
+//		Query<Vehicle> query = currentSession.createQuery("from Vehicle where id= :id", Vehicle.class);
+//		query.setParameter("id", id);
+//		Vehicle v = query.uniqueResult();
+//		System.out.print(v.getVehicle_type());
+//		
+//
+//		long milliseconds = r.getEnd_time().getTime() - r.getStart_time().getTime();
+//		int seconds = (int) milliseconds / 1000;
+//		int hours = seconds / 3600;
+//		
+//		String vt = v.getVehicle_type();
+//		
+//		Query<VehicleType> query2 = currentSession.createQuery("from VehicleType where vehicle_type= :vt and hours <= :hours order by hours asc", 
+//				VehicleType.class);
+//		query2.setParameter("vt", vt);
+//		query2.setParameter("hours", hours);
+//		List<VehicleType> list = query2.getResultList();
+//		String price = list.get(0).getPrice();
+//		
+//		Transaction t = new Transaction();
+//		t.setUser_id(r.getUser_id());
+//		t.setAmount(price);
+//		t.setStatus(0);
+//		
+//		currentSession.save(t);
+		
 		currentSession.save(r);
 	}
 

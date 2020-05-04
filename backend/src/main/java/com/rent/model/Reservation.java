@@ -32,18 +32,18 @@ public class Reservation {
 	private int location_id;
 	
 	@Column
-	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Timestamp start_time;
 	
 	@Column
-	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Timestamp end_time;
 	
-	@Column
-	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
+	@Column(nullable = true)
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Timestamp return_time;
 	
-	@Column
+	@Column(nullable = true)
 	private int return_status;
 
 	public Integer getId() {
@@ -83,7 +83,7 @@ public class Reservation {
 	}
 
 	public void setStart_time(Timestamp start_time) {
-		this.start_time = new java.sql.Timestamp(start_time.getYear(), start_time.getMonth(), start_time.getDay(), start_time.getHours(), start_time.getMinutes(), start_time.getSeconds(), 0);
+		this.start_time = new java.sql.Timestamp(start_time.getTime());
 	}
 
 	public Timestamp getEnd_time() {
@@ -91,7 +91,8 @@ public class Reservation {
 	}
 
 	public void setEnd_time(Timestamp end_time) {
-		this.end_time = new java.sql.Timestamp(end_time.getYear(), end_time.getMonth(), end_time.getDay(), end_time.getHours(), end_time.getMinutes(), end_time.getSeconds(), 0);
+		this.end_time = new java.sql.Timestamp(end_time.getTime());
+		
 	}
 
 	public Timestamp getReturn_time() {
@@ -99,7 +100,7 @@ public class Reservation {
 	}
 
 	public void setReturn_time(Timestamp return_time) {
-		this.return_time = new java.sql.Timestamp(return_time.getYear(), return_time.getMonth(), return_time.getDay(), return_time.getHours(), return_time.getMinutes(), return_time.getSeconds(), 0);;
+		this.return_time = new java.sql.Timestamp(return_time.getTime());
 	}
 
 	public int getReturn_status() {
