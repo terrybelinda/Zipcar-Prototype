@@ -25,14 +25,15 @@ public class AdminService_Impl implements AdminService{
 		return adminDAO.get();
 
 	}
-	
 	@Override
-	public void save(VehicleType vt){
-		adminDAO.save(vt);
+	public void save(VehicleTypeGroup vtg){
+		adminDAO.save(vtg);
 	}
 	@Override
 	public void deleteVehicletype(VehicleType vt) {
+		
 		String vtname = vt.getVehicle_type();
+		
 		adminDAO.deleteVehicletype(vtname);
 	}
 	@Override
@@ -46,7 +47,7 @@ public class AdminService_Impl implements AdminService{
 	
 	@Override
 	public void deleteVehicle(Vehicle vehicle) {
-		System.out.println("someting " + vehicle.getMake() + " got this");
+		
 		String vid = vehicle.getVid();
 		adminDAO.deleteVehicle(vid);
 	}

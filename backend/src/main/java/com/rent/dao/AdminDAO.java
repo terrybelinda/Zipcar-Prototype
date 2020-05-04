@@ -4,12 +4,12 @@ import java.util.List;
 
 import com.rent.model.Location;
 import com.rent.model.Vehicle;
-import com.rent.model.VehicleType;
+import com.rent.model.*;
 
 public interface AdminDAO {
 
 	List<VehicleTypeGroup> get();
-	void save(VehicleType vt);
+	void save(VehicleTypeGroup vt);
 	void deleteVehicletype(String vtname);
 	void updateVehicletype(String vtname, String price, int hours);
 	void saveVehicle(Vehicle vehicle);

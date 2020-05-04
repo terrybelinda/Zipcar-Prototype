@@ -3,7 +3,8 @@ package com.rent.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;import java.util.Map;
+import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -13,9 +14,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.rent.model.VehicleType;
-import com.rent.model.Location;
-import com.rent.model.Vehicle;
+import com.rent.model.*;
+
 
 @Repository
 public class AdminDAO_Impl implements AdminDAO {
@@ -61,16 +61,23 @@ public class AdminDAO_Impl implements AdminDAO {
 
 	
 	@Override
-	public void save(VehicleType vt) {
+	public void save(VehicleTypeGroup vtg) {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
-		currentSession.save(vt);
+		for(int i=0; i<vtg.getHourList().size(); i++) {
+			
+			VehicleType vt = new VehicleType();
+			vt.setVehicle_type(vtg.getVehicleType());
+			vt.setHours(vtg.getHourList().get(i));
+			vt.setPrice(vtg.getPriceList().get(i));
+			currentSession.save(vt);}
 	}
 	
 	@Override
 	@Transactional
 	public void deleteVehicletype(String vtname) {
 		
+		System.out.print(vtname);
 		Session currentSession = entityManager.unwrap(Session.class);
 		Query query = currentSession.createQuery("UPDATE VehicleType SET status = 0 " + 
 				"WHERE vehicle_type =:vtname");
