@@ -5,8 +5,8 @@ import java.util.List;
 
 public class VehicleTypeGroup {
 	private String vehicleType;
-	private List<Integer> hourList;
-	private List<String> priceList;
+	private List<Integer> hourList = new ArrayList();
+	private List<String> priceList = new ArrayList();
 	
 	public VehicleTypeGroup() {
 		vehicleType = "";
