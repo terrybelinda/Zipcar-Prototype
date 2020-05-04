@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, NavDropdown, NavbarBrand } from "react-bootstrap";
+import logo from "./logo.png";
 
 //import { withRouter } from "react-router-dom";
 //import { connect } from "react-redux";
@@ -12,7 +13,7 @@ class Navigation extends Component {
         <Navbar.Brand href="/profile">
           <img
             alt=""
-            src={"http://localhost:3000/images/logo.png"}
+            src={logo}
             width="30"
             height="30"
             className="d-inline-block align-top"

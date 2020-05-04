@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+<<<<<<< HEAD
 import com.rent.dao.VehicleTypeGroup;
+=======
+import com.rent.model.Location;
+>>>>>>> rentalLocBackend
 import com.rent.model.Vehicle;
 import com.rent.model.VehicleType;
 import com.rent.service.AdminService;
@@ -73,6 +77,21 @@ public class AdminController {
 		return "updated";
 	}
 	
+	@PostMapping("/addlocation")
+	public String saveLocation(@RequestBody Location location) {
+		AdminService.saveLocation(location);
+		return "Success";
+	}
 	
+	@GetMapping("/locations")
+	public List<Location> getLocations() {		
+		return AdminService.getLocations();
+	}
+	
+	@PostMapping("/deletelocation")
+	public String deleteVehicle(@RequestBody Location location) {
+		AdminService.deleteLocation(location.getId());
+		return "Success";
+	}
 		
 }
