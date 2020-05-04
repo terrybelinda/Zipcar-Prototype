@@ -122,7 +122,7 @@ class RentalLocation extends Component {
 
         this.setState({
           //     type: this.state.type.concat([res.config.data]),
-          type: [...this.state.type, res.config.data],
+          type: [...this.state.type, res.data],
           showAdd: false,
         });
         console.log(this.state.type);
@@ -140,31 +140,28 @@ class RentalLocation extends Component {
   saveModalDetails(e) {
     e.preventDefault();
     const newIds = this.state.requiredItem;
-    newIds.vid = e.target.elements[0].value;
-    newIds.license_no = e.target.elements[1].value;
-    newIds.make = e.target.elements[2].value;
-    newIds.model = e.target.elements[3].value;
-    newIds.model_year = e.target.elements[4].value;
-    newIds.current_mileage = e.target.elements[5].value;
-    newIds.car_condition = e.target.elements[6].value;
-    newIds.regisration_expiry = e.target.elements[7].value;
-    newIds.last_serviced = e.target.elements[8].value;
-    newIds.vehicle_type = e.target.elements[9].value;
-    newIds.rental_location = e.target.elements[10].value;
+    newIds.name = e.target.elements[0].value;
+    newIds.capcity = e.target.elements[1].value;
+    newIds.phone = e.target.elements[2].value;
+    newIds.apt = e.target.elements[3].value;
+    newIds.street = e.target.elements[4].value;
+    newIds.city = e.target.elements[5].value;
+    newIds.state = e.target.elements[6].value;
+    newIds.country = e.target.elements[7].value;
+    newIds.zipcode = e.target.elements[8].value;
 
     this.setState({ requiredItem: newIds });
     let temptype = this.state.requiredItem;
-    console.log(newIds.model_year);
-    console.log(this.state.requiredItem);
+    console.log(temptype);
     axios
-      .post("http://localhost:8080/api/updatevehicle", temptype)
+      .post("http://localhost:8080/api/editlocation", temptype)
       .then((res) => {
         if (res.status == 200) {
           if (res.data) {
             console.log(res.data);
-            const vehicles = this.state.type;
-            vehicles[this.state.index] = temptype;
-            this.setState({ show: false, type: vehicles });
+            const rentals = this.state.type;
+            rentals[this.state.index] = temptype;
+            this.setState({ show: false, type: rentals });
           }
         }
       })
@@ -237,7 +234,7 @@ class RentalLocation extends Component {
             <Modal.Title>Edit {modalData && modalData.license_no}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form>
+            <Form onSubmit={this.saveModalDetails}>
               <Form.Row>
                 <Form.Group as={Col} controlId="formBasicvid">
                   <Form.Label>Rental Location Name</Form.Label>
