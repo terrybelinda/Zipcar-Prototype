@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -45,6 +46,17 @@ public class Reservation {
 	
 	@Column(nullable = true)
 	private int return_status;
+	
+	@Transient
+	private String user_email;
+
+	public String getUser_email() {
+		return user_email;
+	}
+
+	public void setUser_email(String user_email) {
+		this.user_email = user_email;
+	}
 
 	public Integer getId() {
 		return id;

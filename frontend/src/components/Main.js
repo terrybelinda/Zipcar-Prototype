@@ -12,6 +12,7 @@ import { Types } from "./VehicleType/VehicleType";
 import { Vehicle } from "./vehicle/Vehicle";
 import { Logout } from "./logout/logout";
 import UserProfile from './user/Profile';
+import  Rides  from  './rides/rides';
 
 
 class Home extends Component {
@@ -25,6 +26,7 @@ class Home extends Component {
 		<Route exact path ='/profile' component={UserProfile}/>
         <Route path="/VehicleType" component={Types} />
 		<Route path="/vehicles" component={Vehicle} />
+		<Route path="/rides" component={Rides} />
 		<Route path="/logout" component={Logout} />
 		
       </div>

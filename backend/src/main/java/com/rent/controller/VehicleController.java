@@ -59,8 +59,10 @@ public class VehicleController {
 		 return vehicleService.getAllVehicle();
 		
 	}
+	
 	@PostMapping("/reservation")
 	public String reservation(@RequestBody Reservation r) {
+
 		vehicleService.reservation(r);
 		return "success";
 		

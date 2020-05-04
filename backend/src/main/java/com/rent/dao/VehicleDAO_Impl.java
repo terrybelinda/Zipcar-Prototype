@@ -25,7 +25,8 @@ import com.rent.model.VehicleType;
 import com.rent.model.Customer;
 import com.rent.model.Location;
 import com.rent.model.Reservation;
-import com.rent.model.Transaction;;
+import com.rent.model.Transaction;
+import com.rent.model.User;
 
 @Repository
 public class VehicleDAO_Impl implements VehicleDAO {
@@ -188,6 +189,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		int id = r.getVehicle_id();
 		
 		Session currentSession = entityManager.unwrap(Session.class);
+
 		Query<Vehicle> query = currentSession.createQuery("from Vehicle where id = :id", Vehicle.class);
 		query.setParameter("id", id);
 		List<Vehicle> v = query.getResultList();
@@ -213,15 +215,22 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		
 		float finalcost = Integer.parseInt(price)*hours;
 		
+		
+
+		String userEmail = r.getUser_email();
+		Query<User> userQuery = currentSession.createQuery("from User where email =: userEmail", User.class);
+		userQuery.setParameter("userEmail", userEmail);
+		User user = userQuery.getSingleResult();
+		r.setUser_id(user.getId());
+		
 		Transaction t = new Transaction();
 		String tid = String.valueOf(Math.random() * 100000000000000L);
 		t.setTransaction_id(tid);
-		t.setUser_id(r.getUser_id());
+		t.setUser_id(user.getId());
 		t.setAmount(String.valueOf(finalcost));
 		t.setStatus(0);
 		
 		currentSession.save(t);
-		
 		currentSession.save(r);
 	}
 

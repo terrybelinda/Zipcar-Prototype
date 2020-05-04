@@ -83,6 +83,10 @@ public class User {
 	@Column
 	private Short cardCvv;
 	
+	public Integer getId() {
+		return id;
+	}
+	
 	@OneToMany(mappedBy="userId")
 	private Set<Feedback> feedback;
 

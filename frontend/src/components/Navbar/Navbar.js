@@ -57,8 +57,10 @@ class Navigation extends Component {
 		{localStorage.getItem("email") && (
 		<NavDropdown title={"Account"} id="collasible-nav-dropdown">
             <NavDropdown.Item href="/vehicles">Vehicles</NavDropdown.Item>
+			<NavDropdown.Item href="/rides">Your Trips</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
+			
           </NavDropdown>
 		  )}
 	  </Navbar>
