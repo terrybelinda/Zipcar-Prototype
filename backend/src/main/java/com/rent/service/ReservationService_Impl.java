@@ -22,4 +22,25 @@ public class ReservationService_Impl implements ReservationService{
 	public List<Reservation> getReservations(String email) {
 		return reservationDAO.getReservations(email);
 	}
+
+	@Override
+	public void endReservation(Reservation id) {
+		reservationDAO.endReservation(id);
+	}
+
+	@Override
+	public void cancelReservation(Reservation id) {
+		reservationDAO.cancelReservation(id);
+		
+	}
+	
+	@Override
+	public List<Reservation> pastReservations(String email) {
+		return reservationDAO.pastReservations(email);
+	}
+	
+	@Override
+	public List<Reservation> upcomingReservations(String email) {
+		return reservationDAO.pastReservations(email);
+	}
 }
