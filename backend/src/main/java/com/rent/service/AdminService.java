@@ -18,7 +18,8 @@ public interface AdminService {
 	void saveVehicle(Vehicle vehicle);
 	void updateVehicle(Vehicle vehicle);
 	void deleteVehicle(Vehicle vehicle);
-	void saveLocation(Location location);
+	Location saveLocation(Location location);
 	List<Location> getLocations();
 	void deleteLocation(Integer id);
+	void editLocation(Location location);
 }
