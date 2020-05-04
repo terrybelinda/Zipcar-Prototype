@@ -55,6 +55,7 @@ public class AdminDAO_Impl implements AdminDAO {
 			VehicleTypeGroup entry = (VehicleTypeGroup)mapElement.getValue();
 			result.add(entry);
 		}
+		
 		return result;
 	}
 	
@@ -63,10 +64,13 @@ public class AdminDAO_Impl implements AdminDAO {
 	@Override
 	public void save(VehicleTypeGroup vtg) {
 		
+		System.out.print("fasfdaf");
+		
 		Session currentSession = entityManager.unwrap(Session.class);
 		for(int i=0; i<vtg.getHourList().size(); i++) {
 			
 			VehicleType vt = new VehicleType();
+			vt.setStatus(1);
 			vt.setVehicle_type(vtg.getVehicleType());
 			vt.setHours(vtg.getHourList().get(i));
 			vt.setPrice(vtg.getPriceList().get(i));

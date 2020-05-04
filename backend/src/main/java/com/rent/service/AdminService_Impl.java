@@ -27,6 +27,7 @@ public class AdminService_Impl implements AdminService{
 	}
 	@Override
 	public void save(VehicleTypeGroup vtg){
+		System.out.print("in adminservice");
 		adminDAO.save(vtg);
 	}
 	@Override
@@ -42,6 +43,7 @@ public class AdminService_Impl implements AdminService{
 	}
 	@Override
 	public void saveVehicle(Vehicle vehicle) {
+		
 		adminDAO.saveVehicle(vehicle);
 	}
 	

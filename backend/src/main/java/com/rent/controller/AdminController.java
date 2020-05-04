@@ -38,6 +38,7 @@ public class AdminController {
 	@PostMapping("/addvehicletype")
 	public VehicleTypeGroup saveVehicleType(@RequestBody VehicleTypeGroup vtg) {
 		
+		
 		AdminService.save(vtg);
 		return vtg;
 	}

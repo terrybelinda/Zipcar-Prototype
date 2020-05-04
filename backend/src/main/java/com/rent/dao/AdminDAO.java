@@ -5,6 +5,7 @@ import java.util.List;
 import com.rent.model.Location;
 import com.rent.model.Vehicle;
 import com.rent.model.*;
+import com.rent.dao.VehicleTypeGroup;
 
 public interface AdminDAO {
 
