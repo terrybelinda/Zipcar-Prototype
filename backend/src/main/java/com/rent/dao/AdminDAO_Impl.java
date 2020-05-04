@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rent.model.VehicleType;
+import com.rent.model.Location;
 import com.rent.model.Vehicle;
 
 @Repository
@@ -94,6 +95,33 @@ public class AdminDAO_Impl implements AdminDAO {
 		Session currentSession = entityManager.unwrap(Session.class);
 		currentSession.update(vehicle);
 		
+	}
+	
+	@Override
+	@Transactional
+	public void saveLocation(Location location) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		location.setStatus(1);
+		currentSession.save(location);
+	}
+	
+	@Override
+	@Transactional
+	public List<Location> getLocations() {
+		Session currentSession = entityManager.unwrap(Session.class);
+		Query<Location> query = currentSession.createQuery("from Location where status = 1", Location.class);
+		List<Location> list = query.getResultList();
+		return list;
+	}
+	
+	@Override
+	@Transactional
+	public void deleteLocation(Integer id) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		Query query = currentSession.createQuery("UPDATE Location SET status = 0 " + 
+				"WHERE id =: id");
+		query.setParameter("id", id);
+		query.executeUpdate();
 	}
 	
 }

@@ -44,4 +44,19 @@ public class AdminService_Impl implements AdminService{
 	public void updateVehicle(Vehicle vehicle) {
 		adminDAO.updateVehicle(vehicle);
 	}
+	
+	@Override
+	public void saveLocation(Location location) {
+		adminDAO.saveLocation(location);
+	}
+	
+	@Override
+	public List<Location> getLocations() {
+		return adminDAO.getLocations();
+	}
+	
+	@Override
+	public void deleteLocation(Integer id) {
+		adminDAO.deleteLocation(id);
+	}
 }

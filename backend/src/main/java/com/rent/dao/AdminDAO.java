@@ -2,6 +2,7 @@ package com.rent.dao;
 
 import java.util.List;
 
+import com.rent.model.Location;
 import com.rent.model.Vehicle;
 import com.rent.model.VehicleType;
 
@@ -14,4 +15,8 @@ public interface AdminDAO {
 	void saveVehicle(Vehicle vehicle);
 	void deleteVehicle(String vid);
 	void updateVehicle(Vehicle vehicle);
+	void saveLocation(Location location);
+	void deleteLocation(Integer id);
+	List<Location> getLocations();
+	
 }

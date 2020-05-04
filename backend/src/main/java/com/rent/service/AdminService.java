@@ -2,8 +2,6 @@ package com.rent.service;
 
 import java.util.List;
 
-import com.rent.model.Customer;
-import com.rent.model.VehicleType;
 import com.rent.model.*;
 
 public interface AdminService {
@@ -15,5 +13,7 @@ public interface AdminService {
 	void saveVehicle(Vehicle vehicle);
 	void updateVehicle(Vehicle vehicle);
 	void deleteVehicle(Vehicle vehicle);
-	
+	void saveLocation(Location location);
+	List<Location> getLocations();
+	void deleteLocation(Integer id);
 }
