@@ -74,9 +74,8 @@ public class AdminController {
 	}
 	
 	@PostMapping("/addlocation")
-	public String saveLocation(@RequestBody Location location) {
-		AdminService.saveLocation(location);
-		return "Success";
+	public Location saveLocation(@RequestBody Location location) {		
+		return AdminService.saveLocation(location);
 	}
 	
 	@GetMapping("/locations")
@@ -85,8 +84,14 @@ public class AdminController {
 	}
 	
 	@PostMapping("/deletelocation")
-	public String deleteVehicle(@RequestBody Location location) {
+	public String deleteLocation(@RequestBody Location location) {
 		AdminService.deleteLocation(location.getId());
+		return "Success";
+	}
+	
+	@PostMapping("/editlocation")
+	public String editLocation(@RequestBody Location location) {
+		AdminService.editLocation(location);
 		return "Success";
 	}
 		

@@ -99,10 +99,11 @@ public class AdminDAO_Impl implements AdminDAO {
 	
 	@Override
 	@Transactional
-	public void saveLocation(Location location) {
+	public Location saveLocation(Location location) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		location.setStatus(1);
 		currentSession.save(location);
+		return location;
 	}
 	
 	@Override
@@ -122,6 +123,13 @@ public class AdminDAO_Impl implements AdminDAO {
 				"WHERE id =: id");
 		query.setParameter("id", id);
 		query.executeUpdate();
+	}
+	
+	@Override
+	@Transactional
+	public void editLocation(Location location) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		currentSession.update(location);
 	}
 	
 }

@@ -46,8 +46,8 @@ public class AdminService_Impl implements AdminService{
 	}
 	
 	@Override
-	public void saveLocation(Location location) {
-		adminDAO.saveLocation(location);
+	public Location saveLocation(Location location) {
+		return adminDAO.saveLocation(location);
 	}
 	
 	@Override
@@ -58,5 +58,10 @@ public class AdminService_Impl implements AdminService{
 	@Override
 	public void deleteLocation(Integer id) {
 		adminDAO.deleteLocation(id);
+	}
+	
+	@Override
+	public void editLocation(Location location) {
+		adminDAO.editLocation(location);
 	}
 }

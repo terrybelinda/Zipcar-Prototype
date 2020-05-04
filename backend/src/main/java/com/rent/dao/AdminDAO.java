@@ -15,8 +15,9 @@ public interface AdminDAO {
 	void saveVehicle(Vehicle vehicle);
 	void deleteVehicle(String vid);
 	void updateVehicle(Vehicle vehicle);
-	void saveLocation(Location location);
+	Location saveLocation(Location location);
 	void deleteLocation(Integer id);
 	List<Location> getLocations();
+	void editLocation(Location location);
 	
 }
