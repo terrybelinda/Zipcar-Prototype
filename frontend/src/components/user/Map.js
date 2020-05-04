@@ -1,15 +1,40 @@
-import React from 'react'
-import { Form, CardColumns, Button, Col, FormGroup } from "react-bootstrap";
+import React from 'react';
+import { useRef, useState, Component } from "react";
+import { Form, Card, Button, Col, FormGroup, Row } from "react-bootstrap";
 import { withGoogleMap, GoogleMap, withScriptjs, Marker, google } from "react-google-maps";
 import PlacesAutocomplete, {
 	geocodeByAddress,
 	getLatLng,
   } from 'react-places-autocomplete';
 // import Autocomplete from 'react-google-autocomplete';
+import {rooturl} from '../../config';
+// import { connect } from 'react-redux';
+import axios from 'axios';
 import Geocode from "react-geocode";
 Geocode.setApiKey("AIzaSyBVIEDKRd2EILFmktGgvAcV4gpKUJ2x0mY");
 Geocode.enableDebug();
 
+
+
+// const mapStateToProps = (state) => {
+//     return {
+//         showvehicles: state.profileData.showvehicles,
+// 		allvehicles: state.profileData.allvehicles,
+// 		address: state.profileData.address,
+// 		mapPosition: state.profileData.mapPosition,
+// 		markerPosition: state.profileData.markerPosition,
+//     };
+// }
+
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         allVehicles: (data) => dispatch(allVehicles(data)),
+// 		showVehicles: (data) => dispatch(showVehicles(data)),
+// 		setAddress: (data) => dispatch(setAddress(data)),
+// 		setMapPosition: (data) => dispatch(setMapPosition(data)),
+// 		setMarkerPosition: (data) => dispatch(setMarkerPosition(data)),
+//     }
+// }
 
 class Map extends React.Component{
 constructor( props ){
@@ -26,8 +51,26 @@ constructor( props ){
    markerPosition: {
     lat: this.props.center.lat,
     lng: this.props.center.lng
-}
+	},
+   showvehicle: false,
+   allvehicles: [],
+   selectedvehicle: null,
+   startdatetime: '',
+   enddatetime: ''
   }
+
+// this.props.setMapPosition({
+// 	lat: this.props.center.lat,
+// 	lng: this.props.center.lng
+// 	});
+
+// this.props.setMarkerPosition({
+// 	lat: this.props.center.lat,
+// 	lng: this.props.center.lng
+// 	})
+
+
+  this.search = this.search.bind(this);
  }
 /**
   * Get the current address from the default map position and set those values in the state
@@ -48,15 +91,20 @@ constructor( props ){
     //  area: ( area ) ? area : '',
     //  city: ( city ) ? city : '',
     //  state: ( state ) ? state : '',
-    } )
+	} )
+	// this.props.setAddress(( address ) ? address : '')
    },
    error => {
     console.error(error);
    }
   );
+
  };
+
+
  handleChange = address => {
-    this.setState({ address });
+	this.setState({ address });
+	// this.props.setAddress({address})
   };
 
   handleSelect = address => {
@@ -66,6 +114,7 @@ constructor( props ){
 		  this.setState({
 			address: address 
 		  })
+		//   this.props.setAddress({address})
 	  })
       .then(latLng => console.log('Success', latLng))
       .catch(error => console.error('Error', error));
@@ -80,7 +129,12 @@ constructor( props ){
  shouldComponentUpdate( nextProps, nextState ){
   if (
    this.state.markerPosition.lat !== this.props.center.lat ||
-   this.state.address !== nextState.address
+   this.state.address !== nextState.address ||
+   this.state.allvehicles !== nextState.allvehicles ||
+   this.state.showvehicle !== nextState.showvehicle ||
+   this.state.selectedvehicle !== nextState.selectedvehicle ||
+   this.state.startdatetime !== nextState.startdatetime ||
+   this.state.enddatetime !== nextState.enddatetime
 //    this.state.city !== nextState.city ||
 //    this.state.area !== nextState.area ||
 //    this.state.state !== nextState.state
@@ -177,7 +231,16 @@ const address = place.formatted_address,
     lng: lngValue
    },
   })
-  console.log('onPlaceSelected', addressArray);
+
+	// this.props.setAddress(( address ) ? address : '');
+	// this.props.setMarkerPosition({
+	// 	lat: latValue,
+    // 	lng: lngValue
+	// });
+	// this.props.setMapPosition({
+	// 	lat: latValue,
+    // 	lng: lngValue
+	// });
  };
 /**
   * When the marker is dragged you get the lat and long using the functions available from event object.
@@ -204,12 +267,102 @@ this.setState( {
     //  city: ( city ) ? city : '',
     //  state: ( state ) ? state : ''
     } )
+	// this.props.setAddress(( address ) ? address : '');
    },
    error => {
     console.error(error);
    }
   );
  };
+
+ search = (event) => {
+	event.preventDefault();
+	let params = new URLSearchParams();
+	params.set('address', event.target.elements[0].value);
+	params.set('startdatetime', event.target.elements[1].value + ' ' + event.target.elements[2].value);
+	params.set('enddatetime', event.target.elements[3].value + ' ' + event.target.elements[4].value);
+	this.setState( {
+		//showvehicles: !this.state.showvehicles,
+		// startdatetime: res.data
+		// startdatetime: event.target.elements[1].value + ' ' + event.target.elements[2].value,
+		enddatetime: event.target.elements[3].value + ' ' + event.target.elements[4].value
+	   } )
+	   this.setState( {
+		//showvehicles: !this.state.showvehicles,
+		// startdatetime: res.data
+		startdatetime: event.target.elements[1].value + ' ' + event.target.elements[2].value,
+		// enddatetime: event.target.elements[3].value + ' ' + event.target.elements[4].value
+	   } )
+	axios.get(rooturl  + "/location?"+params.toString())
+	.then(res => {
+		if(res.status === 200){
+			if(res.data){
+				// this.props.allVehicles(res.data);
+				// this.props.showVehicles(true);
+				this.setState( {
+					//showvehicles: !this.state.showvehicles,
+					allvehicles: res.data
+					// startdatetime: event.target.elements[1].value + ' ' + event.target.elements[2].value,
+					// enddatetime: event.target.elements[3].value + ' ' + event.target.elements[4].value
+				   } )
+				   this.setState( {
+					//showvehicles: !this.state.showvehicles,
+					// startdatetime: res.data
+					// startdatetime: event.target.elements[1].value + ' ' + event.target.elements[2].value,
+					enddatetime: event.target.elements[3].value + ' ' + event.target.elements[4].value
+				   } )
+				   this.setState( {
+					//showvehicles: !this.state.showvehicles,
+					// startdatetime: res.data
+					startdatetime: event.target.elements[1].value + ' ' + event.target.elements[2].value,
+					// enddatetime: event.target.elements[3].value + ' ' + event.target.elements[4].value
+				   } )
+				//this.setVehicles(res.data);
+			}
+		}
+	})
+	.catch(err=>{
+		//this.props.setError(err.response.data);
+	})
+ }
+
+ setVehicles = (data) => {
+	this.setState({
+		showvehicle: true,
+		allvehicles: [...data]
+	   })
+ }
+
+ showSelectedCar = (action, vehicle) => {
+	this.setState({
+		showvehicle: action,
+		selectedvehicle: vehicle
+	})
+ }
+
+ reserve = (action, vehicle) => {
+	const data = {
+		//email : localStorage.getItem("email"),
+		vehicle_id : vehicle.id,
+		location_id : vehicle.rental_location,
+		start_time : this.state.startdatetime+":00",
+		end_time : this.state.enddatetime+":00",
+		user_id: 3
+		//change this later
+	}
+	axios.post(rooturl + '/reservation', data)
+	.then(response => {
+		console.log("Response Status: " + response.status);
+                if(response.status === 200){
+					this.setState({
+						showvehicle: false,
+					})
+				}
+			})
+			.catch(err => {
+			})
+ }
+
 render(){
 
 const searchPlace = (
@@ -327,7 +480,7 @@ const AsyncMap = withScriptjs(
 let map;
   if( this.props.center.lat !== undefined ) {
    map = <div>
-	    {/* <Form> */}
+	    <Form onSubmit={this.search}>
 		<Form.Row>
           <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>Location</Form.Label>
@@ -336,7 +489,7 @@ let map;
           </Form.Group>
 		  <Form.Group as={Col} controlId="formGridStartDate">
             <Form.Label>Start date</Form.Label>
-            <Form.Control type="date"/>
+            <Form.Control type="date" onload="getDate()"/>
           </Form.Group>
 		  <Form.Group as={Col} controlId="formGridTime">
             <Form.Label>Time</Form.Label>
@@ -356,6 +509,7 @@ let map;
           </Button>
 		  </Form.Group>
 		</Form.Row>
+		</Form>
            {/* <Form.Row>
             <Form.Group as={Col} controlId="formGridCity">
               <Form.Label>City</Form.Label>
@@ -391,7 +545,79 @@ let map;
 } else {
    map = <div style={{height: this.props.height}} />
   }
-  return( map )
+
+  let vehicle;
+  if(this.state.showvehicle){
+	vehicle = (
+		<Card
+		bg="light"
+		style={{ width: "40rem", paddingRight: "100px" }}
+		className="mt-2"
+	  >
+		<Card.Body>
+			<Card.Header style={{fontWeight: "900"}}>Check that everything is correct:</Card.Header>
+	
+		  <Card.Text id="type">Type: {this.state.selectedvehicle.vehicle_type}</Card.Text>
+		  <Card.Text id="make">Make: {this.state.selectedvehicle.make}</Card.Text>
+		  <Card.Text id="model">Model: {this.state.selectedvehicle.model}</Card.Text>
+		  <Card.Text id="car_condition">Condition: {this.state.selectedvehicle.car_condition}</Card.Text>
+		  <Card.Text id="model_year">Model Year: {this.state.selectedvehicle.model_year}</Card.Text>
+		  <Card.Text id="rental_location">Address:</Card.Text>
+		  {/* onClick={() => this.showSelectedJob(true, this.state.allvehicles[key]) */}
+		  <Button variant="success" onClick={() => this.reserve(true, this.state.selectedvehicle)}>Book this car</Button>
+		</Card.Body>
+	  </Card>
+	  )
+  };
+	
+
+  let list;
+  list = Object.keys(this.state.allvehicles).map(key => (
+	<Col >
+    <Card
+      bg="light"
+      style={{ width: "30rem", paddingRight: "100px" }}
+      className="mt-2"
+    >
+      <Card.Body>
+        {/* <Button
+          type="button"
+          variant="link"
+          className="p-0"
+          onClick={() => props.controlModal(true, this.props.allvehicles[key])}
+        >
+          {this.props.allvehicles[key].vehicle_type}
+        </Button> */}
+        <Card.Text id="type">Type: {this.state.allvehicles[key].vehicle_type}</Card.Text>
+		<Row>
+			<Col id="make">Make: {this.state.allvehicles[key].make} </Col>
+		<Col style={{color: "Green", fontWeight: "900", textAlign: "right"}}>$13.00/hr </Col>
+		</Row>
+		<Row>
+			<Col id="model">Model: {this.state.allvehicles[key].model}</Col>
+			<Col style={{color: "Green", fontWeight: "500", textAlign: "right"}}>$100.00/day</Col>
+		</Row>
+		<Row>
+			<Col id="car_condition">Condition: {this.state.allvehicles[key].car_condition}</Col>
+		</Row>
+		<Row>
+			<Col id="model_year"> Model Year: {this.state.allvehicles[key].model_year}</Col>
+		</Row>
+		<Button variant="success" onClick={() => this.showSelectedCar(true, this.state.allvehicles[key])}>Select Car</Button>
+      </Card.Body>
+    </Card>
+	</Col>
+  ));
+  //}
+  return(
+	  <div>
+	  	{map}
+		<Row>
+			<Col md={4}>{list}</Col>
+			<Col >{vehicle}</Col>
+		</Row>
+	  </div>
+  )
  }
 }
 export default Map;

@@ -11,9 +11,12 @@ import Navigation from "./Navbar/Navbar";
 import VehicleList from "./VehicleList/VehicleList";
 import VehicleType from "./VehicleType/VehicleType";
 import { Vehicle } from "./vehicle/Vehicle";
-import UserProfile from "./user/Profile";
 import RentalLocation from "./RentalLocation/RentalLocation";
 import Members from "./Members/Members";
+import { Logout } from "./logout/logout";
+import UserProfile from './user/Profile';
+import  Rides  from  './rides/rides';
+
 
 class Home extends Component {
   render() {
@@ -25,10 +28,14 @@ class Home extends Component {
         <Route path="/VehicleList" component={VehicleList} />
         <Route path="/VehicleType" component={VehicleType} />
         <Route exact path="/feedback" component={Feedback} />
-        <Route exact path="/profile" component={UserProfile} />
-        <Route path="/vehicles" component={Vehicle} />
         <Route path="/RentalLocation" component={RentalLocation} />
         <Route path="/Members" component={Members} />
+		<Route exact path ='/profile' component={UserProfile}/>
+        <Route path="/VehicleType" component={VehicleType} />
+		<Route path="/vehicles" component={Vehicle} />
+		<Route path="/rides" component={Rides} />
+		<Route path="/logout" component={Logout} />
+		
       </div>
     );
   }

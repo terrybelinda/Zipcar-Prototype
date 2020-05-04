@@ -1,10 +1,15 @@
 package com.rent.model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Column;
@@ -28,16 +33,30 @@ public class Reservation {
 	private int location_id;
 	
 	@Column
-	private Date start_time;
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	private Timestamp start_time;
 	
 	@Column
-	private Date end_time;
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	private Timestamp end_time;
 	
-	@Column
-	private Date return_time;
+	@Column(nullable = true)
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	private Timestamp return_time;
 	
-	@Column
+	@Column(nullable = true)
 	private int return_status;
+	
+	@Transient
+	private String user_email;
+
+	public String getUser_email() {
+		return user_email;
+	}
+
+	public void setUser_email(String user_email) {
+		this.user_email = user_email;
+	}
 
 	public Integer getId() {
 		return id;
@@ -71,28 +90,29 @@ public class Reservation {
 		this.location_id = location_id;
 	}
 
-	public Date getStart_time() {
+	public Timestamp getStart_time() {
 		return start_time;
 	}
 
-	public void setStart_time(Date start_time) {
-		this.start_time = start_time;
+	public void setStart_time(Timestamp start_time) {
+		this.start_time = new java.sql.Timestamp(start_time.getTime());
 	}
 
-	public Date getEnd_time() {
+	public Timestamp getEnd_time() {
 		return end_time;
 	}
 
-	public void setEnd_time(Date end_time) {
-		this.end_time = end_time;
+	public void setEnd_time(Timestamp end_time) {
+		this.end_time = new java.sql.Timestamp(end_time.getTime());
+		
 	}
 
-	public Date getReturn_time() {
+	public Timestamp getReturn_time() {
 		return return_time;
 	}
 
-	public void setReturn_time(Date return_time) {
-		this.return_time = return_time;
+	public void setReturn_time(Timestamp return_time) {
+		this.return_time = new java.sql.Timestamp(return_time.getTime());
 	}
 
 	public int getReturn_status() {

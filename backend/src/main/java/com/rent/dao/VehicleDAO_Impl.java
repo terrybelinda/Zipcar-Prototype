@@ -1,5 +1,6 @@
 package com.rent.dao;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -7,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TemporalType;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -19,9 +21,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rent.model.Vehicle;
+import com.rent.model.VehicleType;
 import com.rent.model.Customer;
 import com.rent.model.Location;
-import com.rent.model.Reservation;;
+import com.rent.model.Reservation;
+import com.rent.model.Transaction;
+import com.rent.model.User;
 
 @Repository
 public class VehicleDAO_Impl implements VehicleDAO {
@@ -30,7 +35,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 	private EntityManager entityManager; 
 	
 	@Override
-	public List<Vehicle> getByLocation(String zipcode, Date startdatetime, Date enddatetime) {
+	public List<Vehicle> getByLocation(String zipcode, String startdatetime, String enddatetime) {
 		//TODO
 		Session currentSession = entityManager.unwrap(Session.class);
 		Query<Location> query = currentSession.createQuery("from Location where zipcode=:zipcode", Location.class);
@@ -40,37 +45,54 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		Location locqresult = query.uniqueResult();	
 		
 		if(locqresult != null) {
-			
-			
+		
 			Query<Vehicle> query1 = currentSession.createQuery("select v from Vehicle v JOIN "
-					+ "Reservation r on v.id = r.vehicle_id and" +
-					"(r.end_time >= :startdatetime and r.end_time <= :enddatetime) or " +
-					"(r.start_time >= :startdatetime and r.start_time <= :enddatetime) and " +
-					"(r.location_id = v.rental_location) and v.rental_location =:locid", Vehicle.class);
+					+ "Reservation r on v.id = r.vehicle_id and " +
+
+					" (r.end_time > : startdatetime and r.end_time < :enddatetime)" +
+					" and "+
+					"v.rental_location =:locid", Vehicle.class);
 			
-			query1.setParameter("startdatetime",startdatetime);
-			query1.setParameter("enddatetime", enddatetime);
+			query1.setString("startdatetime", startdatetime);
+			query1.setString("enddatetime", enddatetime);
 			query1.setParameter("locid",locqresult.getId());
 			List<Vehicle> list1 = query1.getResultList();
 			
-			Query<Vehicle> query4 = currentSession.createQuery("select v from Vehicle v JOIN "
-					+ "Reservation r on v.id = r.vehicle_id and" +
-					"(r.end_time >= :startdatetime and r.end_time >= :enddatetime) and " +
-					"(r.start_time <= :startdatetime and r.start_time <= :enddatetime) and " +
-					"(r.location_id = v.rental_location) and v.rental_location =:locid", Vehicle.class);
 			
-			query4.setParameter("startdatetime",startdatetime);
-			query4.setParameter("enddatetime", enddatetime);
+			
+			Query<Vehicle> query5 = currentSession.createQuery("select v from Vehicle v JOIN "
+					+ "Reservation r on v.id = r.vehicle_id and " +
+					"(r.start_time > :startdatetime and r.start_time < :enddatetime) and " +
+					"v.rental_location =:locid", Vehicle.class);
+			
+			
+			query5.setString("startdatetime",startdatetime);
+			query5.setString("enddatetime", enddatetime);
+			query5.setParameter("locid",locqresult.getId());
+			List<Vehicle> list5 = query5.getResultList();
+			
+			
+			Query<Vehicle> query4 = currentSession.createQuery("select v from Vehicle v JOIN "
+					+ "Reservation r on v.id = r.vehicle_id and " +
+					"(r.end_time > :startdatetime and r.end_time > :enddatetime) and " +
+					"(r.start_time < :startdatetime and r.start_time < :enddatetime) and " +
+					"v.rental_location =:locid", Vehicle.class);
+			
+			query4.setString("startdatetime",startdatetime);
+			query4.setString("enddatetime", enddatetime);
 			query4.setParameter("locid",locqresult.getId());
 			List<Vehicle> list4 = query4.getResultList();
 			
-			Query<Vehicle> query2 = currentSession.createQuery("from Vehicle v where " +
+			Query<Vehicle> query2 = currentSession.createQuery("select v from Vehicle v where " +
 			"rental_location=:locid", Vehicle.class);
 			query2.setParameter("locid",locqresult.getId());
 			List<Vehicle> list2 = query2.getResultList();
 			
 			List<Vehicle> list3 = new ArrayList<Vehicle>();
-			list2.addAll(list4);
+
+			
+			list1.addAll(list5);
+			list1.addAll(list4);
 			for(Vehicle temp: list2) {
 				if(!list1.contains(temp) ){
 					list3.add(temp);}
@@ -159,6 +181,44 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		Query<Vehicle> query = currentSession.createQuery("from Vehicle where status > 0", Vehicle.class);
 		List<Vehicle> list = query.getResultList();
 		return list;
+	}
+	
+	public void reservation(Reservation r) {
+		
+
+		Session currentSession = entityManager.unwrap(Session.class);
+		String userEmail = r.getUser_email();
+		Query<User> userQuery = currentSession.createQuery("from User where email =: userEmail", User.class);
+		userQuery.setParameter("userEmail", userEmail);
+		User user = userQuery.getSingleResult();
+		r.setUser_id(user.getId());
+//		Query<Vehicle> query = currentSession.createQuery("from Vehicle where id= :id", Vehicle.class);
+//		query.setParameter("id", id);
+//		Vehicle v = query.uniqueResult();
+//		System.out.print(v.getVehicle_type());
+//		
+//
+//		long milliseconds = r.getEnd_time().getTime() - r.getStart_time().getTime();
+//		int seconds = (int) milliseconds / 1000;
+//		int hours = seconds / 3600;
+//		
+//		String vt = v.getVehicle_type();
+//		
+//		Query<VehicleType> query2 = currentSession.createQuery("from VehicleType where vehicle_type= :vt and hours <= :hours order by hours asc", 
+//				VehicleType.class);
+//		query2.setParameter("vt", vt);
+//		query2.setParameter("hours", hours);
+//		List<VehicleType> list = query2.getResultList();
+//		String price = list.get(0).getPrice();
+//		
+//		Transaction t = new Transaction();
+//		t.setUser_id(r.getUser_id());
+//		t.setAmount(price);
+//		t.setStatus(0);
+//		
+//		currentSession.save(t);
+		
+		currentSession.save(r);
 	}
 
 }
