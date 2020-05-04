@@ -60,10 +60,10 @@ public class AdminController {
 	}
 	
 	@PostMapping("/addvehicle")
-	public String saveVehicle(@RequestBody Vehicle vehicle) {
+	public Vehicle saveVehicle(@RequestBody Vehicle vehicle) {
 		
 		AdminService.saveVehicle(vehicle);
-		return "Success";
+		return vehicle;
 	}
 	
 	@PostMapping("/updatevehicle")

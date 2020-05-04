@@ -13,4 +13,5 @@ public interface VehicleDAO {
 	public List<Vehicle> vehicleRequest(String zipcode, String make, String model);
 	public List<Vehicle> vehicleSimilar(String make, String model);
 	public List<Vehicle> getAllVehicle();
+	
 }

@@ -148,5 +148,6 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		List<Vehicle> list = query.getResultList();
 		return list;
 	}
-
+	
+	
 }
