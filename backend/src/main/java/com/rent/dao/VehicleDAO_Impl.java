@@ -25,8 +25,7 @@ import com.rent.model.VehicleType;
 import com.rent.model.Customer;
 import com.rent.model.Location;
 import com.rent.model.Reservation;
-import com.rent.model.Transaction;
-import com.rent.model.User;
+import com.rent.model.Transaction;;
 
 @Repository
 public class VehicleDAO_Impl implements VehicleDAO {
@@ -185,38 +184,43 @@ public class VehicleDAO_Impl implements VehicleDAO {
 	
 	public void reservation(Reservation r) {
 		
-
+		
+		int id = r.getVehicle_id();
+		
 		Session currentSession = entityManager.unwrap(Session.class);
-		String userEmail = r.getUser_email();
-		Query<User> userQuery = currentSession.createQuery("from User where email =: userEmail", User.class);
-		userQuery.setParameter("userEmail", userEmail);
-		User user = userQuery.getSingleResult();
-		r.setUser_id(user.getId());
-//		Query<Vehicle> query = currentSession.createQuery("from Vehicle where id= :id", Vehicle.class);
-//		query.setParameter("id", id);
-//		Vehicle v = query.uniqueResult();
-//		System.out.print(v.getVehicle_type());
-//		
-//
-//		long milliseconds = r.getEnd_time().getTime() - r.getStart_time().getTime();
-//		int seconds = (int) milliseconds / 1000;
-//		int hours = seconds / 3600;
-//		
-//		String vt = v.getVehicle_type();
-//		
-//		Query<VehicleType> query2 = currentSession.createQuery("from VehicleType where vehicle_type= :vt and hours <= :hours order by hours asc", 
-//				VehicleType.class);
-//		query2.setParameter("vt", vt);
-//		query2.setParameter("hours", hours);
-//		List<VehicleType> list = query2.getResultList();
-//		String price = list.get(0).getPrice();
-//		
-//		Transaction t = new Transaction();
-//		t.setUser_id(r.getUser_id());
-//		t.setAmount(price);
-//		t.setStatus(0);
-//		
-//		currentSession.save(t);
+		Query<Vehicle> query = currentSession.createQuery("from Vehicle where id = :id", Vehicle.class);
+		query.setParameter("id", id);
+		List<Vehicle> v = query.getResultList();
+		
+		
+		long milliseconds = r.getEnd_time().getTime() - r.getStart_time().getTime();
+		float seconds = (float) milliseconds / 1000;
+		float hours = seconds/3600;
+		
+		
+		String vt = v.get(0).getVehicle_type();
+		
+		
+		Query<VehicleType> query2 = currentSession.createQuery("from VehicleType where vehicle_type = :vt and hours <= :hours order by hours desc", 
+				VehicleType.class);
+		query2.setParameter("vt", vt);
+		query2.setParameter("hours",(int) hours);
+		List<VehicleType> list = query2.getResultList();
+		
+		
+		
+		String price = list.get(0).getPrice();
+		
+		float finalcost = Integer.parseInt(price)*hours;
+		
+		Transaction t = new Transaction();
+		String tid = String.valueOf(Math.random() * 100000000000000L);
+		t.setTransaction_id(tid);
+		t.setUser_id(r.getUser_id());
+		t.setAmount(String.valueOf(finalcost));
+		t.setStatus(0);
+		
+		currentSession.save(t);
 		
 		currentSession.save(r);
 	}
