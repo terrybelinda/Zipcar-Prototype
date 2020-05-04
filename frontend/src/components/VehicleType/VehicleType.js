@@ -56,7 +56,9 @@ class VehicleType extends Component {
     console.log(item.vehicleType);
     console.log("kk");
     axios
-      .post("http://localhost:8080/api/deletevehicletype", item.vehicleType)
+      .post("http://localhost:8080/api/deletevehicletype", {
+        vehicle_type: item.vehicleType,
+      })
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");

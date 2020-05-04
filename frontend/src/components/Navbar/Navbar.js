@@ -33,8 +33,8 @@ class Navigation extends Component {
             <Nav.Link href="/event">Events</Nav.Link>
           )}
         </Nav>
-		
-		{/* </Navbar.Brand> */}
+
+        {/* </Navbar.Brand> */}
         {!localStorage.getItem("email") && <Link to="/login">Sign In</Link>}
 
         {localStorage.getItem("email") && (
@@ -43,17 +43,17 @@ class Navigation extends Component {
           </Link>
         )}
 
-        {!localStorage.getItem("token") && (
+        {localStorage.getItem("email") && (
           <Link className="pl-5" to="/VehicleList">
             Vehicle List
           </Link>
         )}
-        {!localStorage.getItem("token") && (
+        {localStorage.getItem("email") && (
           <Link className="pl-5" to="/RentalLocation">
             Rental Locations
           </Link>
         )}
-        {!localStorage.getItem("token") && (
+        {localStorage.getItem("email") && (
           <Link className="pl-5" to="/Members">
             Members
           </Link>
@@ -70,18 +70,17 @@ class Navigation extends Component {
             <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
           </NavDropdown>
         )} */}
-		{/* add logged in check after setting it from frontend */}
-		{localStorage.getItem("email") && (
-		<NavDropdown title={"Account"} id="collasible-nav-dropdown">
+        {/* add logged in check after setting it from frontend */}
+        {localStorage.getItem("email") && (
+          <NavDropdown title={"Account"} id="collasible-nav-dropdown">
             <NavDropdown.Item href="/vehicles">Vehicles</NavDropdown.Item>
-			<NavDropdown.Item href="/rides">Your Trips</NavDropdown.Item>
+            <NavDropdown.Item href="/rides">Your Trips</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
-			
           </NavDropdown>
-		  )}
-	  </Navbar>
-		
+        )}
+      </Navbar>
+
       //localStorage.getItem('first_name') ? localStorage.getItem('first_name') :
     );
   }
