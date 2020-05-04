@@ -13,6 +13,7 @@ import VehicleType from "./VehicleType/VehicleType";
 import { Vehicle } from "./vehicle/Vehicle";
 import UserProfile from "./user/Profile";
 import RentalLocation from "./RentalLocation/RentalLocation";
+import Members from "./Members/Members";
 
 class Home extends Component {
   render() {
@@ -27,6 +28,7 @@ class Home extends Component {
         <Route exact path="/profile" component={UserProfile} />
         <Route path="/vehicles" component={Vehicle} />
         <Route path="/RentalLocation" component={RentalLocation} />
+        <Route path="/Members" component={Members} />
       </div>
     );
   }
