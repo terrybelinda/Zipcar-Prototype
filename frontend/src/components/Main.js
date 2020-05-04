@@ -12,7 +12,7 @@ import { Types } from "./VehicleType/VehicleType";
 import { Vehicle } from "./vehicle/Vehicle";
 import { Logout } from "./logout/logout";
 import UserProfile from './user/Profile';
-import { Rides }  from  './rides/rides';
+import  Rides  from  './rides/rides';
 
 
 class Home extends Component {

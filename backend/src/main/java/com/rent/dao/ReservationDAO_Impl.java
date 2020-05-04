@@ -25,7 +25,7 @@ public class ReservationDAO_Impl implements ReservationDAO {
 		userQuery.setParameter("userEmail", email);
 		User user = userQuery.getSingleResult();
 		
-		Query<Reservation> query = currentSession.createQuery("from Reservation where user_id = :user_id ", Reservation.class);
+		Query<Reservation> query = currentSession.createQuery("from Reservation r where user_id = :user_id order by r.id desc ", Reservation.class);
 		query.setParameter("user_id", user.getId());
 		return query.getResultList();	
 	} 
