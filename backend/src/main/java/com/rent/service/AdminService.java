@@ -14,7 +14,7 @@ public interface AdminService {
 	List<VehicleTypeGroup> get();
 	void save(VehicleTypeGroup vtg);
 	void deleteVehicletype(VehicleType vt);
-	void updateVehicletype(String vtname, String price, int hours);
+	void updateVehicletype(VehicleTypeGroup vtg);
 	void saveVehicle(Vehicle vehicle);
 	void updateVehicle(Vehicle vehicle);
 	void deleteVehicle(Vehicle vehicle);

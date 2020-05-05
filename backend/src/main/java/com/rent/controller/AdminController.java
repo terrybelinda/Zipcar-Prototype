@@ -37,8 +37,7 @@ public class AdminController {
 	
 	@PostMapping("/addvehicletype")
 	public VehicleTypeGroup saveVehicleType(@RequestBody VehicleTypeGroup vtg) {
-		
-		
+
 		AdminService.save(vtg);
 		return vtg;
 	}
@@ -51,11 +50,10 @@ public class AdminController {
 	}
 	
 	@PostMapping("/updatevehicletype")
-	public String updateVehicleType(@RequestBody VehicleType vt) {
+	public VehicleTypeGroup updateVehicleType(@RequestBody VehicleTypeGroup vtg) {
 		
-		System.out.print(vt.getPrice());
-		AdminService.updateVehicletype(vt.getVehicle_type(),vt.getPrice(),vt.getHours());
-		return "updated";
+		AdminService.updateVehicletype(vtg);
+		return vtg;
 	}
 	
 	@PostMapping("/deletevehicle")

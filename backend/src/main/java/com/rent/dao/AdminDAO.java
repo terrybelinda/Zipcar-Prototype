@@ -12,7 +12,7 @@ public interface AdminDAO {
 	List<VehicleTypeGroup> get();
 	void save(VehicleTypeGroup vt);
 	void deleteVehicletype(String vtname);
-	void updateVehicletype(String vtname, String price, int hours);
+	void updateVehicletype(VehicleTypeGroup vtg);
 	void saveVehicle(Vehicle vehicle);
 	void deleteVehicle(String vid);
 	void updateVehicle(Vehicle vehicle);
