@@ -179,7 +179,7 @@ class RentalLocation extends Component {
         >
           <Card.Body>
             <Card.Text id="rental_name">
-              <b>Rental Location Name: </b>
+              <b>Name: </b>
               {item.name}
             </Card.Text>
             <Card.Text id="rental_phone">

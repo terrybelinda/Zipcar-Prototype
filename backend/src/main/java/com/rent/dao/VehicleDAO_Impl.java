@@ -36,19 +36,17 @@ public class VehicleDAO_Impl implements VehicleDAO {
 	
 	@Override
 	public List<Vehicle> getByLocation(String zipcode, String startdatetime, String enddatetime) {
-		//TODO
-		Session currentSession = entityManager.unwrap(Session.class);
-		Query<Location> query = currentSession.createQuery("from Location where zipcode=:zipcode", Location.class);
-		query.setParameter("zipcode", zipcode);
 		
-
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		Query<Location> query = currentSession.createQuery("from Location where zipcode in :zipcode", Location.class);
+		query.setParameter("zipcode", zipcode);
 		Location locqresult = query.uniqueResult();	
 		
 		if(locqresult != null) {
 		
 			Query<Vehicle> query1 = currentSession.createQuery("select v from Vehicle v JOIN "
-					+ "Reservation r on v.id = r.vehicle_id and " +
-
+					+ "Reservation r on v.id = r.vehicle_id and "+
 					" (r.end_time > : startdatetime and r.end_time < :enddatetime)" +
 					" and "+
 					"v.rental_location =:locid", Vehicle.class);
@@ -57,7 +55,6 @@ public class VehicleDAO_Impl implements VehicleDAO {
 			query1.setString("enddatetime", enddatetime);
 			query1.setParameter("locid",locqresult.getId());
 			List<Vehicle> list1 = query1.getResultList();
-			
 			
 			
 			Query<Vehicle> query5 = currentSession.createQuery("select v from Vehicle v JOIN "
@@ -183,53 +180,45 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		return list;
 	}
 	
-	public void reservation(Reservation r) {
-		
-		
+public void reservation(Reservation r) {
 		
 		int id = r.getVehicle_id();
-		
+
 		Session currentSession = entityManager.unwrap(Session.class);
-		Query<Vehicle> query = currentSession.createQuery("from Vehicle where id = :id", Vehicle.class);
-		query.setParameter("id", id);
-		List<Vehicle> v = query.getResultList();
-		
 		String userEmail = r.getUser_email();
 		Query<User> userQuery = currentSession.createQuery("from User where email =: userEmail", User.class);
 		userQuery.setParameter("userEmail", userEmail);
 		User user = userQuery.getSingleResult();
 		r.setUser_id(user.getId());
 		
+		Query<Vehicle> query = currentSession.createQuery("from Vehicle where id= :id", Vehicle.class);
+		query.setParameter("id", id);
+		Vehicle v = query.uniqueResult();
+		System.out.print(v.getVehicle_type());
+		
+
 		long milliseconds = r.getEnd_time().getTime() - r.getStart_time().getTime();
-		float seconds = (float) milliseconds / 1000;
-		float hours = seconds/3600;
+		int seconds = (int) milliseconds / 1000;
+		int hours = seconds / 3600;
 		
+		String vt = v.getVehicle_type();
 		
-		String vt = v.get(0).getVehicle_type();
-		
-		
-		Query<VehicleType> query2 = currentSession.createQuery("from VehicleType where vehicle_type = :vt and hours <= :hours order by hours desc", 
+		Query<VehicleType> query2 = currentSession.createQuery("from VehicleType where vehicle_type= :vt and hours <= :hours order by hours asc", 
 				VehicleType.class);
 		query2.setParameter("vt", vt);
-		query2.setParameter("hours",(int) hours);
+		query2.setParameter("hours", hours);
 		List<VehicleType> list = query2.getResultList();
-		
-		
-		
 		String price = list.get(0).getPrice();
 		
-		float finalcost = Integer.parseInt(price)*hours;
-		
 		Transaction t = new Transaction();
-		String tid = String.valueOf(Math.random() * 100000000000000L);
-		t.setTransaction_id(tid);
-		t.setUser_id(user.getId());
-		t.setAmount(String.valueOf(finalcost));
+		
+		t.setTransaction_id("123213213");
+		t.setUser_id(r.getUser_id());
+		t.setAmount(price);
 		t.setStatus(0);
 		
 		currentSession.save(t);
 		
 		currentSession.save(r);
 	}
-
 }

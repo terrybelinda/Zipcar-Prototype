@@ -22,6 +22,7 @@ class Home extends Component {
     return (
       <div>
         <Route path="/" component={Navigation} />
+        <Route exact path="/" component={RentalLogin} />
         <Route exact path="/login" component={RentalLogin} />
         <Route exact path="/signup" component={SignUp} />
         <Route path="/VehicleList" component={VehicleList} />

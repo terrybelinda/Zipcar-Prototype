@@ -21,6 +21,8 @@ class VehicleList extends Component {
     this.state = {
       requiredItem: [],
       type: [],
+      rental_location: [],
+      vehicle_type: [],
       show: false,
       showAdd: false,
       key: "",
@@ -30,6 +32,8 @@ class VehicleList extends Component {
   }
   componentDidMount() {
     this.getVehicles();
+    this.getRentalLocations();
+    this.getVehicleType();
   }
 
   getVehicles = () => {
@@ -48,6 +52,40 @@ class VehicleList extends Component {
       })
       .catch((err) => {});
   };
+  getRentalLocations = () => {
+    axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
+      "token"
+    );
+    axios.get("http://localhost:8080/api/locations").then((res) => {
+      if (res.status == 200) {
+        if (res.data) {
+          console.log(res.data);
+          console.log("k");
+          this.setState({ rental_location: res.data });
+        }
+      }
+    });
+    // .catch((err) => {});
+  };
+
+  getVehicleType = () => {
+    axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
+      "token"
+    );
+    axios
+      .get("http://localhost:8080/api/allvehicletype")
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
+          if (res.data) {
+            console.log(res.data);
+            this.setState({ vehicle_type: res.data });
+          }
+        }
+      })
+      .catch((err) => {});
+  };
+
   removeItem(item) {
     const newItems = this.state.type.filter((type) => {
       return type !== item;
@@ -93,21 +131,21 @@ class VehicleList extends Component {
 
   addModalDetails(e) {
     e.preventDefault();
-    const newIds = this.state.requiredItem;
+    const newIds = {};
     newIds.vid = e.target.elements[0].value;
     newIds.license_no = e.target.elements[1].value;
     newIds.make = e.target.elements[2].value;
     newIds.model = e.target.elements[3].value;
     newIds.model_year = e.target.elements[4].value;
     newIds.current_mileage = e.target.elements[5].value;
-    newIds.car_condition = "good";
+    newIds.car_condition = e.target.elements[6].value;
     newIds.regisration_expiry = e.target.elements[7].value;
     newIds.last_serviced = e.target.elements[8].value;
-    newIds.vehicle_type = 1;
-    newIds.rental_location = 1;
+    newIds.vehicle_type = e.target.elements[9].value;
+    newIds.rental_location = e.target.elements[10].value;
+    newIds.vehicle_picture = "";
 
     console.log(newIds);
-    console.log("great");
 
     axios
       .post("http://localhost:8080/api/addvehicle", newIds)
@@ -115,12 +153,19 @@ class VehicleList extends Component {
         if (res.status === 200) {
           console.log("yay");
           console.log(res);
+          this.setState({
+            //     type: this.state.type.concat([res.config.data]),
+            type: [...this.state.type, res.data],
+            showAdd: false,
+          });
         }
       })
       .catch((err) => {
         console.log(err);
         this.props.authFail(err.response.data.msg);
       });
+    console.log("hh");
+    console.log(this.state.type);
   }
 
   saveModalDetails(e) {
@@ -140,8 +185,6 @@ class VehicleList extends Component {
 
     this.setState({ requiredItem: newIds });
     let temptype = this.state.requiredItem;
-    console.log(newIds.model_year);
-    console.log(this.state.requiredItem);
     axios
       .post("http://localhost:8080/api/updatevehicle", temptype)
       .then((res) => {
@@ -168,11 +211,14 @@ class VehicleList extends Component {
         >
           <Card.Img variant="top" src={require("./Capture.PNG")} />
           <Card.Header as="h5">
-            licence #: {item.license_no} {item.make}, {item.model}
+            <b>licence # </b>: {item.license_no} {item.make}, {item.model}
           </Card.Header>
 
           <Card.Body>
-            <Card.Text id="year"> Year :{item.model_year}</Card.Text>
+            <Card.Text id="year">
+              {" "}
+              <b> Year: </b> {item.model_year}
+            </Card.Text>
             {/*
             Status:
             {item.status == 1 ? (
@@ -186,24 +232,26 @@ class VehicleList extends Component {
             )}
             */}
             <Card.Text id="regisration_expiry">
-              <b>Registration Expiry:</b> {item.regisration_expiry}
+              <b>Registration Expiry: </b> {item.regisration_expiry}
             </Card.Text>
             <Card.Text id="vid">
               <b>Vehicle ID: </b> {item.vid}
             </Card.Text>
             <Card.Text id="current_mileage">
-              <b>Miles:</b> {item.current_mileage}
+              <b>Miles: </b> {item.current_mileage}
             </Card.Text>
-            <Card.Text id="condition">Condition: {item.condition}</Card.Text>
+            <Card.Text id="condition">
+              <b>Condition: </b> {item.car_condition}
+            </Card.Text>
             <Card.Text id="last_service">
-              Last Serviced: {item.last_serviced}
+              <b>Last Serviced: </b> {item.last_serviced}
             </Card.Text>
             <Card.Text id="vehicle_type">
-              <b>vehicle type:</b>
+              <b>vehicle type: </b>
               {item.vehicle_type}
             </Card.Text>
             <Card.Text id="rental_location">
-              <b>Rental Location:</b>
+              <b>Rental Location: </b>
               {item.rental_location}
             </Card.Text>
             <Card.Link href="#" onClick={() => this.showModal(index)}>
@@ -303,14 +351,18 @@ class VehicleList extends Component {
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formBasicCondition">
-                  <Form.Label>Condition</Form.Label>
+                  <Form.Label>Car Condition</Form.Label>
                   <Form.Control
                     as="select"
-                    defaultValue={modalData && modalData.condition}
-                  />
-                  <option selected="selected" disabled="disabled">
-                    {modalData && modalData.condition}
-                  </option>
+                    //defaultValue={modalData && modalData.car_condition}
+                  >
+                    <option selected="selected" disabled="disabled">
+                      {modalData && modalData.car_condition}
+                    </option>
+                    <option>{"Good"}</option>
+                    <option>{"Bad"}</option>
+                    <option>{"Needs servicing"}</option>
+                  </Form.Control>
                 </Form.Group>
               </Form.Row>
               <Form.Row>
@@ -380,19 +432,19 @@ class VehicleList extends Component {
                 </Form.Group>
                 <Form.Group as={Col} controlId="formBasicLicenseNo">
                   <Form.Label>License #</Form.Label>
-                  <Form.Control type="name" placeholder="Enter License #" />
+                  <Form.Control type="name" placeholder="Enter license #" />
                 </Form.Group>
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col} controlId="formBasicMake">
-                  <Form.Control type="name" placeholder="Enter Make" />
+                  <Form.Control type="name" placeholder="Enter make" />
                 </Form.Group>
                 <Form.Group as={Col} controlId="formBasicModel">
-                  <Form.Control type="name" placeholder="Enter Model" />
+                  <Form.Control type="name" placeholder="Enter model" />
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridYear">
-                  <Form.Control as="select" placeholder="Enter Model Year">
+                  <Form.Control as="select" placeholder="Enter model year">
                     <option selected="selected" disabled="disabled">
                       {"Year"}
                     </option>
@@ -422,6 +474,9 @@ class VehicleList extends Component {
                     <option selected="selected" disabled="disabled">
                       {"Choose Vehicle condition"}
                     </option>
+                    <option>{"Good"}</option>
+                    <option>{"Bad"}</option>
+                    <option>{"Needs servicing"}</option>
                   </Form.Control>
                 </Form.Group>
               </Form.Row>
@@ -437,21 +492,43 @@ class VehicleList extends Component {
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col} controlId="formBasicVehicleType">
-                  <Form.Control as="select" placeholder="Choose Vehicle type">
+                  <Form.Label>Vehicle Type</Form.Label>
+                  <Form.Control as="select" placeholder="Choose vehicle type">
                     <option selected="selected" disabled="disabled">
-                      {"Choose Vehicle type"}
+                      {"Choose vehicle type"}
                     </option>
+                    {this.state.vehicle_type.map((veh_type, index) => {
+                      return (
+                        <option
+                          key={`rental_loc${index}`}
+                          value={veh_type.vehicleType}
+                        >
+                          {veh_type.vehicleType}
+                        </option>
+                      );
+                    })}
                   </Form.Control>
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formBasicRentalLocation">
+                  <Form.Label>Rental Location</Form.Label>
                   <Form.Control
                     as="select"
-                    placeholder="Choose Rental condition"
+                    placeholder="Choose rental location"
                   >
                     <option selected="selected" disabled="disabled">
-                      {"Choose Rental condition"}
+                      {"Choose rental location"}
                     </option>
+                    {this.state.rental_location.map((rental_loc, index) => {
+                      return (
+                        <option
+                          key={`rental_loc${index}`}
+                          value={rental_loc.id}
+                        >
+                          {rental_loc.name}
+                        </option>
+                      );
+                    })}
                   </Form.Control>
                 </Form.Group>
               </Form.Row>
