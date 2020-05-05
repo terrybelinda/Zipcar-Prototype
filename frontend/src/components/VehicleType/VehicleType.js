@@ -54,9 +54,10 @@ class VehicleType extends Component {
       return type !== item;
     });
     console.log(item.vehicleType);
-    console.log("kk");
     axios
-      .post("http://localhost:8080/api/deletevehicletype", item.vehicleType)
+      .post("http://localhost:8080/api/deletevehicletype", {
+        vehicle_type: item.vehicleType,
+      })
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");
@@ -111,12 +112,43 @@ class VehicleType extends Component {
   saveModalDetails(e) {
     e.preventDefault();
     console.log(this.state.modalData);
+    axios
+      .post("http://localhost:8080/api/updatevehicletype", this.state.modalData)
+      .then((res) => {
+        if (res.status == 200) {
+          const editType = this.state.type;
+          editType[this.state.requiredItem] = JSON.parse(
+            JSON.stringify(this.state.modalData)
+          );
+
+          this.setState({
+            type: editType,
+            show: false,
+          });
+        }
+      })
+      .catch((err) => {});
   }
 
   saveModalDetailsAdd(e) {
     e.preventDefault();
     console.log("why?");
     console.log(this.state.modalAddData);
+
+    axios
+      .post("http://localhost:8080/api/addvehicletype", this.state.modalAddData)
+      .then((res) => {
+        if (res.status == 200) {
+          if (res.data) {
+            this.setState({
+              //     type: this.state.type.concat([res.config.data]),
+              type: [...this.state.type, res.data],
+              showAdd: false,
+            });
+          }
+        }
+      })
+      .catch((err) => {});
   }
 
   handleHourChange(event, index) {
@@ -142,7 +174,7 @@ class VehicleType extends Component {
         parseInt(event.target.value),
       ];
     } else {
-      tempHourModal.priceList[index] = parseInt(event.target.value);
+      tempHourModal.priceList[index] = event.target.value;
     }
     this.setState({
       modalData: tempHourModal,
@@ -150,7 +182,7 @@ class VehicleType extends Component {
   }
 
   handleAddVehicleType(e) {
-    console.log(this.state.modalAddData);
+    console.log("99999999999");
     let tempNameModal = JSON.parse(JSON.stringify(this.state.modalAddData));
     tempNameModal.vehicleType = e.target.value;
     this.setState({
@@ -208,6 +240,7 @@ class VehicleType extends Component {
   };
 
   handleAddRowAdd = () => {
+    console.log("okwhat");
     this.state.modalAddData.priceList = [
       ...this.state.modalAddData.priceList,
       "",
@@ -413,7 +446,7 @@ class VehicleType extends Component {
                 <Form.Control
                   type="vehicle"
                   placeholder="Enter Vehicle Type"
-                  onChange={() => this.handleAddVehicleType}
+                  onChange={(e) => this.handleAddVehicleType(e)}
                 />
                 <table className="table table-bordered">
                   <thead>

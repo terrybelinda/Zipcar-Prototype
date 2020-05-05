@@ -11,11 +11,11 @@ class Feedback extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: "",
-      vehicleId: "",
+      user_email: "",
+      vehicle_id: "",
       comments: "",
-      serviceSatisfaction: "",
-      carSatisfaction: "",
+      service_satisfaction: "",
+      car_satisfaction: "",
     };
   }
 
@@ -24,27 +24,21 @@ class Feedback extends Component {
   }
 
   getUserId = () => {
-    axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
-      "token"
-    );
-    axios
-      .get("http://localhost:8080/api/allvehicletype")
-      .then((res) => {
-        if (res.status === 200) {
-          console.log(res.data);
-          if (res.data) {
-            console.log(res.data);
-            this.setState({ type: res.data });
-          }
-        }
-      })
-      .catch((err) => {});
+    this.setState({ user_email: localStorage.getItem("email") });
   };
 
   submitHandler = (event) => {
     event.preventDefault();
     console.log(this.state);
     console.log("FORM 11!");
+    axios
+      .post("http://localhost:8080/api/feedback", this.state)
+      .then((res) => {
+        if (res.status == 200) {
+          console.log(res.data);
+        }
+      })
+      .catch((err) => {});
   };
 
   render() {
@@ -69,9 +63,9 @@ class Feedback extends Component {
               name="serviceSatisfaction"
               emptySymbol={<img src={starempty} className="icon" />}
               fullSymbol={<img src={starfull} className="icon" />}
-              initialRating={this.state.serviceSatisfaction}
+              initialRating={this.state.service_satisfaction}
               onChange={(event) =>
-                this.setState({ serviceSatisfaction: event })
+                this.setState({ service_satisfaction: event })
               }
             />
           </Form.Group>
@@ -82,8 +76,8 @@ class Feedback extends Component {
               name="CarSatisfaction"
               emptySymbol={<img src={starempty} className="icon" />}
               fullSymbol={<img src={starfull} className="icon" />}
-              initialRating={this.state.carSatisfaction}
-              onChange={(event) => this.setState({ carSatisfaction: event })}
+              initialRating={this.state.car_satisfaction}
+              onChange={(event) => this.setState({ car_satisfaction: event })}
             />
           </Form.Group>
 
