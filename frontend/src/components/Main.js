@@ -34,7 +34,6 @@ class Home extends Component {
         <Route path="/vehicles" component={Vehicle} />
         <Route path="/rides" component={Rides} />
         <Route path="/logout" component={Logout} />
-		<Route exact path="/" component={RentalLogin} />
       </div>
     );
   }
