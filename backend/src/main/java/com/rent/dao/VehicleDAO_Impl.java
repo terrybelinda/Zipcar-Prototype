@@ -221,6 +221,7 @@ public void reservation(Reservation r) {
 		
 		currentSession.save(t);
 		
+		r.setAmount(price);
 		currentSession.save(r);
 	}
 }

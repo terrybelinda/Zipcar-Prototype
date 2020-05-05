@@ -19,8 +19,8 @@ class Rides extends Component {
 			showEndRide: false,
 			showCancelRide: false,
 			selectedreservationcancel: null,
-			minutes: 0,
-			seconds: 0,
+			minutes: null,
+			seconds: null,
 			showTimer: false,
 			showFeedback: false,
 			user_email: "",
@@ -28,7 +28,8 @@ class Rides extends Component {
 			comments: "",
 			service_satisfaction: "",
 			car_satisfaction: "",
-			reservation_id: ""
+			reservation_id: "",
+			latefee: null,
 		}
 	}
 	
@@ -55,7 +56,7 @@ class Rides extends Component {
         axios.get(rooturl  + "/getcurrentreservationstaus?"+params.toString())
         .then(res => {
             if(res.status === 200){
-                if(res.data){
+                if(res.data && res.data.length > 0){
 					this.setState({
 						showTimer: true,
 						minutes: res.data[0],
@@ -180,6 +181,7 @@ class Rides extends Component {
 
 		const data = {
 			id : reservation.id,
+			amount : Number(reservation.amount) + (this.state.latefee != null ? Number(this.state.latefee) : 0),
 		}
 		axios.post(rooturl + '/endreservation', data)
 		.then(response => {
@@ -191,6 +193,27 @@ class Rides extends Component {
 							showFeedback: true,
 							vehicle_id: reservation.vehicle_id,
 							reservation_id: reservation.id,
+						})
+					}
+				})
+		.catch(err => {
+		})
+
+	}
+
+	cancelRideToBackend = (reservation) => {
+
+		const data = {
+			id : reservation.id,
+		}
+		axios.post(rooturl + '/cancelreservation', data)
+		.then(response => {
+			console.log("Response Status: " + response.status);
+					if(response.status === 200){	
+						this.setState({
+							
+							selectedreservationcancel: null,
+							showCancelRide: false,
 						})
 					}
 				})
@@ -245,21 +268,55 @@ class Rides extends Component {
 
 	hideCancelRide = () => {
 		this.setState({
+			
+			selectedreservationcancel: null,
 			showCancelRide: false,
-			selectedreservationcancel: null 
 		})
 	}
 
+	// getLateFee = () => {
+
+    //     axios.get(rooturl  + "/membership")
+    //     .then(res => {
+    //         if(res.status === 200){
+    //             if(res.data){
+	// 				this.setState({
+	// 					latefee: res.data[2].price
+	// 				})
+    //             }
+    //         }
+    //     })
+    //     .catch(err=>{
+    //         //this.props.setError(err.response.data);
+    //     })
+
+	// }
 	render(){
 
-		
+		const { minutes, seconds } = this.state;
+
+		if(minutes && seconds && minutes <= 0 && seconds <= 0){
+			axios.get(rooturl  + "/membership")
+        .then(res => {
+            if(res.status === 200){
+                if(res.data){
+					this.setState({
+						latefee: res.data[2].price
+					})
+                }
+            }
+        })
+        .catch(err=>{
+            //this.props.setError(err.response.data);
+        })
+		}
 
 		let timer;
 		if(this.state.showTimer) {
-		const { minutes, seconds } = this.state;
+		
 		timer = (
 			<div>
-                { minutes === 0 && seconds === 0
+                { minutes <= 0 && seconds <= 0
                     ? (<h1>You have exceeded your ride time! Late fees may apply</h1>)
                     : <h1>Time Remaining (mm:ss): {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
                 }
@@ -287,6 +344,10 @@ class Rides extends Component {
 						</Row>
 						<Row>
 							<Col id="msg">Hope you had a great Trip. See you next time! </Col>
+						</Row>
+						<Row>
+							<Col>Amount charged: ${this.state.selectedreservation.amount} 
+							{this.state.latefee && `+ $${this.state.latefee} late fees` }</Col>	
 						</Row>
 						<Row>
 							<Button className="ml-5" variant="success" onClick={() => this.endRideToBackend(this.state.selectedreservation)}>Confirm</Button>
@@ -365,17 +426,17 @@ class Rides extends Component {
 							<Col>Reservation Number: {this.state.selectedreservationcancel.id}
 							</Col></Row>
 						<Row>
-							<Col id="start_time">Ride Time:{this.state.selectedreservationcancel.start_time} </Col>
+							<Col id="start_time"><b>Ride Start Time: </b>{this.state.selectedreservationcancel.start_time} </Col>
 							
 						</Row>
 						<Row>
-							<Col id="end_time">To {this.state.selectedreservationcancel.end_time} </Col>
+							<Col id="end_time"><b>Ride End Time: </b>{this.state.selectedreservationcancel.end_time} </Col>
 						</Row>
 						<Row>
 							<Col id="msg">Hope everything is fine. Why cancel this trip! </Col>
 						</Row>
 						<Row>
-							<Button variant="success" onClick={() => this.showSelectedCar(true, this.state.selectedreservationcancel)}>Confirm</Button>
+							<Button className="mr-5" variant="success" onClick={() => this.cancelRideToBackend(this.state.selectedreservationcancel)}>Confirm</Button>
 							<Button variant="warning" onClick={() => this.hideCancelRide(false)}>Cancel</Button>
 						</Row>
 					</Modal.Body>

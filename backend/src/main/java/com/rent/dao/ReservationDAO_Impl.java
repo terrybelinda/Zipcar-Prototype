@@ -47,7 +47,7 @@ public class ReservationDAO_Impl implements ReservationDAO {
 		userQuery.setParameter("userEmail", email);
 		User user = userQuery.getSingleResult();
 	
-		Query<Reservation> query = currentSession.createQuery("from Reservation r where user_id = :user_id and (r.return_status in (-1, 1, 0) or r.return_time <= :current_time) order by r.id desc ", Reservation.class);
+		Query<Reservation> query = currentSession.createQuery("from Reservation r where user_id = :user_id and (r.return_status in (-1, 1) or r.return_time <= :current_time) order by r.id desc ", Reservation.class);
 		query.setParameter("user_id", user.getId());
 		query.setString("current_time",sdf.format(timestamp));
 		return query.getResultList();	
@@ -89,8 +89,9 @@ public class ReservationDAO_Impl implements ReservationDAO {
 		Session currentSession = entityManager.unwrap(Session.class);
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Query endReservationQuery = currentSession.createQuery("Update Reservation r set r.return_time= :current_time, r.return_status = :status where r.id = :id ");
+		Query endReservationQuery = currentSession.createQuery("Update Reservation r set r.return_time= :current_time, r.return_status = :status, r.amount= :amount where r.id = :id ");
 		endReservationQuery.setParameter("id",id.getId());
+		endReservationQuery.setParameter("amount",id.getAmount());
 		endReservationQuery.setParameter("status",1);
 		endReservationQuery.setString("current_time",sdf.format(timestamp));
 		endReservationQuery.executeUpdate();
@@ -157,22 +158,26 @@ public class ReservationDAO_Impl implements ReservationDAO {
 		Query<Reservation> query = currentSession.createQuery("from Reservation r where user_id = :user_id and r.return_status = 2 order by r.id desc ", Reservation.class);
 		query.setParameter("user_id", user.getId());
 		query.setMaxResults(1);
-		Reservation id =  query.getSingleResult();	
-		System.out.println("id.getEnd_time().getTime()" + (id.getEnd_time()));
-		Timestamp st = new java.sql.Timestamp(id.getEnd_time().getTime() + (420 * 60* 1000));
-		System.out.println("id.getEnd_time().getTime()" + (st));
-		long milliseconds = st.getTime() - timestamp.getTime() ;
-		int seconds = (int) milliseconds / 1000;
-		int hours = seconds / 3600;
-		int mins = seconds * 60 / 3600;
-		int subtract = 0;
-		System.out.println("new timespta" + hours);
-		subtract = ((mins - (hours * 60)) * 60);
-		int extraSeconds = (int) (seconds - (hours  * 3600 )- subtract);
-		
 		List<Integer> result = new ArrayList();
-		result.add(mins);
-		result.add(extraSeconds);
+		if(query.getResultList().size() > 0) {
+			Reservation id =  query.getSingleResult();	
+			System.out.println("id.getEnd_time().getTime()" + (id.getEnd_time()));
+			Timestamp st = new java.sql.Timestamp(id.getEnd_time().getTime() + (420 * 60* 1000));
+			System.out.println("id.getEnd_time().getTime()" + (st));
+			long milliseconds = st.getTime() - timestamp.getTime() ;
+			int seconds = (int) milliseconds / 1000;
+			int hours = seconds / 3600;
+			int mins = seconds * 60 / 3600;
+			int subtract = 0;
+			System.out.println("new timespta" + hours);
+			subtract = ((mins - (hours * 60)) * 60);
+			int extraSeconds = (int) (seconds - (hours  * 3600 )- subtract);
+			
+			
+			result.add(mins);
+			result.add(extraSeconds);
+		}
+		
 		
 		return result;
 	} 
