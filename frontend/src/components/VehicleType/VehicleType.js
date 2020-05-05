@@ -125,7 +125,11 @@ class VehicleType extends Component {
       .then((res) => {
         if (res.status == 200) {
           if (res.data) {
-            console.log(res.data);
+            this.setState({
+              //     type: this.state.type.concat([res.config.data]),
+              type: [...this.state.type, res.data],
+              showAdd: false,
+            });
           }
         }
       })

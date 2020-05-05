@@ -37,27 +37,31 @@ class Navigation extends Component {
         {/* </Navbar.Brand> */}
         {!localStorage.getItem("email") && <Link to="/login">Sign In</Link>}
 
-        {localStorage.getItem("email") && (
-          <Link className="pl-5" to="/VehicleType">
-            Vehicle Type
-          </Link>
-        )}
+        {localStorage.getItem("email") &&
+          localStorage.getItem("admin") == "true" && (
+            <Link className="pl-5" to="/VehicleType">
+              Vehicle Type
+            </Link>
+          )}
 
-        {localStorage.getItem("email") && (
-          <Link className="pl-5" to="/VehicleList">
-            Vehicle List
-          </Link>
-        )}
-        {localStorage.getItem("email") && (
-          <Link className="pl-5" to="/RentalLocation">
-            Rental Locations
-          </Link>
-        )}
-        {localStorage.getItem("email") && (
-          <Link className="pl-5" to="/Members">
-            Members
-          </Link>
-        )}
+        {localStorage.getItem("email") &&
+          localStorage.getItem("admin") == "true" && (
+            <Link className="pl-5" to="/VehicleList">
+              Vehicle List
+            </Link>
+          )}
+        {localStorage.getItem("email") &&
+          localStorage.getItem("admin") == "true" && (
+            <Link className="pl-5" to="/RentalLocation">
+              Rental Locations
+            </Link>
+          )}
+        {localStorage.getItem("email") &&
+          localStorage.getItem("admin") == "true" && (
+            <Link className="pl-5" to="/Members">
+              Members
+            </Link>
+          )}
         {!localStorage.getItem("email") && (
           <Link className="pl-5" to="/signup">
             Sign Up
