@@ -119,6 +119,17 @@ class VehicleType extends Component {
     e.preventDefault();
     console.log("why?");
     console.log(this.state.modalAddData);
+
+    axios
+      .post("http://localhost:8080/api/addvehicletype", this.state.modalAddData)
+      .then((res) => {
+        if (res.status == 200) {
+          if (res.data) {
+            console.log(res.data);
+          }
+        }
+      })
+      .catch((err) => {});
   }
 
   handleHourChange(event, index) {
@@ -152,7 +163,7 @@ class VehicleType extends Component {
   }
 
   handleAddVehicleType(e) {
-    console.log(this.state.modalAddData);
+    console.log("99999999999");
     let tempNameModal = JSON.parse(JSON.stringify(this.state.modalAddData));
     tempNameModal.vehicleType = e.target.value;
     this.setState({
@@ -210,6 +221,7 @@ class VehicleType extends Component {
   };
 
   handleAddRowAdd = () => {
+    console.log("okwhat");
     this.state.modalAddData.priceList = [
       ...this.state.modalAddData.priceList,
       "",
@@ -415,7 +427,7 @@ class VehicleType extends Component {
                 <Form.Control
                   type="vehicle"
                   placeholder="Enter Vehicle Type"
-                  onChange={() => this.handleAddVehicleType}
+                  onChange={(e) => this.handleAddVehicleType(e)}
                 />
                 <table className="table table-bordered">
                   <thead>
