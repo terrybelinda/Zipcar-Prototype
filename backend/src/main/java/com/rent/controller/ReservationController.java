@@ -55,4 +55,22 @@ public class ReservationController {
 		 return reservationService.upcomingReservations(email);
 		
 	}
+	
+	@GetMapping("/currentreservations")
+	public List<Reservation> currentReservations(@RequestParam String email){
+		 return reservationService.currentReservations(email);
+		
+	}
+	
+	@PostMapping("/startreservation")
+	public List<Integer> startReservation(@RequestBody Reservation id){
+		return reservationService.startReservation(id);
+		
+	}
+	
+	@GetMapping("/getcurrentreservationstaus")
+	public List<Integer> getCurrentReservationStatus(@RequestParam String email){
+		 return reservationService.getCurrentReservationStatus(email);
+		
+	}
 }

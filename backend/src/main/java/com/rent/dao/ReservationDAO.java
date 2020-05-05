@@ -17,6 +17,12 @@ public interface ReservationDAO {
 
 	List<Reservation> upcomingReservations(String email);
 
+	List<Reservation> currentReservations(String email);
+
+	public List<Integer> startReservations(Reservation id);
+
+	public List<Integer> getCurrentReservationStatus(String email);
+
 }
 
 

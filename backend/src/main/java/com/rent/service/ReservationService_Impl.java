@@ -43,4 +43,19 @@ public class ReservationService_Impl implements ReservationService{
 	public List<Reservation> upcomingReservations(String email) {
 		return reservationDAO.pastReservations(email);
 	}
+
+	@Override
+	public List<Reservation> currentReservations(String email) {
+		return reservationDAO.currentReservations(email);
+	}
+
+	@Override
+	public List<Integer> startReservation(Reservation id) {
+		return reservationDAO.startReservations(id);
+	}
+
+	@Override
+	public List<Integer> getCurrentReservationStatus(String email) {
+		return reservationDAO.getCurrentReservationStatus(email);
+	}
 }

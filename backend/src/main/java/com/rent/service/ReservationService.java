@@ -16,4 +16,10 @@ public interface ReservationService {
 	List<Reservation> pastReservations(String email);
 
 	List<Reservation> upcomingReservations(String email);
+
+	List<Reservation> currentReservations(String email);
+
+	List<Integer> startReservation(Reservation id);
+
+	List<Integer> getCurrentReservationStatus(String email);
 }
