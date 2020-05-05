@@ -38,8 +38,8 @@ public class AdminService_Impl implements AdminService{
 		adminDAO.deleteVehicletype(vtname);
 	}
 	@Override
-	public void updateVehicletype(String vtname, String price, int hours) {
-		adminDAO.updateVehicletype(vtname,price,hours);
+	public void updateVehicletype(VehicleTypeGroup vtg) {
+		adminDAO.updateVehicletype(vtg);
 	}
 	@Override
 	public void saveVehicle(Vehicle vehicle) {

@@ -96,18 +96,27 @@ public class AdminDAO_Impl implements AdminDAO {
 	
 	@Override
 	@Transactional
-	public void updateVehicletype(String vtname, String price, int hours) {
+	public void updateVehicletype(VehicleTypeGroup vtg) {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
-		Query query = currentSession.createQuery("UPDATE VehicleType SET price = :price, hours=:hours " + 
-				"WHERE vehicle_type =:vtname");
-		query.setParameter("vtname", vtname);
-		query.setParameter("price", price);
-		query.setParameter("hours", hours);
+		Query query = currentSession.createQuery("delete VehicleType where vehicle_type=:vtname");
+		query.setParameter("vtname", vtg.getVehicleType());
 		query.executeUpdate();
+	
+		for(int i=0; i<vtg.getHourList().size(); i++) {
+			
+			VehicleType vt = new VehicleType();
+			
+			vt.setStatus(1);
+			vt.setVehicle_type(vtg.getVehicleType());
+			vt.setHours(vtg.getHourList().get(i));
+			vt.setPrice(vtg.getPriceList().get(i));
+			currentSession.save(vt);}
+			
+			}
 		
 		
-	}
+
 	
 	@Override
 	@Transactional
