@@ -54,7 +54,6 @@ class VehicleType extends Component {
       return type !== item;
     });
     console.log(item.vehicleType);
-    console.log("kk");
     axios
       .post("http://localhost:8080/api/deletevehicletype", {
         vehicle_type: item.vehicleType,
@@ -113,6 +112,22 @@ class VehicleType extends Component {
   saveModalDetails(e) {
     e.preventDefault();
     console.log(this.state.modalData);
+    axios
+      .post("http://localhost:8080/api/updatevehicletype", this.state.modalData)
+      .then((res) => {
+        if (res.status == 200) {
+          const editType = this.state.type;
+          editType[this.state.requiredItem] = JSON.parse(
+            JSON.stringify(this.state.modalData)
+          );
+
+          this.setState({
+            type: editType,
+            show: false,
+          });
+        }
+      })
+      .catch((err) => {});
   }
 
   saveModalDetailsAdd(e) {
@@ -159,7 +174,7 @@ class VehicleType extends Component {
         parseInt(event.target.value),
       ];
     } else {
-      tempHourModal.priceList[index] = parseInt(event.target.value);
+      tempHourModal.priceList[index] = event.target.value;
     }
     this.setState({
       modalData: tempHourModal,
