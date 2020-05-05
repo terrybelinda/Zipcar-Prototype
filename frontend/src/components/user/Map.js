@@ -342,13 +342,11 @@ this.setState( {
 
  reserve = (action, vehicle) => {
 	const data = {
-		//email : localStorage.getItem("email"),
+		user_email : localStorage.getItem("email"),
 		vehicle_id : vehicle.id,
 		location_id : vehicle.rental_location,
 		start_time : this.state.startdatetime+":00",
 		end_time : this.state.enddatetime+":00",
-		user_id: 3
-		//change this later
 	}
 	axios.post(rooturl + '/reservation', data)
 	.then(response => {

@@ -26,7 +26,8 @@ import com.rent.model.Customer;
 import com.rent.model.Location;
 import com.rent.model.Reservation;
 import com.rent.model.Transaction;
-import com.rent.model.User;;
+import com.rent.model.User;
+import java.util.Random;
 
 @Repository
 public class VehicleDAO_Impl implements VehicleDAO {
@@ -203,16 +204,17 @@ public void reservation(Reservation r) {
 		
 		String vt = v.getVehicle_type();
 		
-		Query<VehicleType> query2 = currentSession.createQuery("from VehicleType where vehicle_type= :vt and hours <= :hours order by hours asc", 
+		Query<VehicleType> query2 = currentSession.createQuery("from VehicleType where vehicle_type= :vt and hours >= :hours order by hours asc	", 
 				VehicleType.class);
+		query2.setMaxResults(1);
 		query2.setParameter("vt", vt);
 		query2.setParameter("hours", hours);
-		List<VehicleType> list = query2.getResultList();
-		String price = list.get(0).getPrice();
+		VehicleType vehicleType = query2.getSingleResult();
+		String price = vehicleType.getPrice();
 		
 		Transaction t = new Transaction();
-		
-		t.setTransaction_id("123213213");
+
+		t.setTransaction_id(String.valueOf(Math.random()*Math.pow(10,5)));
 		t.setUser_id(r.getUser_id());
 		t.setAmount(price);
 		t.setStatus(0);

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {rooturl} from '../../config';
 import axios from 'axios';
-import { Card, Button, Col, Image, Alert, Badge, Row } from "react-bootstrap";
+import { Card, Button, Col, Image, Alert, Form, Row, Modal } from "react-bootstrap";
 
 class Rides extends Component {
 	constructor() {
@@ -119,43 +119,47 @@ class Rides extends Component {
 		let endRideModal;
 		if(this.state.selectedreservation) {
 			endRideModal = (
-				<Card
-					bg="light"
-					style={{ width: "30rem", paddingRight: "100px" }}
-					className="mt-2"
-					>
-					<Card.Body>
-						<Card.Header>Reservation Number: {this.state.selectedreservation.id}</Card.Header>
+				<Modal show={true} onHide={false} animation={false}>
+					<Modal.Header closeButton>
+            			<Modal.Title>End reservation</Modal.Title>
+          			</Modal.Header>
+					<Modal.Body>
+					<Row>
+						<Col>Reservation Number: {this.state.selectedreservation.id}</Col>	
+					</Row>
 						<Row>
-							<Col id="start_time">Ride Time:{this.state.selectedreservation.start_time} </Col>
+							<Col id="start_time"><b>Ride Start Time: </b>{this.state.selectedreservation.start_time} </Col>
 							
 						</Row>
 						<Row>
-							<Col id="end_time">To {this.state.selectedreservation.end_time} </Col>
+							<Col id="end_time"><b>Ride End Time: </b> {this.state.selectedreservation.end_time} </Col>
 						</Row>
 						<Row>
 							<Col id="msg">Hope you had a great Trip. See you next time! </Col>
 						</Row>
 						<Row>
-							<Button variant="success" onClick={() => this.endRideToBackend(this.state.selectedreservation)}>Confirm</Button>
-							<Button variant="warning" onClick={() => this.hideEndRide(false)}>Cancel</Button>
+							<Button className="ml-5" variant="success" onClick={() => this.endRideToBackend(this.state.selectedreservation)}>Confirm</Button>
+							{/* <Button variant="warning" onClick={() => this.hideEndRide(false)}>Cancel</Button> */}
 						</Row>
-						
-					</Card.Body>
-					</Card>
+						<Modal.Footer>
+							<Button variant="warning" onClick={() => this.hideEndRide(false)}>Cancel</Button>
+          				</Modal.Footer>
+					</Modal.Body>
+					</Modal>
 			);
 		}
 
 		let cancelRideModal;
 		if(this.state.selectedreservationcancel) {
 			cancelRideModal = (
-				<Card
-					bg="light"
-					style={{ width: "30rem", paddingRight: "100px" }}
-					className="mt-2"
-					>
-					<Card.Body>
-						<Card.Header>Reservation Number: {this.state.selectedreservationcancel.id}</Card.Header>
+				<Modal show={true} onHide={false} animation={false}>
+					<Modal.Header closeButton>
+            			<Modal.Title>Cancel reservation</Modal.Title>
+          			</Modal.Header>
+					<Modal.Body>
+						<Row>
+							<Col>Reservation Number: {this.state.selectedreservationcancel.id}
+							</Col></Row>
 						<Row>
 							<Col id="start_time">Ride Time:{this.state.selectedreservationcancel.start_time} </Col>
 							
@@ -170,9 +174,8 @@ class Rides extends Component {
 							<Button variant="success" onClick={() => this.showSelectedCar(true, this.state.selectedreservationcancel)}>Confirm</Button>
 							<Button variant="warning" onClick={() => this.hideCancelRide(false)}>Cancel</Button>
 						</Row>
-						
-					</Card.Body>
-					</Card>
+					</Modal.Body>
+				</Modal>
 			);
 		}
 		
@@ -232,8 +235,8 @@ class Rides extends Component {
 			<h2 style={{color: "Gray", fontWeight: "500", textAlign: "center"}}>Upcoming Trips</h2>
 		);
 		let upcoming;
-		if(this.state.upcomingreservations.length > 0) {
-			upcoming = Object.keys(this.state.upcomingreservations).map(key => (
+		if(this.state.reservations.length > 0) {
+			upcoming = Object.keys(this.state.reservations).map(key => (
 				<Col >
 				<Card
 				bg="light"
@@ -241,13 +244,13 @@ class Rides extends Component {
 				className="mt-2"
 				>
 				<Card.Body>
-					<Card.Header>Reservation Number: {this.state.upcomingreservations[key].id}</Card.Header>
+					<Card.Header>Reservation Number: {this.state.reservations[key].id}</Card.Header>
 					<Row>
-						<Col id="start_time">Ride Time:{this.state.upcomingreservations[key].start_time} </Col>
+						<Col id="start_time">Ride Time:{this.state.reservations[key].start_time} </Col>
 						
 					</Row>
 					<Row>
-						<Col id="end_time">To {this.state.upcomingreservations[key].end_time} </Col>
+						<Col id="end_time">To {this.state.reservations[key].end_time} </Col>
 					</Row>
 					
 					{/* <Row>
@@ -261,8 +264,8 @@ class Rides extends Component {
 						<Col id="model_year"> Model Year: {this.state.reservations[key].model_year}</Col>
 					</Row> */}
 					<Row>
-						<Button variant="success" onClick={() => this.showSelectedCar(true, this.state.upcomingreservations[key])}>End Ride</Button>
-						<Button variant="warning" onClick={() => this.showSelectedCar(true, this.state.upcomingreservations[key])}>Cancel Ride</Button>
+					<Button variant="success" onClick={() => this.endRide(true, this.state.reservations[key])}>End Ride</Button>
+					<Button variant="warning" onClick={() => this.cancelRide(true, this.state.reservations[key])}>Cancel Ride</Button>
 					</Row>
 					
 				</Card.Body>
@@ -324,13 +327,14 @@ class Rides extends Component {
 			   {upcomingRidesH}
 			   <Row>
 				  <Col md={4}>{upcoming}</Col>
+				  <Col md={8}> {cancelRideModal}{endRideModal}</Col>
 			  </Row>
 			  <hr class="mt-2 mb-3"/>
-			  <Row>
+			  {/* <Row>
 				  <Col md={4}>{list}</Col>
 				  <Col md={8}> {cancelRideModal}{endRideModal}</Col>
 				  
-			  </Row>
+			  </Row> */}
 			  <hr class="mt-2 mb-3"/>
 			  {pastRidesH}
 			  <Row>
