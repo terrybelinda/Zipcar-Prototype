@@ -369,7 +369,7 @@ class VehicleType extends Component {
                       this.state.modalData.hourList &&
                       this.state.modalData.hourList.map((row, index) => {
                         return (
-                          <tr>
+                          <tr key={row}>
                             <td>
                               <input
                                 type="text"
@@ -460,7 +460,7 @@ class VehicleType extends Component {
                       this.state.modalAddData.hourList &&
                       this.state.modalAddData.hourList.map((row, index) => {
                         return (
-                          <tr>
+                          <tr key={row}>
                             <td>
                               <input
                                 type="text"
