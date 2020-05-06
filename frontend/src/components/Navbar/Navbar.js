@@ -79,6 +79,9 @@ class Navigation extends Component {
           <NavDropdown title={"Account"} id="collasible-nav-dropdown">
             <NavDropdown.Item href="/vehicles">Vehicles</NavDropdown.Item>
             <NavDropdown.Item href="/rides">Your Trips</NavDropdown.Item>
+            <NavDropdown.Item href="/ExtendMembership">
+              Extend Membership
+            </NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
           </NavDropdown>

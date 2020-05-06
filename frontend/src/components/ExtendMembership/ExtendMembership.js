@@ -12,13 +12,31 @@ class ExtendMembership extends Component {
     this.state = {
       user_info: [],
       selection: "",
+      membership: [],
     };
   }
 
   componentDidMount() {
     this.getUserInfo();
+    this.getPrice();
   }
-
+  getPrice = () => {
+    axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
+      "token"
+    );
+    axios
+      .get("http://localhost:8080/api/membership")
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
+          if (res.data) {
+            console.log(res.data);
+            this.setState({ membership: res.data });
+          }
+        }
+      })
+      .catch((err) => {});
+  };
   getUserInfo = () => {
     axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
       "token"
@@ -44,21 +62,29 @@ class ExtendMembership extends Component {
     if (this.state.selection != "") {
       event.preventDefault();
       const data = {
-        email: this.state.user_info.email,
+        email: localStorage.getItem("email"),
         months: this.state.selection,
       };
 
+      console.log(data);
       axios
         .post("http://localhost:8080/api/extendmembership", data)
         .then((res) => {
           console.log(res.status);
+          let result = this.state.membership.filter((item) =>
+            item.membership_type.includes(this.state.selection)
+          );
           if (res.status === 200) {
-            console.log(this.state.user_info.cardNumber);
-            console.log(res.data);
-            this.setState({ user_info: res.data });
+            const amount = alert(
+              "Success! Amount " + result[0].price + "$  has been debited"
+            );
+            if (res.data) {
+              let tempData = [];
+              Object.assign(tempData, this.state.user_info);
 
-            const lastFour = this.state.user_info.cardNumber;
-            alert("Success! Amount" + +"debited has been debited");
+              tempData.membershipEndDate = res.data;
+              this.setState({ user_info: tempData });
+            }
           }
         })
         .catch((err) => {
