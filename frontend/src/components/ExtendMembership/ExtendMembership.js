@@ -54,6 +54,9 @@ class ExtendMembership extends Component {
           console.log(res.status);
           if (res.status === 200) {
             console.log(this.state.user_info.cardNumber);
+            console.log(res.data);
+            this.setState({ user_info: res.data });
+
             const lastFour = this.state.user_info.cardNumber;
             alert("Success! Amount" + +"debited has been debited");
           }
