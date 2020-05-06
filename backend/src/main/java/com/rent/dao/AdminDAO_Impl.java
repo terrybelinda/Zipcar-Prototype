@@ -64,7 +64,7 @@ public class AdminDAO_Impl implements AdminDAO {
 	@Override
 	public void save(VehicleTypeGroup vtg) {
 		
-		System.out.print("fasfdaf");
+		
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		for(int i=0; i<vtg.getHourList().size(); i++) {

@@ -43,10 +43,15 @@ public class VehicleController {
 	}
 	
 	@GetMapping("/vehiclerequest")
-	public List<Vehicle> vehicleRequest(@RequestParam String address, @RequestParam String make, @RequestParam String model) {
+	public List<Vehicle> vehicleRequest(@RequestParam String address, @RequestParam String make, @RequestParam String model,@RequestParam String startdatetime,@RequestParam String enddatetime) {
 		
-		String[] arrOfStr = address.split(", ");
-		return vehicleService.vehicleRequest(arrOfStr[3], make, model);
+		
+		String[] arrOfStr = address.split(", ");  
+		String[] zipcode = arrOfStr[2].split(" ");
+		
+		startdatetime = startdatetime + ":00";
+		enddatetime = enddatetime + ":00";
+		return vehicleService.vehicleRequest(zipcode[1], make, model, startdatetime, enddatetime);
 			
 	}
 	@GetMapping("/vehiclebytype")
@@ -57,6 +62,17 @@ public class VehicleController {
 	@GetMapping("/allvehicles")
 	public List<Vehicle> get(){
 		 return vehicleService.getAllVehicle();
+		
+	}
+	
+	@GetMapping("/getvehicletype")
+	public HashSet<String> getVehicleType(){
+		
+		List<VehicleType> vt = vehicleService.getVehicleType();
+		HashSet<String> hSet = new HashSet<String>(); 
+        for(int i=0; i<vt.size(); i++) {
+            hSet.add(vt.get(i).getVehicle_type()); } 
+		return hSet;
 		
 	}
 	

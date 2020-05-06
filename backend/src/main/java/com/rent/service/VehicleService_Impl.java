@@ -6,10 +6,13 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.rent.dao.VehicleDAO;
 import com.rent.model.Reservation;
 import com.rent.model.Vehicle;
+import com.rent.model.VehicleType;
 
 @Service
 public class VehicleService_Impl implements VehicleService{
@@ -27,15 +30,9 @@ public class VehicleService_Impl implements VehicleService{
 		return vehicleDAO.getVehicle(type);
 	}
 	
-	public List<Vehicle> vehicleRequest(String zipcode, String make, String model) {
-		List<Vehicle> request = vehicleDAO.vehicleRequest(zipcode, make, model); 
-		if(request.size() == 0){
-			 return vehicleDAO.vehicleSimilar(make, model);
-			
-		}
-		 else {
-			 return request;
-		 }
+	public List<Vehicle> vehicleRequest(String zipcode, String make, String model,String startdatetime, String enddatetime ) {
+		return vehicleDAO.vehicleRequest(zipcode, make, model, startdatetime, enddatetime); 
+		
 	}
 	
 	public List<Vehicle> getAllVehicle(){
@@ -44,6 +41,11 @@ public class VehicleService_Impl implements VehicleService{
 	
 	public void reservation(Reservation r) {
 		vehicleDAO.reservation(r);
+		
+	}
+	
+	public List<VehicleType> getVehicleType(){
+		 return vehicleDAO.getVehicleType();
 		
 	}
 }
