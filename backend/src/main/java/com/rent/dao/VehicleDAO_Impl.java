@@ -181,7 +181,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		return list;
 	}
 	
-public void reservation(Reservation r) {
+	public void reservation(Reservation r) {
 		
 		int id = r.getVehicle_id();
 

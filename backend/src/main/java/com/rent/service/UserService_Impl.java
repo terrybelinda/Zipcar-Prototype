@@ -32,12 +32,18 @@ public class UserService_Impl implements UserService{
 	public void save(User user) {
 		userDAO.save(user);
 	}
-
+	
+	
 	@Transactional
 	@Override
 	public void delete(int id) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void extend(String email, int months) {
+		userDAO.extend(email, months);
 	}
 
 }

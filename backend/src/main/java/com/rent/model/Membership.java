@@ -46,4 +46,6 @@ public class Membership {
 		this.price = price;
 	}
 	
-}	
+
+}
+
