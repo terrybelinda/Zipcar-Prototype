@@ -21,6 +21,7 @@ class Feedback extends Component {
 
   componentDidMount() {
     this.getUserId();
+    console.log(this.state.user_email);
   }
 
   getUserId = () => {
@@ -35,7 +36,8 @@ class Feedback extends Component {
       .post("http://localhost:8080/api/feedback", this.state)
       .then((res) => {
         if (res.status == 200) {
-          console.log(res.data);
+          console.log("here?");
+          console.log(this.state.user_email);
         }
       })
       .catch((err) => {});
