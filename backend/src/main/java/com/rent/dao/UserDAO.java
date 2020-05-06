@@ -1,5 +1,6 @@
 package com.rent.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.rent.model.User;
@@ -14,5 +15,5 @@ public interface UserDAO {
 	
 	void delete(int id);
 
-	void extend(String email, int months);
+	Date extend(String email, int months);
 }

@@ -60,7 +60,7 @@ public class UserDAO_Impl implements UserDAO {
 	
 	@Override
 	@Transactional
-	public void extend(String email, int months) {
+	public Date extend(String email, int months) {
 		
 		String price = "0";
 		Session currentSession = entityManager.unwrap(Session.class);
@@ -104,7 +104,7 @@ public class UserDAO_Impl implements UserDAO {
 		t.setStatus(0);
 		
 		currentSession.save(t);
-		
+		return date;
 		
 	}
 

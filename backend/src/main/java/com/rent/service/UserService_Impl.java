@@ -1,5 +1,6 @@
 package com.rent.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +43,8 @@ public class UserService_Impl implements UserService{
 	}
 	
 	@Override
-	public void extend(String email, int months) {
-		userDAO.extend(email, months);
+	public Date extend(String email, int months) {
+		return userDAO.extend(email, months);
 	}
 
 }
