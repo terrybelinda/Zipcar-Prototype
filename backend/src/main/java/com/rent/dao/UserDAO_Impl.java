@@ -112,9 +112,9 @@ public class UserDAO_Impl implements UserDAO {
 		query1.setParameter("enddate", date);
 		query1.executeUpdate();
 		
-		
+		long rand = (long) (Math.random() * 100000000000000L);
 		Transaction t = new Transaction();
-		t.setTransaction_id("31431243134");
+		t.setTransaction_id(String.valueOf(rand));
 		t.setUser_id(user.getId());
 		t.setAmount(price);
 		t.setStatus(0);
