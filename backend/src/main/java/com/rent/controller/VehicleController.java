@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rent.model.Reservation;
 import com.rent.model.Vehicle;
+import com.rent.model.Vehicle1;
 import com.rent.model.VehicleType;
 import com.rent.service.VehicleService;
 
@@ -40,7 +41,7 @@ public class VehicleController {
 		enddatetime = enddatetime + ":00";
 		
 		
-		if((make == "") && (model == "")) {
+		if((make.equals("Choose Make")) && (model.equals("Choose Model"))) {
 		return vehicleService.getByLocation(zipcode[1], startdatetime, enddatetime);}
 		
 		else {
