@@ -63,6 +63,7 @@ class Prices extends Component {
         if (res.status === 200) {
           console.log("yay");
           console.log(res);
+          this.setState({ membership: res.data });
         }
       })
       .catch((err) => {
