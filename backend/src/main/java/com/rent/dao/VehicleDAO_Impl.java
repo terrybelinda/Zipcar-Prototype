@@ -311,7 +311,6 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		long milliseconds = r.getEnd_time().getTime() - r.getStart_time().getTime();
 		int seconds = (int) milliseconds / 1000;
 		int hours = seconds / 3600;
-		
 		String vt = v.getVehicle_type();
 		
 		Query<VehicleType> query2 = currentSession.createQuery("from VehicleType where vehicle_type= :vt and hours >= :hours order by hours asc	", 
@@ -319,10 +318,11 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		query2.setMaxResults(1);
 		query2.setParameter("vt", vt);
 		query2.setParameter("hours", hours);
-
+		System.out.println(hours);
+		
 		List<VehicleType> list = query2.getResultList();
 		String price = list.get(0).getPrice();
-		price = String.valueOf(Float.valueOf(price) * hours);
+		price = String.valueOf(Float.valueOf(price) * (hours == 0 ? 1 : hours));
 		
 		Transaction t = new Transaction();
 		long rand = (long) (Math.random() * 100000000000000L);
@@ -331,7 +331,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		t.setUser_id(r.getUser_id());
 		t.setAmount(price);
 		t.setStatus(0);
-		
+		System.out.println(price);
 		currentSession.save(t);
 		
 		r.setAmount(price);

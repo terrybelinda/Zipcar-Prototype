@@ -68,7 +68,9 @@ public class ReservationDAO_Impl implements ReservationDAO {
 	public List<Reservation> currentReservations(String email) {
 		TimeZone.setDefault(TimeZone.getTimeZone("PDT"));
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		Timestamp timestamp = new java.sql.Timestamp(System.currentTimeMillis());
+		Timestamp st = new java.sql.Timestamp(timestamp.getTime() - (420 * 60* 1000));
 		Session currentSession = entityManager.unwrap(Session.class);
 		Query<User> userQuery = currentSession.createQuery("from User where email =: userEmail", User.class);
 		userQuery.setParameter("userEmail", email);
@@ -76,7 +78,7 @@ public class ReservationDAO_Impl implements ReservationDAO {
 	
 		Query<Reservation> query = currentSession.createQuery("from Reservation r where user_id = :user_id and r.return_status = 2 or (r.return_status = 0 and r.end_time >= :current_time) and r.start_time <= :current_time and r.return_time IS NULL order by r.id desc ", Reservation.class);
 		query.setParameter("user_id", user.getId());
-		query.setString("current_time",sdf.format(timestamp));
+		query.setString("current_time",sdf.format(st));
 		return query.getResultList();	
 	}
 	
@@ -108,6 +110,7 @@ public class ReservationDAO_Impl implements ReservationDAO {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Query endReservationQuery = currentSession.createQuery("Update Reservation r set r.return_time= :current_time, r.return_status = :status, r.amount= :amount where r.id = :id ");
 		endReservationQuery.setParameter("id",id.getId());
+		endReservationQuery.setString("amount", id.getAmount());
 		endReservationQuery.setParameter("status",1);
 		endReservationQuery.setString("current_time",sdf.format(timestamp));
 		endReservationQuery.executeUpdate();
@@ -149,8 +152,6 @@ public class ReservationDAO_Impl implements ReservationDAO {
 			List<VehicleType> list = query2.getResultList();
 			String price = list.get(0).getPrice();
 			
-			System.out.println("Here");
-			System.out.println(mins);
 			if(mins <= 60) {
 				List<String> result = new ArrayList();
 				result.add("apply cancellation fees");
