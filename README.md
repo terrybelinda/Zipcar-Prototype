@@ -9,9 +9,9 @@ Ashwini Ulhas Talele- 014483456 <br />
 Belinda Terry -013785668 <br />
 
 
-# CMPE 202
 
-<h3>Architecture Diagram</h3>
+
+<h1>Architecture Diagram</h1>
 
 ![Architecture diagram](Architecture.jpg)
 
