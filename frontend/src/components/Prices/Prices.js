@@ -50,7 +50,12 @@ class Prices extends Component {
       .catch((err) => {});
   };
 
-  removeItem(item) {
+  submitHandler(e) {
+    console.log("jfhkshfkd");
+    console.log(e.targe[0].value);
+    console.log(e.targe[1].value);
+    console.log(e.targe[2].value);
+    /*
     const newItems = this.state.type.filter((type) => {
       return type !== item;
     });
@@ -70,6 +75,7 @@ class Prices extends Component {
         console.log(err);
         this.props.authFail(err.response.data.msg);
       });
+      */
   }
 
   showModal = (key) => {
@@ -175,8 +181,8 @@ class Prices extends Component {
           <Form.Control
             style={{ width: "200px" }}
             type="name"
-            placeholder={item.price}
-            onChange={(event) => this.setState({ name: event.target.value })}
+            defaultValue={item.price}
+            //onChange={(event) => this.Change()}
           />
         </Form.Group>
         $
@@ -185,9 +191,9 @@ class Prices extends Component {
 
     return (
       <Container className="m-5 d-flex justify-content-center">
-        <Form>
+        <Form onSubmit={this.submitHandler}>
           {list}
-          <Button variant="primary" type="submit" onClick={this.submitHandler}>
+          <Button variant="primary" type="submit">
             Update
           </Button>
         </Form>

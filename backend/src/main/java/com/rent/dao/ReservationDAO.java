@@ -24,5 +24,3 @@ public interface ReservationDAO {
 	public List<Integer> getCurrentReservationStatus(String email);
 
 }
-
-

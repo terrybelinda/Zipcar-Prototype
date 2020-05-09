@@ -800,7 +800,7 @@ class Map extends React.Component {
               )}
 
             <Card.Text id="rental_location">
-              <b>Address:</b>
+              <b>Address:</b> {this.state.selectedvehicle.address}
             </Card.Text>
             {/* onClick={() => this.showSelectedJob(true, this.state.allvehicles[key]) */}
             <Button
@@ -839,28 +839,10 @@ class Map extends React.Component {
                 {" "}
                 <b>Make:</b> {this.state.allvehicles[key].make}{" "}
               </Col>
-              <Col
-                style={{
-                  color: "Green",
-                  fontWeight: "900",
-                  textAlign: "right",
-                }}
-              >
-                $13.00/hr{" "}
-              </Col>
             </Row>
             <Row>
               <Col id="model">
                 <b>Model: </b> {this.state.allvehicles[key].model}
-              </Col>
-              <Col
-                style={{
-                  color: "Green",
-                  fontWeight: "500",
-                  textAlign: "right",
-                }}
-              >
-                $100.00/day
               </Col>
             </Row>
             <Row>
@@ -872,6 +854,12 @@ class Map extends React.Component {
               <Col id="model_year">
                 {" "}
                 <b>Model Year: </b> {this.state.allvehicles[key].model_year}
+              </Col>
+            </Row>
+            <Row>
+              <Col id="model_year">
+                {" "}
+                <b>Address: </b> {this.state.allvehicles[key].address}
               </Col>
             </Row>
             <Button
