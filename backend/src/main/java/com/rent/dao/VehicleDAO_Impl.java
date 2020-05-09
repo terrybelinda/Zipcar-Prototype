@@ -317,6 +317,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		query2.setParameter("hours", hours);
 		List<VehicleType> list = query2.getResultList();
 		String price = list.get(0).getPrice();
+		price = String.valueOf(Float.valueOf(price) * hours);
 		
 		Transaction t = new Transaction();
 		long rand = (long) (Math.random() * 100000000000000L);
