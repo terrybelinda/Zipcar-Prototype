@@ -36,42 +36,37 @@ class Members extends Component {
     return arr;
   }
   componentDidMount() {
-    this.getRentalLocations();
+    this.getMembers();
   }
 
-  getRentalLocations = () => {
+  getMembers = () => {
     axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
       "token"
     );
-    axios
-      .get(
-        "http://localhost:8080/api/viewuserbyemail?email=" +
-          localStorage.getItem("email")
-      )
-      .then((res) => {
-        if (res.status == 200) {
-          if (res.data) {
-            console.log(res.data);
-            this.setState({ user_info: res.data });
-          }
+    axios.get("http://localhost:8080/api/allusers").then((res) => {
+      if (res.status == 200) {
+        if (res.data) {
+          console.log(res.data);
+          this.setState({ user_info: res.data });
         }
-      });
+      }
+    });
     // .catch((err) => {});
   };
 
   removeItem(item) {
-    const newItems = this.state.type.filter((type) => {
+    const newItems = this.state.user_info.filter((type) => {
       return type !== item;
     });
 
     axios
-      .post("http://localhost:8080/api/deletelocation", item)
+      .post("http://localhost:8080/api/terminateuser", item)
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");
           console.log(res);
           this.setState({
-            type: [...newItems],
+            user_info: [...newItems],
           });
         }
       })
@@ -189,7 +184,7 @@ class Members extends Component {
               {item.name}
             </Card.Text>
             <Card.Text id="rental_phone">
-              <b>license4#: </b> {item.licenseId}
+              <b>license#: </b> {item.licenseId}
             </Card.Text>
 
             <Card.Text id="rental_capacity">

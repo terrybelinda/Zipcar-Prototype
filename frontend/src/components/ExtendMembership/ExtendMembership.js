@@ -56,6 +56,43 @@ class ExtendMembership extends Component {
       .catch((err) => {});
   };
 
+  terminate = (event) => {
+    if (this.state.selection != "") {
+      event.preventDefault();
+      const data = {
+        email: localStorage.getItem("email"),
+      };
+      let formData = this.state.membership;
+      console.log(formData);
+      axios
+        .post("http://localhost:8080/api/extendmembership", data)
+        .then((res) => {
+          console.log(res.status);
+          let result = this.state.membership.filter((item) =>
+            item.membership_type.includes(this.state.selection)
+          );
+          if (res.status === 200) {
+            const amount = alert(
+              "Success! Amount " + result[0].price + "$  has been debited"
+            );
+            if (res.data) {
+              let tempData = [];
+              Object.assign(tempData, this.state.user_info);
+
+              tempData.membershipEndDate = res.data;
+              this.setState({ user_info: tempData });
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.props.authFail(err.response.data.msg);
+        });
+    } else {
+      alert("Please select an option");
+    }
+  };
+
   submitHandler = (event) => {
     if (this.state.selection != "") {
       event.preventDefault();
@@ -164,10 +201,23 @@ class ExtendMembership extends Component {
               />
             </Form.Group>
           </Form.Row>
-
-          <Button variant="primary" type="submit" onClick={this.submitHandler}>
-            Extend
-          </Button>
+          <Form.Row>
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={this.submitHandler}
+            >
+              Extend
+            </Button>
+          </Form.Row>
+          <br></br>
+          <Form.Row>or</Form.Row>
+          <br></br>
+          <Form.Row>
+            <Button variant="primary" type="submit" onClick={this.terminate}>
+              Terminate Membership
+            </Button>
+          </Form.Row>
         </Form>
       </Container>
     );
