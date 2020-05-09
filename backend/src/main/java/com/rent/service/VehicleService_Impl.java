@@ -13,7 +13,7 @@ import com.rent.dao.VehicleDAO;
 import com.rent.model.Reservation;
 import com.rent.model.Vehicle;
 import com.rent.model.VehicleType;
-import com.rent.model.Vehicle1;
+import com.rent.model.Vehicle;
 
 @Service
 public class VehicleService_Impl implements VehicleService{

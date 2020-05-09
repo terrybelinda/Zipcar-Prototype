@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rent.model.Reservation;
 import com.rent.model.Vehicle;
-import com.rent.model.Vehicle1;
+
 import com.rent.model.VehicleType;
 import com.rent.service.VehicleService;
 

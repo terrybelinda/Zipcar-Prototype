@@ -22,7 +22,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.rent.model.Vehicle;
-import com.rent.model.Vehicle1;
+
 import com.rent.model.VehicleType;
 import com.rent.model.Customer;
 import com.rent.model.Location;
