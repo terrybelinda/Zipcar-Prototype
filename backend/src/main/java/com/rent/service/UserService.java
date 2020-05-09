@@ -16,7 +16,7 @@ public interface UserService {
 	void terminate(String email);
 	
 
-	void delete(int id);
+	//void delete(int id);
 
 	Date extend(String email, int months);
 
