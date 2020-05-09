@@ -29,9 +29,6 @@ class Navigation extends Component {
           {localStorage.getItem("token") && (
             <Nav.Link href="/application">Applications</Nav.Link>
           )}
-          {localStorage.getItem("token") && (
-            <Nav.Link href="/event">Events</Nav.Link>
-          )}
         </Nav>
 
         {/* </Navbar.Brand> */}

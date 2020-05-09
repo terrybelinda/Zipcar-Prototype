@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import { Grid, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import moment from "moment";
+import { rooturl } from "../../config";
 
 class ExtendMembership extends Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class ExtendMembership extends Component {
       "token"
     );
     axios
-      .get("http://localhost:8080/api/membership")
+      .get(rooturl + "/membership")
       .then((res) => {
         if (res.status === 200) {
           if (res.data) {
@@ -40,10 +41,7 @@ class ExtendMembership extends Component {
       "token"
     );
     axios
-      .get(
-        "http://localhost:8080/api/viewuserbyemail?email=" +
-          localStorage.getItem("email")
-      )
+      .get(rooturl + "/viewuserbyemail?email=" + localStorage.getItem("email"))
       .then((res) => {
         if (res.status === 200) {
           console.log(res.data);
@@ -62,7 +60,7 @@ class ExtendMembership extends Component {
     console.log(this.state.user_info);
 
     axios
-      .post("http://localhost:8080/api/terminateuser", this.state.user_info)
+      .post(rooturl + "/terminateuser", this.state.user_info)
       .then((res) => {
         console.log(res.status);
         let result = this.state.membership.filter((item) =>
@@ -91,7 +89,7 @@ class ExtendMembership extends Component {
       let formData = this.state.membership;
       console.log(formData);
       axios
-        .post("http://localhost:8080/api/extendmembership", data)
+        .post(rooturl + "/extendmembership", data)
         .then((res) => {
           console.log(res.status);
           let result = this.state.membership.filter((item) =>

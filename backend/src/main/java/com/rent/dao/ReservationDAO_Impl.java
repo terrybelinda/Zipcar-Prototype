@@ -31,14 +31,16 @@ public class ReservationDAO_Impl implements ReservationDAO {
 		TimeZone.setDefault(TimeZone.getTimeZone("PDT"));
 		Session currentSession = entityManager.unwrap(Session.class);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		Timestamp timestamp = new java.sql.Timestamp(System.currentTimeMillis());
+		Timestamp st = new java.sql.Timestamp(timestamp.getTime() - (420 * 60* 1000));
 		Query<User> userQuery = currentSession.createQuery("from User where email =: userEmail", User.class);
 		userQuery.setParameter("userEmail", email);
 		User user = userQuery.getSingleResult();
 		
 		Query<Reservation> query = currentSession.createQuery("from Reservation r where user_id = :user_id and r.return_status = 0 and r.start_time >= : current_time order by r.id desc ", Reservation.class);
 		query.setParameter("user_id", user.getId());
-		query.setString("current_time",sdf.format(timestamp));
+		query.setString("current_time",sdf.format(st));
 		return query.getResultList();	
 	}
 	
@@ -49,14 +51,16 @@ public class ReservationDAO_Impl implements ReservationDAO {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		TimeZone.setDefault(TimeZone.getTimeZone("PDT"));
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		Timestamp timestamp = new java.sql.Timestamp(System.currentTimeMillis());
+		Timestamp st = new java.sql.Timestamp(timestamp.getTime() - (420 * 60* 1000));
 		Query<User> userQuery = currentSession.createQuery("from User where email =: userEmail", User.class);
 		userQuery.setParameter("userEmail", email);
 		User user = userQuery.getSingleResult();
 	
 		Query<Reservation> query = currentSession.createQuery("from Reservation r where user_id = :user_id and (r.return_status in (-1, 1) or r.return_time <= :current_time) or (r.return_status = 0 and r.end_time <= :current_time)  order by r.id desc ", Reservation.class);
 		query.setParameter("user_id", user.getId());
-		query.setString("current_time",sdf.format(timestamp));
+		query.setString("current_time",sdf.format(st));
 		return query.getResultList();	
 	}
 	
@@ -80,15 +84,17 @@ public class ReservationDAO_Impl implements ReservationDAO {
 	public List<Reservation> upcomingReservations(String email) {
 		TimeZone.setDefault(TimeZone.getTimeZone("PDT"));
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		Timestamp timestamp = new java.sql.Timestamp(System.currentTimeMillis());
+		Timestamp st = new java.sql.Timestamp(timestamp.getTime() - (420 * 60* 1000));
 		Session currentSession = entityManager.unwrap(Session.class);
 		Query<User> userQuery = currentSession.createQuery("from User where email =: userEmail", User.class);
 		userQuery.setParameter("userEmail", email);
 		User user = userQuery.getSingleResult();
-		
-		Query<Reservation> query = currentSession.createQuery("from Reservation r where user_id = :user_id and (r.return_status order = 0 or r.start_time >= :current_time by r.id desc ", Reservation.class);
+		System.out.println(sdf.format(st));
+		Query<Reservation> query = currentSession.createQuery("from Reservation r where user_id = :user_id and (r.return_status order = 0 and r.start_time >= :current_time) by r.id desc ", Reservation.class);
 		query.setParameter("user_id", user.getId());
-		query.setString("current_time",sdf.format(timestamp));
+		query.setString("current_time",sdf.format(st));
 		return query.getResultList();	
 	}
 
