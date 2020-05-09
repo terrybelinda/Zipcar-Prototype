@@ -335,7 +335,7 @@ class VehicleType extends Component {
     ));
 
     return (
-      <div>
+      <div style={{ paddingTop: 10 }}>
         <Container>
           <Button variant="primary" onClick={() => this.showModalAdd()}>
             Add Vehicle Type

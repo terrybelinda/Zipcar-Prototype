@@ -17,7 +17,7 @@ class VehicleList extends Component {
   constructor(props) {
     super(props);
     const year = new Date().getFullYear();
-    this.years = Array.from(new Array(20), (val, index) => year - 1 - index);
+    this.years = Array.from(new Array(20), (val, index) => year - index);
     this.state = {
       requiredItem: [],
       type: [],
@@ -202,16 +202,16 @@ class VehicleList extends Component {
 
   render() {
     const list = this.state.type.map((item, index) => (
-      <Col md="3">
+      <Col md="4">
         <Card
           bg="light"
           //style={{ width: "18rem" }}
           className="mt-2 border border-primary"
           key={item.id}
         >
-          <Card.Img variant="top" src={require("./Capture.PNG")} />
+          <Card.Img variant="top" src={require("./Vehicle.jpg")} />
           <Card.Header as="h5">
-            <b>licence # </b>: {item.license_no} {item.make}, {item.model}
+            <b>Licence # </b>: {item.license_no} {item.make}, {item.model}
           </Card.Header>
 
           <Card.Body>
@@ -247,7 +247,7 @@ class VehicleList extends Component {
               <b>Last Serviced: </b> {item.last_serviced}
             </Card.Text>
             <Card.Text id="vehicle_type">
-              <b>vehicle type: </b>
+              <b>Vehicle type: </b>
               {item.vehicle_type}
             </Card.Text>
             <Card.Text id="rental_location">
@@ -274,8 +274,9 @@ class VehicleList extends Component {
     ));
 
     let modalData = this.state.requiredItem;
+
     return (
-      <div>
+      <div style={{ paddingTop: 10 }}>
         <Container fluid>
           <Button variant="primary" onClick={() => this.showModalAdd()}>
             Add Vehicle
@@ -287,7 +288,7 @@ class VehicleList extends Component {
             <Modal.Title>Edit {modalData && modalData.license_no}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form>
+            <Form onSubmit={this.saveModalDetails}>
               <Form.Row>
                 <Form.Group as={Col} controlId="formBasicvid">
                   <Form.Label>Vehicle Identification Number</Form.Label>
@@ -326,7 +327,7 @@ class VehicleList extends Component {
                   <Form.Label>Year</Form.Label>
                   <Form.Control
                     as="select"
-                    value={modalData && modalData.model_year}
+                    //value={modalData && modalData.model_year}
                   >
                     <option selected="selected" disabled="disabled">
                       {modalData && modalData.model_year}
@@ -384,18 +385,44 @@ class VehicleList extends Component {
               <Form.Row>
                 <Form.Group as={Col} controlId="formBasicVehicleType">
                   <Form.Label>Vehicle Type</Form.Label>
-                  <Form.Control
-                    type="name"
-                    defaultValue={modalData && modalData.vehicle_type}
-                  />
+
+                  <Form.Control as="select" placeholder="Choose vehicle type">
+                    <option selected="selected" disabled="disabled">
+                      {modalData && modalData.vehicle_type}
+                    </option>
+                    {this.state.vehicle_type.map((veh_type, index) => {
+                      return (
+                        <option
+                          key={`rental_loc${index}`}
+                          value={veh_type.vehicleType}
+                        >
+                          {veh_type.vehicleType}
+                        </option>
+                      );
+                    })}
+                  </Form.Control>
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formBasicRentalLocation">
                   <Form.Label>Rental Location</Form.Label>
                   <Form.Control
-                    type="name"
-                    defaultValue={modalData && modalData.rental_location}
-                  />
+                    as="select"
+                    placeholder="Choose rental location"
+                  >
+                    <option selected="selected" disabled="disabled">
+                      {modalData && modalData.rental_location}
+                    </option>
+                    {this.state.rental_location.map((rental_loc, index) => {
+                      return (
+                        <option
+                          key={`rental_loc${index}`}
+                          value={rental_loc.id}
+                        >
+                          {rental_loc.name}
+                        </option>
+                      );
+                    })}
+                  </Form.Control>
                 </Form.Group>
               </Form.Row>
               <Button variant="primary" type="submit">

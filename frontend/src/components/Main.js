@@ -17,7 +17,7 @@ import { Logout } from "./logout/logout";
 import UserProfile from "./user/Profile";
 import Rides from "./rides/rides";
 import ExtendMembership from "./ExtendMembership/ExtendMembership";
-
+import Prices from "./Prices/Prices";
 class Home extends Component {
   render() {
     return (
@@ -36,6 +36,7 @@ class Home extends Component {
         <Route path="/rides" component={Rides} />
         <Route path="/logout" component={Logout} />
         <Route path="/ExtendMembership" component={ExtendMembership} />
+        <Route path="/Prices" component={Prices} />
       </div>
     );
   }

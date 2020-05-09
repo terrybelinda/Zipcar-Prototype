@@ -17,8 +17,8 @@ class ExtendMembership extends Component {
   }
 
   componentDidMount() {
-    this.getUserInfo();
     this.getPrice();
+    this.getUserInfo();
   }
   getPrice = () => {
     axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
@@ -28,9 +28,7 @@ class ExtendMembership extends Component {
       .get("http://localhost:8080/api/membership")
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
           if (res.data) {
-            console.log(res.data);
             this.setState({ membership: res.data });
           }
         }
@@ -65,8 +63,8 @@ class ExtendMembership extends Component {
         email: localStorage.getItem("email"),
         months: this.state.selection,
       };
-
-      console.log(data);
+      let formData = this.state.membership;
+      console.log(formData);
       axios
         .post("http://localhost:8080/api/extendmembership", data)
         .then((res) => {
@@ -97,6 +95,9 @@ class ExtendMembership extends Component {
   };
 
   render() {
+    const Month6 = "6 Months";
+    let xyz = this.state.membership;
+    const Month12 = "12 Months";
     return (
       <Container className="m-5 d-flex justify-content-center">
         <Form>
@@ -119,7 +120,17 @@ class ExtendMembership extends Component {
               <Form.Check
                 type="radio"
                 value="6"
-                label="6 months membership"
+                label={
+                  Month6 +
+                  " (" +
+                  (xyz &&
+                    xyz.filter((item) =>
+                      item.membership_type.includes("6")
+                    )[0] &&
+                    xyz.filter((item) => item.membership_type.includes("6"))[0]
+                      .price) +
+                  "$)"
+                }
                 checked={this.state.selection == 6}
                 onChange={(event) =>
                   this.setState({
@@ -133,7 +144,17 @@ class ExtendMembership extends Component {
               <Form.Check
                 type="radio"
                 value="12"
-                label="12 months membership"
+                label={
+                  Month12 +
+                  " (" +
+                  (xyz &&
+                    xyz.filter((item) =>
+                      item.membership_type.includes("12")
+                    )[0] &&
+                    xyz.filter((item) => item.membership_type.includes("12"))[0]
+                      .price) +
+                  "$)"
+                }
                 checked={this.state.selection == 12}
                 onChange={(event) =>
                   this.setState({

@@ -178,43 +178,46 @@ class RentalLocation extends Component {
           key={item.id}
         >
           <Card.Body>
-            <Card.Text id="rental_name">
-              <b>Name: </b>
-              {item.name}
-            </Card.Text>
-            <Card.Text id="rental_phone">
-              <b>Phone: </b> {item.phone}
-            </Card.Text>
+            <div>
+              <Card.Text id="rental_name">
+                <b>Name: </b>
+                {item.name}
+              </Card.Text>
+              <Card.Text id="rental_phone">
+                <b>Phone: </b> {item.phone}
+              </Card.Text>
 
-            <Card.Text id="rental_capacity">
-              <b>Capacity: </b>
-              {item.capcity}
-            </Card.Text>
+              <Card.Text id="rental_capacity">
+                <b>Capacity: </b>
+                {item.capcity}
+              </Card.Text>
 
-            <Card.Text id="rental_location">
-              <b>Address: </b>
-              {item.apt} {item.street} {item.state} {item.zipcode}
-              {/* {
+              <Card.Text id="rental_location">
+                <b>Address: </b>
+                {item.apt}, {item.street},{item.city}, {item.state},
+                {item.zipcode}
+                {/* {
                 item.apt + ", " + item.street,
                 ", " + item.state,
                 "- " + item.zipcode
               } */}
-            </Card.Text>
+              </Card.Text>
 
-            <Card.Link href="#" onClick={() => this.showModal(index)}>
-              Edit
-            </Card.Link>
-            <Card.Link
-              href="#"
-              onClick={() => {
-                if (
-                  window.confirm("Are you sure you wish to delete this item?")
-                )
-                  this.removeItem(item);
-              }}
-            >
-              Delete
-            </Card.Link>
+              <Card.Link href="#" onClick={() => this.showModal(index)}>
+                Edit
+              </Card.Link>
+              <Card.Link
+                href="#"
+                onClick={() => {
+                  if (
+                    window.confirm("Are you sure you wish to delete this item?")
+                  )
+                    this.removeItem(item);
+                }}
+              >
+                Delete
+              </Card.Link>
+            </div>
           </Card.Body>
         </Card>
       </Col>
@@ -222,7 +225,7 @@ class RentalLocation extends Component {
 
     let modalData = this.state.requiredItem;
     return (
-      <div>
+      <div style={{ paddingTop: 10 }}>
         <Container fluid>
           <Button variant="primary" onClick={() => this.showModalAdd()}>
             Add Vehicle

@@ -12,20 +12,12 @@ import { useRef, useState, Component } from "react";
 import axios from "axios";
 import { UsaStates as usaStates } from "usa-states";
 
-class Members extends Component {
+class Prices extends Component {
   constructor(props) {
     super(props);
     const year = new Date().getFullYear();
     this.years = Array.from(new Array(20), (val, index) => year - 1 - index);
-    this.state = {
-      requiredItem: [],
-      user_info: [],
-      show: false,
-      showAdd: false,
-      key: "",
-    };
-    //this.saveModalDetails = this.saveModalDetails.bind(this);
-    //this.addModalDetails = this.addModalDetails.bind(this);
+    this.state = { membership: [] };
   }
   buildOptionsStates() {
     var usStates = new usaStates();
@@ -36,27 +28,25 @@ class Members extends Component {
     return arr;
   }
   componentDidMount() {
-    this.getRentalLocations();
+    this.getPrice();
   }
 
-  getRentalLocations = () => {
+  getPrice = () => {
     axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
       "token"
     );
     axios
-      .get(
-        "http://localhost:8080/api/viewuserbyemail?email=" +
-          localStorage.getItem("email")
-      )
+      .get("http://localhost:8080/api/membership")
       .then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           if (res.data) {
             console.log(res.data);
-            this.setState({ user_info: res.data });
+
+            this.setState({ membership: res.data });
           }
         }
-      });
-    // .catch((err) => {});
+      })
+      .catch((err) => {});
   };
 
   removeItem(item) {
@@ -175,55 +165,33 @@ class Members extends Component {
   }
 */
   render() {
-    const list = this.state.user_info.map((item, index) => (
-      <Col md="3">
-        <Card
-          bg="light"
-          //style={{ width: "18rem" }}
-          className="mt-2 border border-primary"
-          key={item.id}
-        >
-          <Card.Body>
-            <Card.Text id="rental_name">
-              <b>Name: </b>
-              {item.name}
-            </Card.Text>
-            <Card.Text id="rental_phone">
-              <b>license4#: </b> {item.licenseId}
-            </Card.Text>
-
-            <Card.Text id="rental_capacity">
-              <b>Membership Start Date: </b>
-              {item.membershipStartDate}
-            </Card.Text>
-
-            <Card.Text id="rental_location">
-              <b>Membership End Date: </b>
-              {item.membershipEndDate}
-            </Card.Text>
-            <Card.Link
-              href="#"
-              onClick={() => {
-                if (
-                  window.confirm("Are you sure you wish to delete this item?")
-                )
-                  this.removeItem(item);
-              }}
-            >
-              Terminate
-            </Card.Link>
-          </Card.Body>
-        </Card>
-      </Col>
+    const list = this.state.membership.map((item, index) => (
+      <Form.Row>
+        <Form.Group as={Col} controlId="formGridEmail">
+          {item.membership_type}:
+        </Form.Group>
+        <Form.Group as={Col} controlId="formGridPassword">
+          <Form.Control
+            style={{ width: "200px" }}
+            type="name"
+            placeholder={item.price}
+            onChange={(event) => this.setState({ name: event.target.value })}
+          />
+        </Form.Group>
+        $
+      </Form.Row>
     ));
 
     return (
-      <div>
-        <Container fluid>
-          <Row>{list}</Row>
-        </Container>
-      </div>
+      <Container className="m-5 d-flex justify-content-center">
+        <Form>
+          {list}
+          <Button variant="primary" type="submit" onClick={this.submitHandler}>
+            Update
+          </Button>
+        </Form>
+      </Container>
     );
   }
 }
-export default Members;
+export default Prices;

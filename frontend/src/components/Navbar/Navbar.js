@@ -62,11 +62,20 @@ class Navigation extends Component {
               Members
             </Link>
           )}
+
+        {localStorage.getItem("email") &&
+          localStorage.getItem("admin") == "true" && (
+            <Link className="pl-5" to="/Prices">
+              Prices
+            </Link>
+          )}
+
         {!localStorage.getItem("email") && (
           <Link className="pl-5" to="/signup">
             Sign Up
           </Link>
         )}
+
         {/* {localStorage.getItem("token") && (
           <NavDropdown title={"User"} id="collasible-nav-dropdown">
             <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
