@@ -25,23 +25,19 @@ class RentalLogin extends Component {
     console.log(data);
     console.log("FORM 11!");
 
-    axios
-      .post(rooturl + "/login", data)
-      .then((res) => {
-        if (res.status === 200) {
-          console.log("yay");
-          console.log(res);
-          //this.props.history.push('/profile');
+    axios.post(rooturl + "/login", data).then((res) => {
+      if (res.status === 200 && res.data != "") {
+        console.log("yay");
+        console.log(res);
+        //this.props.history.push('/profile');
 
-          localStorage.setItem("admin", res.data.admin);
-          localStorage.setItem("email", res.data.email);
-          this.props.history.push("/profile");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        this.props.authFail(err.response.data.msg);
-      });
+        localStorage.setItem("admin", res.data.admin);
+        localStorage.setItem("email", res.data.email);
+        this.props.history.push("/profile");
+      } else {
+        alert("Invalid Credentials. Please try again");
+      }
+    });
   };
 
   render() {
