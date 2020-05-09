@@ -30,4 +30,10 @@ public class MembershipController {
 		
 	}
 	
+	@PostMapping("/membership/updateprice")
+	public String updatePrice(@RequestBody List<String> prices){
+		 membershipService.updatePrice(prices);
+		 return "Success";
+	}
+	
 }

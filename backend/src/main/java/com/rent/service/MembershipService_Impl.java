@@ -25,5 +25,9 @@ public class MembershipService_Impl implements MembershipService{
 		return membershipDAO.getMembership();
 	}
 	
+	@Override
+	public void updatePrice(List<String> prices) {
+		membershipDAO.updatePrice(prices);
+	}
 
 }
