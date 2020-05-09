@@ -31,7 +31,7 @@ public class VehicleController {
 	private VehicleService vehicleService;
 	
 	@GetMapping("/location")
-	public List<Vehicle> getByLocation(@RequestParam String address, @RequestParam String startdatetime, @RequestParam String enddatetime) throws ParseException {
+	public List<Vehicle> getByLocation(@RequestParam String address, @RequestParam String startdatetime, @RequestParam String enddatetime, @RequestParam String make, @RequestParam String model) throws ParseException {
 		
 		String[] arrOfStr = address.split(", ");  
 		String[] zipcode = arrOfStr[2].split(" ");
@@ -39,11 +39,18 @@ public class VehicleController {
 		startdatetime = startdatetime + ":00";
 		enddatetime = enddatetime + ":00";
 		
-		return vehicleService.getByLocation(zipcode[1], startdatetime, enddatetime);
+		
+		if((make == "") && (model == "")) {
+		return vehicleService.getByLocation(zipcode[1], startdatetime, enddatetime);}
+		
+		else {
+			return vehicleService.vehicleRequest(zipcode[1], make, model, startdatetime, enddatetime);
+		}
+		
 	}
 	
 	@GetMapping("/vehiclerequest")
-	public List<Vehicle> vehicleRequest(@RequestParam String address, @RequestParam String make, @RequestParam String model,@RequestParam String startdatetime,@RequestParam String enddatetime) {
+	public List<Vehicle> vehicleRequest(@RequestParam String address, @RequestParam String make, @RequestParam String model, @RequestParam String startdatetime, @RequestParam String enddatetime) {
 		
 		
 		String[] arrOfStr = address.split(", ");  

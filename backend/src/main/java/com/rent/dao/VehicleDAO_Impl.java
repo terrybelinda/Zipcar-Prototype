@@ -40,17 +40,18 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query<Location> query = currentSession.createQuery("from Location where zipcode in :zipcode", Location.class);
+		Query<Location> query = currentSession.createQuery("from Location where zipcode =:zipcode", Location.class);
 		query.setParameter("zipcode", zipcode);
 		Location locqresult = query.uniqueResult();	
 		
-		if(locqresult != null) {
 		
+		if(locqresult != null) {
+			
 			Query<Vehicle> query1 = currentSession.createQuery("select v from Vehicle v JOIN "
 					+ "Reservation r on v.id = r.vehicle_id and "+
 					" (r.end_time > : startdatetime and r.end_time < :enddatetime)" +
 					" and "+
-					"v.rental_location =:locid", Vehicle.class);
+					"v.rental_location =:locid and v.status>0", Vehicle.class);
 			
 			query1.setString("startdatetime", startdatetime);
 			query1.setString("enddatetime", enddatetime);
@@ -61,7 +62,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 			Query<Vehicle> query5 = currentSession.createQuery("select v from Vehicle v JOIN "
 					+ "Reservation r on v.id = r.vehicle_id and " +
 					"(r.start_time > :startdatetime and r.start_time < :enddatetime) and " +
-					"v.rental_location =:locid", Vehicle.class);
+					"v.rental_location =:locid and v.status>0", Vehicle.class);
 			
 			
 			query5.setString("startdatetime",startdatetime);
@@ -74,7 +75,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 					+ "Reservation r on v.id = r.vehicle_id and " +
 					"(r.end_time > :startdatetime and r.end_time > :enddatetime) and " +
 					"(r.start_time < :startdatetime and r.start_time < :enddatetime) and " +
-					"v.rental_location =:locid", Vehicle.class);
+					"v.rental_location =:locid and v.status>0", Vehicle.class);
 			
 			query4.setString("startdatetime",startdatetime);
 			query4.setString("enddatetime", enddatetime);
@@ -82,7 +83,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 			List<Vehicle> list4 = query4.getResultList();
 			
 			Query<Vehicle> query2 = currentSession.createQuery("select v from Vehicle v where " +
-			"rental_location=:locid", Vehicle.class);
+			"rental_location=:locid and v.status>0", Vehicle.class);
 			query2.setParameter("locid",locqresult.getId());
 			List<Vehicle> list2 = query2.getResultList();
 			
@@ -147,7 +148,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		Query<Vehicle> query1 = currentSession.createQuery("select v from Vehicle v JOIN "
 				+ "Reservation r on v.id = r.vehicle_id and "+
 				" (r.end_time > : startdatetime and r.end_time < :enddatetime)" +
-				" and v.rental_location =:locid and v.make =:make and v.model=:model", Vehicle.class);
+				" and v.rental_location =:locid and v.make =:make and v.model=:model and v.status>0", Vehicle.class);
 		
 		query1.setString("startdatetime", startdatetime);
 		query1.setString("enddatetime", enddatetime);
@@ -160,7 +161,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		Query<Vehicle> query2 = currentSession.createQuery("select v from Vehicle v JOIN "
 				+ "Reservation r on v.id = r.vehicle_id and " +
 				"(r.start_time > :startdatetime and r.start_time < :enddatetime) and " +
-				"v.rental_location =:locid and v.make =:make and v.model=:model", Vehicle.class);
+				"v.rental_location =:locid and v.make =:make and v.model=:model and v.status>0", Vehicle.class);
 		
 		
 		query2.setString("startdatetime",startdatetime);
@@ -175,7 +176,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 				+ "Reservation r on v.id = r.vehicle_id and " +
 				"(r.end_time > :startdatetime and r.end_time > :enddatetime) and " +
 				"(r.start_time < :startdatetime and r.start_time < :enddatetime) and " +
-				"v.rental_location =:locid and v.make =:make and v.model=:model", Vehicle.class);
+				"v.rental_location =:locid and v.make =:make and v.model=:model and v.status>0", Vehicle.class);
 		
 		query3.setString("startdatetime",startdatetime);
 		query3.setString("enddatetime", enddatetime);
@@ -185,7 +186,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		List<Vehicle> list3 = query3.getResultList();
 
 		
-		Query<Vehicle> query4 = currentSession.createQuery("from Vehicle where rental_location = :locid and make= :make and model=:model", Vehicle.class);
+		Query<Vehicle> query4 = currentSession.createQuery("from Vehicle where rental_location = :locid and make= :make and model=:model and status>0", Vehicle.class);
 		query4.setParameter("locid", locqresult.getId());
 		query4.setParameter("make", make);
 		query4.setParameter("model", model);
@@ -216,7 +217,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		Query<Vehicle> query1 = currentSession.createQuery("select v from Vehicle v JOIN "
 				+ "Reservation r on v.id = r.vehicle_id and "+
 				" (r.end_time > : startdatetime and r.end_time < :enddatetime)" +
-				" and v.make =:make and v.model=:model", Vehicle.class);
+				" and v.make =:make and v.model=:model and v.status>0", Vehicle.class);
 		
 		query1.setString("startdatetime", startdatetime);
 		query1.setString("enddatetime", enddatetime);
@@ -228,7 +229,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		Query<Vehicle> query2 = currentSession.createQuery("select v from Vehicle v JOIN "
 				+ "Reservation r on v.id = r.vehicle_id and " +
 				"(r.start_time > :startdatetime and r.start_time < :enddatetime) and " +
-				"v.make =:make and v.model=:model", Vehicle.class);
+				"v.make =:make and v.model=:model and v.status>0", Vehicle.class);
 		
 		
 		query2.setString("startdatetime",startdatetime);
@@ -242,7 +243,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 				+ "Reservation r on v.id = r.vehicle_id and " +
 				"(r.end_time > :startdatetime and r.end_time > :enddatetime) and " +
 				"(r.start_time < :startdatetime and r.start_time < :enddatetime) and " +
-				"v.make =:make and v.model=:model", Vehicle.class);
+				"v.make =:make and v.model=:model and v.status>0", Vehicle.class);
 		
 		query3.setString("startdatetime",startdatetime);
 		query3.setString("enddatetime", enddatetime);
@@ -251,7 +252,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		List<Vehicle> list3 = query3.getResultList();
 
 		
-		Query<Vehicle> query4 = currentSession.createQuery("from Vehicle where make= :make and model=:model", Vehicle.class);
+		Query<Vehicle> query4 = currentSession.createQuery("from Vehicle where make= :make and model=:model and status>0", Vehicle.class);
 		query4.setParameter("make", make);
 		query4.setParameter("model", model);
 		
