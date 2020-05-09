@@ -83,7 +83,7 @@ class Rides extends Component {
 		}
 		console.log("FORM 11!");
 		axios
-		  .post("http://localhost:8080/api/feedback", data)
+		  .post(rooturl + "/feedback", data)
 		  .then((res) => {
 			if (res.status == 200) {
 			  console.log(res.data);

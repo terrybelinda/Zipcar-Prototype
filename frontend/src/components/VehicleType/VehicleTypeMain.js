@@ -30,7 +30,7 @@ class VehicleType extends Component {
       "token"
     );
     axios
-      .get("http://localhost:8080/api/allvehicletype")
+      .get(rooturl + "/allvehicletype")
       .then((res) => {
         if (res.status === 200) {
           console.log(res.data);
@@ -48,7 +48,7 @@ class VehicleType extends Component {
     });
     console.log(item);
     axios
-      .post("http://localhost:8080/api/deletevehicletype", item)
+      .post(rooturl + "/deletevehicletype", item)
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");

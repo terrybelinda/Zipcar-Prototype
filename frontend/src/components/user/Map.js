@@ -122,7 +122,7 @@ class Map extends React.Component {
       "token"
     );
     axios
-      .get("http://localhost:8080/api/allvehicletype")
+      .get(rooturl + "/allvehicletype")
       .then((res) => {
         if (res.status === 200) {
           console.log(res.data);
@@ -146,7 +146,7 @@ class Map extends React.Component {
     console.log(params.toString());
 
     axios
-      .get("http://localhost:8080/api/make?" + params.toString())
+      .get(rooturl + "/make?" + params.toString())
       .then((res) => {
         if (res.status === 200) {
           console.log(res.data);
@@ -170,7 +170,7 @@ class Map extends React.Component {
     console.log(params.toString());
 
     axios
-      .get("http://localhost:8080/api/model?" + params.toString())
+      .get(rooturl + "/model?" + params.toString())
       .then((res) => {
         if (res.status === 200) {
           console.log(res.data);
