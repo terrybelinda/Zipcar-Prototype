@@ -12,6 +12,7 @@ import { useRef, useState, Component } from "react";
 import axios from "axios";
 import { Icon } from "semantic-ui-react";
 import { SocialPeople } from "material-ui/svg-icons";
+import { rooturl } from "../../config";
 
 class VehicleList extends Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class VehicleList extends Component {
       "token"
     );
     axios
-      .get("http://localhost:8080/api/allvehicles")
+      .get(rooturl + "/allvehicles")
       .then((res) => {
         if (res.status == 200) {
           if (res.data) {
@@ -56,7 +57,7 @@ class VehicleList extends Component {
     axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
       "token"
     );
-    axios.get("http://localhost:8080/api/locations").then((res) => {
+    axios.get(rooturl + "/locations").then((res) => {
       if (res.status == 200) {
         if (res.data) {
           console.log(res.data);
@@ -73,7 +74,7 @@ class VehicleList extends Component {
       "token"
     );
     axios
-      .get("http://localhost:8080/api/allvehicletype")
+      .get(rooturl + "/allvehicletype")
       .then((res) => {
         if (res.status === 200) {
           console.log(res.data);
@@ -92,7 +93,7 @@ class VehicleList extends Component {
     });
 
     axios
-      .post("http://localhost:8080/api/deletevehicle", item)
+      .post(rooturl + "/deletevehicle", item)
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");
@@ -148,7 +149,7 @@ class VehicleList extends Component {
     console.log(newIds);
 
     axios
-      .post("http://localhost:8080/api/addvehicle", newIds)
+      .post(rooturl + "/addvehicle", newIds)
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");
@@ -186,7 +187,7 @@ class VehicleList extends Component {
     this.setState({ requiredItem: newIds });
     let temptype = this.state.requiredItem;
     axios
-      .post("http://localhost:8080/api/updatevehicle", temptype)
+      .post(rooturl + "/updatevehicle", temptype)
       .then((res) => {
         if (res.status == 200) {
           if (res.data) {
