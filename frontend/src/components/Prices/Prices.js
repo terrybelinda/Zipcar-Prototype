@@ -50,20 +50,19 @@ class Prices extends Component {
       .catch((err) => {});
   };
 
-  removeItem(item) {
-    const newItems = this.state.type.filter((type) => {
-      return type !== item;
-    });
+  submitHandler(e) {
+    console.log("jfhkshfkd");
 
     axios
-      .post(rooturl + "/deletelocation", item)
+      .post(rooturl + "/membership/updateprice", [
+        e.target[0].value,
+        e.target[1].value,
+        e.target[2].value,
+      ])
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");
           console.log(res);
-          this.setState({
-            type: [...newItems],
-          });
         }
       })
       .catch((err) => {
@@ -175,8 +174,8 @@ class Prices extends Component {
           <Form.Control
             style={{ width: "200px" }}
             type="name"
-            placeholder={item.price}
-            onChange={(event) => this.setState({ name: event.target.value })}
+            defaultValue={item.price}
+            //onChange={(event) => this.Change()}
           />
         </Form.Group>
         $
@@ -185,9 +184,9 @@ class Prices extends Component {
 
     return (
       <Container className="m-5 d-flex justify-content-center">
-        <Form>
+        <Form onSubmit={this.submitHandler}>
           {list}
-          <Button variant="primary" type="submit" onClick={this.submitHandler}>
+          <Button variant="primary" type="submit">
             Update
           </Button>
         </Form>

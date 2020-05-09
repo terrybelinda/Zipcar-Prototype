@@ -6,6 +6,7 @@ import Rating from "react-rating";
 import starempty from "./images/star-empty.png";
 import starfull from "./images/star-full.png";
 import axios from "axios";
+import { rooturl } from "../../config";
 
 class Feedback extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class Feedback extends Component {
     console.log(this.state);
     console.log("FORM 11!");
     axios
-      .post("http://localhost:8080/api/feedback", this.state)
+      .post(rooturl + "/feedback", this.state)
       .then((res) => {
         if (res.status == 200) {
           console.log("here?");
