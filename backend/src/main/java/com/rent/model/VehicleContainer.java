@@ -1,86 +1,71 @@
 package com.rent.model;
 
 import java.sql.Date;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GenerationType;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Column;
 
-@Entity
-@Table( name = "vehicle" )
-public class Vehicle {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
+public class VehicleContainer {
+
 	private Integer id;
 	
-	@Column
 	private String license_no;
 	
-	@Column
 	private String vid;
 	
-	@Column
 	private Date regisration_expiry;
 	
-	@Column
 	private String make;
 	
-	@Column
 	private String model;
 	
-	@Column
 	private int current_mileage;
-	
-	@Column
+
 	private Date last_serviced;
-		
-	@Column
+
 	private String vehicle_type;
-	
-	@Column
 	private int rental_location;
 	
-	@Column
 	private int status;
 
-	@Column
+	
 	private String vehicle_picture;
 	
-	@Column
+	
 	private String car_condition;
 	
-	@Column
 	private Integer model_year;
+	
+	private String address;
+	
+	
 
-	public String getCar_condition() {
-		return car_condition;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setCar_condition(String car_condition) {
-		this.car_condition = car_condition;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	public Integer getModel_year() {
-		return model_year;
-	}
-
-	public void setModel_year(Integer model_year) {
-		this.model_year = model_year;
-	}
-
-	public String getVehicle_picture() {
-		return vehicle_picture;
-	}
-
-	public void setVehicle_picture(String vehicle_picture) {
-		this.vehicle_picture = vehicle_picture;
+	public VehicleContainer(Vehicle v) {
+		this.id = v.getId();
+		this.license_no = v.getLicense_no();
+		this.vid = v.getVid();
+		this.regisration_expiry = v.getRegisration_expiry();
+		this.make = v.getMake();
+		this.model = v.getModel();
+		this.current_mileage = v.getCurrent_mileage();
+		this.last_serviced = v.getLast_serviced();
+		this.vehicle_type = v.getVehicle_type();
+		this.rental_location = v.getRental_location();
+		this.status = v.getStatus();
+		this.vehicle_picture = v.getVehicle_picture();
+		this.car_condition= v.getCar_condition();
+		this.model_year = v.getModel_year();
+		this.address = "";
+		
 	}
 
 	public Integer getId() {
@@ -147,8 +132,6 @@ public class Vehicle {
 		this.last_serviced = last_serviced;
 	}
 
-	
-
 	public String getVehicle_type() {
 		return vehicle_type;
 	}
@@ -172,5 +155,29 @@ public class Vehicle {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
+
+	public String getVehicle_picture() {
+		return vehicle_picture;
+	}
+
+	public void setVehicle_picture(String vehicle_picture) {
+		this.vehicle_picture = vehicle_picture;
+	}
+
+	public String getCar_condition() {
+		return car_condition;
+	}
+
+	public void setCar_condition(String car_condition) {
+		this.car_condition = car_condition;
+	}
+
+	public Integer getModel_year() {
+		return model_year;
+	}
+
+	public void setModel_year(Integer model_year) {
+		this.model_year = model_year;
+	}
+
 }

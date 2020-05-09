@@ -1,5 +1,6 @@
 package com.rent.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,8 @@ public class UserService_Impl implements UserService{
 	public void save(User user) {
 		userDAO.save(user);
 	}
-
+	
+	
 	@Transactional
 	@Override
 	public void terminate(String email) {
@@ -42,6 +44,11 @@ public class UserService_Impl implements UserService{
 	@Override
 	public List<User> getAllUsers() {
 		return userDAO.getAllUsers();
+	}
+	
+	@Override
+	public Date extend(String email, int months) {
+		return userDAO.extend(email, months);
 	}
 
 }

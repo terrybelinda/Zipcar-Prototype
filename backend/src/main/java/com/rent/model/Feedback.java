@@ -32,6 +32,17 @@ public class Feedback {
 	@Column
 	private Integer car_satisfaction;
 	
+	@Column
+	private Integer reservation_id;
+	
+	public Integer getReservation_id() {
+		return reservation_id;
+	}
+
+	public void setReservation_id(Integer reservation_id) {
+		this.reservation_id = reservation_id;
+	}
+
 	@Transient
 	private String user_email;
 

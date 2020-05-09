@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
+import { rooturl } from "../../config";
 
 class RentalLogin extends Component {
   constructor(props) {
@@ -24,23 +25,19 @@ class RentalLogin extends Component {
     console.log(data);
     console.log("FORM 11!");
 
-    axios
-      .post("http://localhost:8080/api/login", data)
-      .then((res) => {
-        if (res.status === 200) {
-          console.log("yay");
-          console.log(res);
-		  //this.props.history.push('/profile');
-		  
-		  localStorage.setItem("admin", res.data.admin);
-		  localStorage.setItem("email", res.data.email);
-		  this.props.history.push('/profile');
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        this.props.authFail(err.response.data.msg);
-      });
+    axios.post(rooturl + "/login", data).then((res) => {
+      if (res.status === 200 && res.data != "") {
+        console.log("yay");
+        console.log(res);
+        //this.props.history.push('/profile');
+
+        localStorage.setItem("admin", res.data.admin);
+        localStorage.setItem("email", res.data.email);
+        this.props.history.push("/profile");
+      } else {
+        alert("Invalid Credentials. Please try again");
+      }
+    });
   };
 
   render() {

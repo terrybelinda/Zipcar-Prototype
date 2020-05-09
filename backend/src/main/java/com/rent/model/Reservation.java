@@ -49,6 +49,17 @@ public class Reservation {
 	
 	@Transient
 	private String user_email;
+	
+	@Column(nullable = true)
+	private String amount;
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
 
 	public String getUser_email() {
 		return user_email;

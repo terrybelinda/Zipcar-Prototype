@@ -25,28 +25,31 @@ public class AdminService_Impl implements AdminService{
 		return adminDAO.get();
 
 	}
-	
 	@Override
-	public void save(VehicleType vt){
-		adminDAO.save(vt);
+	public void save(VehicleTypeGroup vtg){
+		System.out.print("in adminservice");
+		adminDAO.save(vtg);
 	}
 	@Override
 	public void deleteVehicletype(VehicleType vt) {
+		
 		String vtname = vt.getVehicle_type();
+		
 		adminDAO.deleteVehicletype(vtname);
 	}
 	@Override
-	public void updateVehicletype(String vtname, String price, int hours) {
-		adminDAO.updateVehicletype(vtname,price,hours);
+	public void updateVehicletype(VehicleTypeGroup vtg) {
+		adminDAO.updateVehicletype(vtg);
 	}
 	@Override
 	public void saveVehicle(Vehicle vehicle) {
+		
 		adminDAO.saveVehicle(vehicle);
 	}
 	
 	@Override
 	public void deleteVehicle(Vehicle vehicle) {
-		System.out.println("someting " + vehicle.getMake() + " got this");
+		
 		String vid = vehicle.getVid();
 		adminDAO.deleteVehicle(vid);
 	}

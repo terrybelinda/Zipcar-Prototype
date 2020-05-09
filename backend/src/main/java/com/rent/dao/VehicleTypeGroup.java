@@ -4,9 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VehicleTypeGroup {
-	String vehicleType;
-	List<Integer> hourList = new ArrayList();
-	List<String> priceList = new ArrayList();
+	private String vehicleType;
+	private List<Integer> hourList = new ArrayList();
+	private List<String> priceList = new ArrayList();
+	
+	public VehicleTypeGroup() {
+		vehicleType = "";
+		hourList = new ArrayList();
+		priceList = new ArrayList();
+	}
 	
 	public String getVehicleType() {
 		return vehicleType;

@@ -13,20 +13,12 @@ import axios from "axios";
 import { UsaStates as usaStates } from "usa-states";
 import { rooturl } from "../../config";
 
-class Members extends Component {
+class Prices extends Component {
   constructor(props) {
     super(props);
     const year = new Date().getFullYear();
     this.years = Array.from(new Array(20), (val, index) => year - 1 - index);
-    this.state = {
-      requiredItem: [],
-      user_info: [],
-      show: false,
-      showAdd: false,
-      key: "",
-    };
-    //this.saveModalDetails = this.saveModalDetails.bind(this);
-    //this.addModalDetails = this.addModalDetails.bind(this);
+    this.state = { membership: [] };
   }
   buildOptionsStates() {
     var usStates = new usaStates();
@@ -37,38 +29,41 @@ class Members extends Component {
     return arr;
   }
   componentDidMount() {
-    this.getMembers();
+    this.getPrice();
   }
 
-  getMembers = () => {
+  getPrice = () => {
     axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
       "token"
     );
-    axios.get(rooturl + "/allusers").then((res) => {
-      if (res.status == 200) {
-        if (res.data) {
-          console.log(res.data);
-          this.setState({ user_info: res.data });
+    axios
+      .get(rooturl + "/membership")
+      .then((res) => {
+        if (res.status === 200) {
+          if (res.data) {
+            console.log(res.data);
+
+            this.setState({ membership: res.data });
+          }
         }
-      }
-    });
-    // .catch((err) => {});
+      })
+      .catch((err) => {});
   };
 
-  removeItem(item) {
-    const newItems = this.state.user_info.filter((type) => {
-      return type !== item;
-    });
+  submitHandler(e) {
+    console.log("jfhkshfkd");
 
     axios
-      .post(rooturl + "/terminateuser", item)
+      .post(rooturl + "/membership/updateprice", [
+        e.target[0].value,
+        e.target[1].value,
+        e.target[2].value,
+      ])
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");
           console.log(res);
-          this.setState({
-            user_info: [...newItems],
-          });
+          this.setState({ membership: res.data });
         }
       })
       .catch((err) => {
@@ -171,55 +166,33 @@ class Members extends Component {
   }
 */
   render() {
-    const list = this.state.user_info.map((item, index) => (
-      <Col md="3">
-        <Card
-          bg="light"
-          //style={{ width: "18rem" }}
-          className="mt-2 border border-primary"
-          key={item.id}
-        >
-          <Card.Body>
-            <Card.Text id="rental_name">
-              <b>Name: </b>
-              {item.name}
-            </Card.Text>
-            <Card.Text id="rental_phone">
-              <b>license#: </b> {item.licenseId}
-            </Card.Text>
-
-            <Card.Text id="rental_capacity">
-              <b>Membership Start Date: </b>
-              {item.membershipStartDate}
-            </Card.Text>
-
-            <Card.Text id="rental_location">
-              <b>Membership End Date: </b>
-              {item.membershipEndDate}
-            </Card.Text>
-            <Card.Link
-              href="#"
-              onClick={() => {
-                if (
-                  window.confirm("Are you sure you wish to delete this item?")
-                )
-                  this.removeItem(item);
-              }}
-            >
-              Terminate
-            </Card.Link>
-          </Card.Body>
-        </Card>
-      </Col>
+    const list = this.state.membership.map((item, index) => (
+      <Form.Row>
+        <Form.Group as={Col} controlId="formGridEmail">
+          {item.membership_type}:
+        </Form.Group>
+        <Form.Group as={Col} controlId="formGridPassword">
+          <Form.Control
+            style={{ width: "200px" }}
+            type="name"
+            defaultValue={item.price}
+            //onChange={(event) => this.Change()}
+          />
+        </Form.Group>
+        $
+      </Form.Row>
     ));
 
     return (
-      <div>
-        <Container fluid>
-          <Row>{list}</Row>
-        </Container>
-      </div>
+      <Container className="m-5 d-flex justify-content-center">
+        <Form onSubmit={this.submitHandler}>
+          {list}
+          <Button variant="primary" type="submit">
+            Update
+          </Button>
+        </Form>
+      </Container>
     );
   }
 }
-export default Members;
+export default Prices;

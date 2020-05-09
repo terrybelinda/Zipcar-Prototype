@@ -11,6 +11,7 @@ import {
 import { useRef, useState, Component } from "react";
 import axios from "axios";
 import { UsaStates as usaStates } from "usa-states";
+import { rooturl } from "../../config";
 
 class RentalLocation extends Component {
   constructor(props) {
@@ -43,7 +44,7 @@ class RentalLocation extends Component {
     axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
       "token"
     );
-    axios.get("http://localhost:8080/api/locations").then((res) => {
+    axios.get(rooturl + "/locations").then((res) => {
       if (res.status == 200) {
         if (res.data) {
           console.log(res.data);
@@ -60,7 +61,7 @@ class RentalLocation extends Component {
     });
 
     axios
-      .post("http://localhost:8080/api/deletelocation", item)
+      .post(rooturl + "/deletelocation", item)
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");
@@ -113,7 +114,7 @@ class RentalLocation extends Component {
     console.log(newIds);
     console.log("great");
 
-    axios.post("http://localhost:8080/api/addlocation", newIds).then((res) => {
+    axios.post(rooturl + "/addlocation", newIds).then((res) => {
       if (res.status === 200) {
         console.log("yay");
         console.log(res);
@@ -154,7 +155,7 @@ class RentalLocation extends Component {
     let temptype = this.state.requiredItem;
     console.log(temptype);
     axios
-      .post("http://localhost:8080/api/editlocation", temptype)
+      .post(rooturl + "/editlocation", temptype)
       .then((res) => {
         if (res.status == 200) {
           if (res.data) {
@@ -178,43 +179,46 @@ class RentalLocation extends Component {
           key={item.id}
         >
           <Card.Body>
-            <Card.Text id="rental_name">
-              <b>Rental Location Name: </b>
-              {item.name}
-            </Card.Text>
-            <Card.Text id="rental_phone">
-              <b>Phone: </b> {item.phone}
-            </Card.Text>
+            <div>
+              <Card.Text id="rental_name">
+                <b>Name: </b>
+                {item.name}
+              </Card.Text>
+              <Card.Text id="rental_phone">
+                <b>Phone: </b> {item.phone}
+              </Card.Text>
 
-            <Card.Text id="rental_capacity">
-              <b>Capacity: </b>
-              {item.capcity}
-            </Card.Text>
+              <Card.Text id="rental_capacity">
+                <b>Capacity: </b>
+                {item.capcity}
+              </Card.Text>
 
-            <Card.Text id="rental_location">
-              <b>Address: </b>
-              {item.apt} {item.street} {item.state} {item.zipcode}
-              {/* {
+              <Card.Text id="rental_location">
+                <b>Address: </b>
+                {item.apt}, {item.street},{item.city}, {item.state},
+                {item.zipcode}
+                {/* {
                 item.apt + ", " + item.street,
                 ", " + item.state,
                 "- " + item.zipcode
               } */}
-            </Card.Text>
+              </Card.Text>
 
-            <Card.Link href="#" onClick={() => this.showModal(index)}>
-              Edit
-            </Card.Link>
-            <Card.Link
-              href="#"
-              onClick={() => {
-                if (
-                  window.confirm("Are you sure you wish to delete this item?")
-                )
-                  this.removeItem(item);
-              }}
-            >
-              Delete
-            </Card.Link>
+              <Card.Link href="#" onClick={() => this.showModal(index)}>
+                Edit
+              </Card.Link>
+              <Card.Link
+                href="#"
+                onClick={() => {
+                  if (
+                    window.confirm("Are you sure you wish to delete this item?")
+                  )
+                    this.removeItem(item);
+                }}
+              >
+                Delete
+              </Card.Link>
+            </div>
           </Card.Body>
         </Card>
       </Col>
@@ -222,10 +226,10 @@ class RentalLocation extends Component {
 
     let modalData = this.state.requiredItem;
     return (
-      <div>
+      <div style={{ paddingTop: 10 }}>
         <Container fluid>
           <Button variant="primary" onClick={() => this.showModalAdd()}>
-            Add Vehicle
+            Add Rental Location
           </Button>
           <Row>{list}</Row>
         </Container>
@@ -318,7 +322,7 @@ class RentalLocation extends Component {
           animation={false}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Add Vehicle</Modal.Title>
+            <Modal.Title>Add Rental Location</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={this.addModalDetails}>
