@@ -62,6 +62,10 @@ class Map extends React.Component {
       startdatetime: "",
       enddatetime: "",
       vehicle_type: [],
+      vehicle_make: [],
+      vehicle_make1: ["X", "Y"],
+      selected_vehicle_type: "",
+      vehicle_model: [],
     };
 
     // this.props.setMapPosition({
@@ -75,6 +79,7 @@ class Map extends React.Component {
     // 	})
 
     this.search = this.search.bind(this);
+    this.getVehicleMake = this.getVehicleMake.bind(this);
   }
   /**
    * Get the current address from the default map position and set those values in the state
@@ -126,6 +131,52 @@ class Map extends React.Component {
       .catch((err) => {});
   };
 
+  getVehicleMake = (e) => {
+    e.preventDefault();
+    const vehicle_type = e.target.value;
+
+    let params = new URLSearchParams();
+    params.set("vehicle_type", vehicle_type);
+    console.log(params.toString());
+
+    axios
+      .get("http://localhost:8080/api/make?" + params.toString())
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
+          if (res.data) {
+            console.log(res.data);
+            this.setState({ vehicle_make: res.data });
+            this.setState({ selected_vehicle_type: vehicle_type });
+          }
+        }
+      })
+      .catch((err) => {});
+  };
+
+  getVehicleModel = (e) => {
+    e.preventDefault();
+    const vehicle_make = e.target.value;
+
+    let params = new URLSearchParams();
+    params.set("vehicle_type", this.state.selected_vehicle_type);
+    params.set("make", vehicle_make);
+    console.log(params.toString());
+
+    axios
+      .get("http://localhost:8080/api/model?" + params.toString())
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
+          if (res.data) {
+            console.log(res.data);
+            this.setState({ vehicle_model: res.data });
+          }
+        }
+      })
+      .catch((err) => {});
+  };
+
   handleChange = (address) => {
     this.setState({ address });
     // this.props.setAddress({address})
@@ -158,7 +209,11 @@ class Map extends React.Component {
       this.state.showvehicle !== nextState.showvehicle ||
       this.state.selectedvehicle !== nextState.selectedvehicle ||
       this.state.startdatetime !== nextState.startdatetime ||
-      this.state.enddatetime !== nextState.enddatetime
+      this.state.enddatetime !== nextState.enddatetime ||
+      this.state.vehicle_make !== nextState.vehicle_make ||
+      this.state.selected_vehicle_type !== nextState.selected_vehicle_type ||
+      this.state.vehicle_type !== nextState.vehicle_type ||
+      this.state.vehicle_model !== nextState.vehicle_model
       //    this.state.city !== nextState.city ||
       //    this.state.area !== nextState.area ||
       //    this.state.state !== nextState.state
@@ -562,6 +617,7 @@ class Map extends React.Component {
                   as="select"
                   placeholder="Choose vehicle type"
                   style={{ width: "200px" }}
+                  onChange={this.getVehicleMake}
                 >
                   <option selected="selected" disabled="disabled">
                     {"Choose Vehicle Type"}
@@ -569,7 +625,7 @@ class Map extends React.Component {
                   {this.state.vehicle_type.map((veh_type, index) => {
                     return (
                       <option
-                        key={`rental_loc${index}`}
+                        key={`veh_type${index}`}
                         value={veh_type.vehicleType}
                       >
                         {veh_type.vehicleType}
@@ -585,13 +641,18 @@ class Map extends React.Component {
                   style={{ width: "200px" }}
                   as="select"
                   placeholder="Choose vehicle type"
+                  onChange={this.getVehicleModel}
                 >
                   <option selected="selected" disabled="disabled">
                     {"Choose Make"}
                   </option>
-                  <option>{"Good"}</option>
-                  <option>{"Bad"}</option>
-                  <option>{"Needs servicing"}</option>
+                  {this.state.vehicle_make.map((veh_type, index) => {
+                    return (
+                      <option key={`veh_type${index}`} value={veh_type}>
+                        {veh_type}
+                      </option>
+                    );
+                  })}
                 </Form.Control>
               </Form.Group>
 
@@ -600,14 +661,18 @@ class Map extends React.Component {
                 <Form.Control
                   style={{ width: "200px" }}
                   as="select"
-                  placeholder="Choose vehicle type"
+                  placeholder="Choose vehicle Model "
                 >
                   <option selected="selected" disabled="disabled">
                     {"Choose Model"}
                   </option>
-                  <option>{"Good"}</option>
-                  <option>{"Bad"}</option>
-                  <option>{"Needs servicing"}</option>
+                  {this.state.vehicle_model.map((veh_type, index) => {
+                    return (
+                      <option key={`veh_type${index}`} value={veh_type}>
+                        {veh_type}
+                      </option>
+                    );
+                  })}
                 </Form.Control>
               </Form.Group>
             </Form.Row>
