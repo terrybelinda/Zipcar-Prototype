@@ -37,9 +37,13 @@ public class UserService_Impl implements UserService{
 	
 	@Transactional
 	@Override
-	public void delete(int id) {
-		// TODO Auto-generated method stub
-		
+	public void terminate(String email) {
+		userDAO.terminate(email);
+	}
+	
+	@Override
+	public List<User> getAllUsers() {
+		return userDAO.getAllUsers();
 	}
 	
 	@Override

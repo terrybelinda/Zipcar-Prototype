@@ -12,8 +12,14 @@ public interface UserService {
 	User get(String email);
 	
 	void save(User user);
+
+	void terminate(String email);
 	
+
 	void delete(int id);
 
 	Date extend(String email, int months);
+
+	List<User> getAllUsers();
+
 }

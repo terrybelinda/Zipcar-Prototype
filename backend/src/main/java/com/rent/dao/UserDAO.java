@@ -12,8 +12,13 @@ public interface UserDAO {
 	User get(String email);
 	
 	void save(User user);
-	
-	void delete(int id);
+
+	//void delete(int id);
 
 	Date extend(String email, int months);
+
+	void terminate(String email);
+
+	List<User> getAllUsers();
+
 }

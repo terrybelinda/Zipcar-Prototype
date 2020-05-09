@@ -53,9 +53,25 @@ public class UserDAO_Impl implements UserDAO {
 	}
 
 	@Override
-	public void delete(int id) {
-		// TODO Auto-generated method stub
+	public void terminate(String email) {
+		Session currentSession = entityManager.unwrap(Session.class);
 		
+		Query<User> userQuery = currentSession.createQuery("from User where email =: email", User.class);
+		userQuery.setParameter("email", email);
+		User user = userQuery.getSingleResult();
+		
+		user.setIsActive(false);
+		currentSession.save(user);
+	}
+	
+	@Override
+	public List<User> getAllUsers() {
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		Query<User> userQuery = currentSession.createQuery("from User where isAdmin = 0 and isActive = 1", User.class);
+		List<User> users = userQuery.getResultList();
+		
+		return users;
 	}
 	
 	@Override

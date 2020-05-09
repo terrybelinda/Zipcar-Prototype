@@ -365,6 +365,11 @@ class Map extends React.Component {
       "enddatetime",
       event.target.elements[3].value + " " + event.target.elements[4].value
     );
+
+    params.set("make", event.target.elements[6].value);
+
+    params.set("model", event.target.elements[7].value);
+
     this.setState({
       //showvehicles: !this.state.showvehicles,
       // startdatetime: res.data
