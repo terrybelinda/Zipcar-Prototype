@@ -52,30 +52,23 @@ class Prices extends Component {
 
   submitHandler(e) {
     console.log("jfhkshfkd");
-    console.log(e.targe[0].value);
-    console.log(e.targe[1].value);
-    console.log(e.targe[2].value);
-    /*
-    const newItems = this.state.type.filter((type) => {
-      return type !== item;
-    });
 
     axios
-      .post(rooturl + "/deletelocation", item)
+      .post(rooturl + "/membership/updateprice", [
+        e.target[0].value,
+        e.target[1].value,
+        e.target[2].value,
+      ])
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");
           console.log(res);
-          this.setState({
-            type: [...newItems],
-          });
         }
       })
       .catch((err) => {
         console.log(err);
         this.props.authFail(err.response.data.msg);
       });
-      */
   }
 
   showModal = (key) => {
