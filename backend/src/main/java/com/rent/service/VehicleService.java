@@ -17,6 +17,7 @@ public interface VehicleService {
 	List<Vehicle> getAllVehicle();
 	void reservation(Reservation r);
 	List<VehicleType> getVehicleType();
+	public String getAddress(String zipcode);
 	
 	
 }
