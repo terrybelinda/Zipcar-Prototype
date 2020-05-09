@@ -10,6 +10,8 @@ public interface MembershipDAO {
 
 	List<Membership> getMembership();
 
+	void updatePrice(List<String> prices);
+
 }
 
 

@@ -10,4 +10,5 @@ public interface MembershipService {
 
 	List<Membership> getMembership();
 
+	void updatePrice(List<String> prices);
 }
