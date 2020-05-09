@@ -11,6 +11,8 @@ public interface UserDAO {
 	User get(String email);
 	
 	void save(User user);
-	
-	void delete(int id);
+
+	void terminate(String email);
+
+	List<User> getAllUsers();
 }

@@ -11,6 +11,8 @@ public interface UserService {
 	User get(String email);
 	
 	void save(User user);
+
+	void terminate(String email);
 	
-	void delete(int id);
+	List<User> getAllUsers();
 }

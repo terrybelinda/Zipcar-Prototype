@@ -16,14 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rent.dao.VehicleTypeGroup;
 import com.rent.model.Location;
+import com.rent.model.User;
 import com.rent.model.Vehicle;
 import com.rent.model.VehicleType;
 import com.rent.service.AdminService;
+import com.rent.service.UserService;
+import com.rent.service.UserService_Impl;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
 public class AdminController {
+	
+	@Autowired
+	private UserService service;
 	
 	@Autowired
 	private AdminService AdminService;
@@ -94,6 +100,17 @@ public class AdminController {
 	public String editLocation(@RequestBody Location location) {
 		AdminService.editLocation(location);
 		return "Success";
+	}
+	
+	@PostMapping("/terminateuser")
+	public String terminateUserMembership(@RequestBody User user) {
+		service.terminate(user.getEmail());
+		return "Success";
+	}
+	
+	@GetMapping("/allusers")
+	public List<User> getAllUsers() {	
+		return service.getAllUsers();
 	}
 		
 }
