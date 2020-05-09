@@ -64,6 +64,7 @@ class Map extends React.Component {
       startdatetime: "",
       enddatetime: "",
       vehicle_type: [],
+      vehicle_type_slider: [],
       vehicle_make: [],
       vehicle_make1: ["X", "Y"],
       selected_vehicle_type: "",
@@ -127,7 +128,9 @@ class Map extends React.Component {
           console.log(res.data);
           if (res.data) {
             console.log(res.data);
-            this.setState({ vehicle_type: res.data });
+            this.setState({
+              vehicle_type: res.data,
+            });
           }
         }
       })
@@ -181,15 +184,15 @@ class Map extends React.Component {
   };
 
   handleChangeComplete = (event) => {
-    let typeCopy = JSON.parse(JSON.stringify(this.state.item));
+    let typeCopy = JSON.parse(JSON.stringify(this.state.vehicle_type_slider));
     console.log();
 
-    typeCopy.value = this.state.item.priceList[
-      this.state.item.hourList.findIndex((v) => v === event)
+    typeCopy[0].value = this.state.vehicle_type_slider[0].priceList[
+      this.state.vehicle_type_slider[0].hourList.findIndex((v) => v === event)
     ];
     console.log(typeCopy);
     this.setState({
-      item: typeCopy,
+      vehicle_type_slider: typeCopy,
     });
   };
 
@@ -230,7 +233,8 @@ class Map extends React.Component {
       this.state.selected_vehicle_type !== nextState.selected_vehicle_type ||
       this.state.vehicle_type !== nextState.vehicle_type ||
       this.state.vehicle_model !== nextState.vehicle_model ||
-      this.state.item !== nextState.item
+      this.state.item !== nextState.item ||
+      this.state.vehicle_type_slider !== nextState.vehicle_type_slider
       //    this.state.city !== nextState.city ||
       //    this.state.area !== nextState.area ||
       //    this.state.state !== nextState.state
@@ -449,9 +453,18 @@ class Map extends React.Component {
   };
 
   showSelectedCar = (action, vehicle) => {
+    console.log(vehicle.vehicle_type);
+
+    let vehicleTypeAll = this.state.vehicle_type.filter((vtype) => {
+      return vtype.vehicleType === vehicle.vehicle_type;
+    });
+
+    console.log(vehicleTypeAll);
+
     this.setState({
       showvehicle: action,
       selectedvehicle: vehicle,
+      vehicle_type_slider: vehicleTypeAll,
     });
   };
 
@@ -759,23 +772,33 @@ class Map extends React.Component {
             <p>
               <b>Hours:</b>
             </p>
-            <Slider
-              min={0}
-              max={Math.max(...this.state.item.hourList)}
-              defaultValue={0}
-              marks={Object.assign(
-                { 0: 0 },
-                ...this.state.item.hourList.map((value) => ({
-                  [value]: value,
-                }))
+            {this.state.vehicle_type_slider.length > 0 &&
+              this.state.vehicle_type_slider[0].hourList && (
+                <div>
+                  <Slider
+                    min={0}
+                    max={Math.max(
+                      ...this.state.vehicle_type_slider[0].hourList
+                    )}
+                    defaultValue={0}
+                    marks={Object.assign(
+                      { 0: 0 },
+                      ...this.state.vehicle_type_slider[0].hourList.map(
+                        (value) => ({
+                          [value]: value,
+                        })
+                      )
+                    )}
+                    step={null}
+                    onChange={(e) => this.handleChangeComplete(e)}
+                  />
+                  &nbsp;
+                  <p>
+                    <b>Price:</b> {this.state.vehicle_type_slider[0].value}$
+                  </p>
+                </div>
               )}
-              step={null}
-              onChange={(e) => this.handleChangeComplete(e)}
-            />
-            &nbsp;
-            <p>
-              <b>Price:</b> {this.state.item.value}$
-            </p>
+
             <Card.Text id="rental_location">
               <b>Address:</b>
             </Card.Text>
