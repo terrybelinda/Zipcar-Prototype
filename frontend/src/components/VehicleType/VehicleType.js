@@ -12,6 +12,7 @@ import { useRef, useState, Component } from "react";
 import axios from "axios";
 import "rc-slider/assets/index.css";
 import Slider from "rc-slider";
+import { rooturl } from "../../config";
 
 class VehicleType extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class VehicleType extends Component {
       "token"
     );
     axios
-      .get("http://localhost:8080/api/allvehicletype")
+      .get(rooturl + "/allvehicletype")
       .then((res) => {
         if (res.status === 200) {
           console.log(res.data);
@@ -55,7 +56,7 @@ class VehicleType extends Component {
     });
     console.log(item.vehicleType);
     axios
-      .post("http://localhost:8080/api/deletevehicletype", {
+      .post(rooturl + "/deletevehicletype", {
         vehicle_type: item.vehicleType,
       })
       .then((res) => {
@@ -113,7 +114,7 @@ class VehicleType extends Component {
     e.preventDefault();
     console.log(this.state.modalData);
     axios
-      .post("http://localhost:8080/api/updatevehicletype", this.state.modalData)
+      .post(rooturl + "/updatevehicletype", this.state.modalData)
       .then((res) => {
         if (res.status == 200) {
           const editType = this.state.type;
@@ -136,7 +137,7 @@ class VehicleType extends Component {
     console.log(this.state.modalAddData);
 
     axios
-      .post("http://localhost:8080/api/addvehicletype", this.state.modalAddData)
+      .post(rooturl + "/addvehicletype", this.state.modalAddData)
       .then((res) => {
         if (res.status == 200) {
           if (res.data) {

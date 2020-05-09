@@ -7,6 +7,7 @@ import { UsaStates as usaStates } from "usa-states";
 import axios from "axios";
 import moment from "moment";
 import ReactBootstrapSlider from "react-bootstrap-slider";
+import { rooturl } from "../../config";
 
 class SignUp extends Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class SignUp extends Component {
     console.log("FORM 11!");
     console.log(moment().add(6, "months").format("YYYY-MM-DD"));
 
-    axios.post("http://localhost:8080/api/signup", this.state).then((res) => {
+    axios.post(rooturl + "/signup", this.state).then((res) => {
       if (res.status === 200) {
         console.log("yay");
 
