@@ -29,8 +29,8 @@ public class ReservationService_Impl implements ReservationService{
 	}
 
 	@Override
-	public void cancelReservation(Reservation id) {
-		reservationDAO.cancelReservation(id);
+	public List<String> cancelReservation(Reservation id) {
+		return reservationDAO.cancelReservation(id);
 		
 	}
 	

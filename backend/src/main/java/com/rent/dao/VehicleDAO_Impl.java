@@ -30,6 +30,7 @@ import com.rent.model.Reservation;
 import com.rent.model.Transaction;
 import com.rent.model.User;
 import java.util.Random;
+import java.util.TimeZone;
 
 @Repository
 public class VehicleDAO_Impl implements VehicleDAO {
@@ -291,7 +292,7 @@ public class VehicleDAO_Impl implements VehicleDAO {
 	
 	@Override
 	public void reservation(Reservation r) {
-		
+		TimeZone.setDefault(TimeZone.getTimeZone("PDT"));
 		int id = r.getVehicle_id();
 
 		Session currentSession = entityManager.unwrap(Session.class);

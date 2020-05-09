@@ -11,7 +11,7 @@ public interface ReservationDAO {
 
 	public void endReservation(Reservation id);
 
-	public void cancelReservation(Reservation id);
+	public List<String> cancelReservation(Reservation id);
 
 	List<Reservation> pastReservations(String id);
 

@@ -11,7 +11,7 @@ public interface ReservationService {
 
 	void endReservation(Reservation id);
 
-	void cancelReservation(Reservation id);
+	List<String> cancelReservation(Reservation id);
 
 	List<Reservation> pastReservations(String email);
 

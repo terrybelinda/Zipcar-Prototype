@@ -36,9 +36,8 @@ public class ReservationController {
 	}
 	
 	@PostMapping("/cancelreservation")
-	public String cancelReservation(@RequestBody Reservation id){
-		reservationService.cancelReservation(id);
-		 return "Success";
+	public List<String> cancelReservation(@RequestBody Reservation id){
+		return reservationService.cancelReservation(id);
 		
 	}
 	

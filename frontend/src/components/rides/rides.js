@@ -211,10 +211,16 @@ class Rides extends Component {
 			console.log("Response Status: " + response.status);
 					if(response.status === 200){	
 						this.setState({
-							
 							selectedreservationcancel: null,
 							showCancelRide: false,
 						})
+						if(response.data[1] === '0')
+						alert(
+							"No cancellation fees applied"
+						  );
+						else {
+							alert("Applied cancellation fees of amount $"+ response.data[1]);
+						} 
 					}
 				})
 		.catch(err => {
