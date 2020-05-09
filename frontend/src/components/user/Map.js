@@ -17,6 +17,8 @@ import { rooturl } from "../../config";
 // import { connect } from 'react-redux';
 import axios from "axios";
 import Geocode from "react-geocode";
+import "rc-slider/assets/index.css";
+import Slider from "rc-slider";
 Geocode.setApiKey("AIzaSyBVIEDKRd2EILFmktGgvAcV4gpKUJ2x0mY");
 Geocode.enableDebug();
 
@@ -66,6 +68,7 @@ class Map extends React.Component {
       vehicle_make1: ["X", "Y"],
       selected_vehicle_type: "",
       vehicle_model: [],
+      item: { hourList: [1, 2, 3], priceList: ["2", "3", "4"] },
     };
 
     // this.props.setMapPosition({
@@ -177,6 +180,19 @@ class Map extends React.Component {
       .catch((err) => {});
   };
 
+  handleChangeComplete = (event) => {
+    let typeCopy = JSON.parse(JSON.stringify(this.state.item));
+    console.log();
+
+    typeCopy.value = this.state.item.priceList[
+      this.state.item.hourList.findIndex((v) => v === event)
+    ];
+    console.log(typeCopy);
+    this.setState({
+      item: typeCopy,
+    });
+  };
+
   handleChange = (address) => {
     this.setState({ address });
     // this.props.setAddress({address})
@@ -213,7 +229,8 @@ class Map extends React.Component {
       this.state.vehicle_make !== nextState.vehicle_make ||
       this.state.selected_vehicle_type !== nextState.selected_vehicle_type ||
       this.state.vehicle_type !== nextState.vehicle_type ||
-      this.state.vehicle_model !== nextState.vehicle_model
+      this.state.vehicle_model !== nextState.vehicle_model ||
+      this.state.item !== nextState.item
       //    this.state.city !== nextState.city ||
       //    this.state.area !== nextState.area ||
       //    this.state.state !== nextState.state
@@ -722,25 +739,46 @@ class Map extends React.Component {
         >
           <Card.Body>
             <Card.Header style={{ fontWeight: "900" }}>
-              Check that everything is correct:
+              Does everything look ok?
             </Card.Header>
-
             <Card.Text id="type">
-              Type: {this.state.selectedvehicle.vehicle_type}
+              <b>Type:</b> {this.state.selectedvehicle.vehicle_type}
             </Card.Text>
             <Card.Text id="make">
-              Make: {this.state.selectedvehicle.make}
+              <b>Make:</b> {this.state.selectedvehicle.make}
             </Card.Text>
             <Card.Text id="model">
-              Model: {this.state.selectedvehicle.model}
+              <b>Model: </b> {this.state.selectedvehicle.model}
             </Card.Text>
             <Card.Text id="car_condition">
-              Condition: {this.state.selectedvehicle.car_condition}
+              <b>Condition: </b> {this.state.selectedvehicle.car_condition}
             </Card.Text>
             <Card.Text id="model_year">
-              Model Year: {this.state.selectedvehicle.model_year}
+              <b>Model Year: </b> {this.state.selectedvehicle.model_year}
             </Card.Text>
-            <Card.Text id="rental_location">Address:</Card.Text>
+            <p>
+              <b>Hours:</b>
+            </p>
+            <Slider
+              min={0}
+              max={Math.max(...this.state.item.hourList)}
+              defaultValue={0}
+              marks={Object.assign(
+                { 0: 0 },
+                ...this.state.item.hourList.map((value) => ({
+                  [value]: value,
+                }))
+              )}
+              step={null}
+              onChange={(e) => this.handleChangeComplete(e)}
+            />
+            &nbsp;
+            <p>
+              <b>Price:</b> {this.state.item.value}$
+            </p>
+            <Card.Text id="rental_location">
+              <b>Address:</b>
+            </Card.Text>
             {/* onClick={() => this.showSelectedJob(true, this.state.allvehicles[key]) */}
             <Button
               variant="success"
@@ -771,10 +809,13 @@ class Map extends React.Component {
           {this.props.allvehicles[key].vehicle_type}
         </Button> */}
             <Card.Text id="type">
-              Type: {this.state.allvehicles[key].vehicle_type}
+              <b>Type:</b> {this.state.allvehicles[key].vehicle_type}
             </Card.Text>
             <Row>
-              <Col id="make">Make: {this.state.allvehicles[key].make} </Col>
+              <Col id="make">
+                {" "}
+                <b>Make:</b> {this.state.allvehicles[key].make}{" "}
+              </Col>
               <Col
                 style={{
                   color: "Green",
@@ -786,7 +827,9 @@ class Map extends React.Component {
               </Col>
             </Row>
             <Row>
-              <Col id="model">Model: {this.state.allvehicles[key].model}</Col>
+              <Col id="model">
+                <b>Model: </b> {this.state.allvehicles[key].model}
+              </Col>
               <Col
                 style={{
                   color: "Green",
@@ -799,13 +842,13 @@ class Map extends React.Component {
             </Row>
             <Row>
               <Col id="car_condition">
-                Condition: {this.state.allvehicles[key].car_condition}
+                <b>Condition:</b> {this.state.allvehicles[key].car_condition}
               </Col>
             </Row>
             <Row>
               <Col id="model_year">
                 {" "}
-                Model Year: {this.state.allvehicles[key].model_year}
+                <b>Model Year: </b> {this.state.allvehicles[key].model_year}
               </Col>
             </Row>
             <Button

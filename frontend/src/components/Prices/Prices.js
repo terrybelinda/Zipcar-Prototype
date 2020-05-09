@@ -11,6 +11,7 @@ import {
 import { useRef, useState, Component } from "react";
 import axios from "axios";
 import { UsaStates as usaStates } from "usa-states";
+import { rooturl } from "../../config";
 
 class Prices extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class Prices extends Component {
       "token"
     );
     axios
-      .get("http://localhost:8080/api/membership")
+      .get(rooturl + "/membership")
       .then((res) => {
         if (res.status === 200) {
           if (res.data) {
@@ -55,7 +56,7 @@ class Prices extends Component {
     });
 
     axios
-      .post("http://localhost:8080/api/deletelocation", item)
+      .post(rooturl + "/deletelocation", item)
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");

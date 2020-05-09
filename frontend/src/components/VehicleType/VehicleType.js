@@ -270,13 +270,15 @@ class VehicleType extends Component {
       o[val] = val;
       return o;
     }, {});
-
+    console.log("whaaaat?");
     console.log(JSON.stringify(obj));
     let typeCopy = JSON.parse(JSON.stringify(this.state.type));
     console.log();
     typeCopy[x].value = this.state.type[x].priceList[
       this.state.type[x].hourList.findIndex((v) => v === event)
     ];
+
+    console.log(typeCopy);
     this.setState({
       type: typeCopy,
     });

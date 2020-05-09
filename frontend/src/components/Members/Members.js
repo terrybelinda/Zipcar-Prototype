@@ -11,6 +11,7 @@ import {
 import { useRef, useState, Component } from "react";
 import axios from "axios";
 import { UsaStates as usaStates } from "usa-states";
+import { rooturl } from "../../config";
 
 class Members extends Component {
   constructor(props) {
@@ -43,7 +44,7 @@ class Members extends Component {
     axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
       "token"
     );
-    axios.get("http://localhost:8080/api/allusers").then((res) => {
+    axios.get(rooturl + "/allusers").then((res) => {
       if (res.status == 200) {
         if (res.data) {
           console.log(res.data);
@@ -60,7 +61,7 @@ class Members extends Component {
     });
 
     axios
-      .post("http://localhost:8080/api/terminateuser", item)
+      .post(rooturl + "/terminateuser", item)
       .then((res) => {
         if (res.status === 200) {
           console.log("yay");

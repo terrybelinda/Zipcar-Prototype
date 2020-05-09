@@ -57,40 +57,28 @@ class ExtendMembership extends Component {
   };
 
   terminate = (event) => {
-    if (this.state.selection != "") {
-      event.preventDefault();
-      const data = {
-        email: localStorage.getItem("email"),
-      };
-      let formData = this.state.membership;
-      console.log(formData);
-      axios
-        .post("http://localhost:8080/api/extendmembership", data)
-        .then((res) => {
-          console.log(res.status);
-          let result = this.state.membership.filter((item) =>
-            item.membership_type.includes(this.state.selection)
-          );
-          if (res.status === 200) {
-            const amount = alert(
-              "Success! Amount " + result[0].price + "$  has been debited"
-            );
-            if (res.data) {
-              let tempData = [];
-              Object.assign(tempData, this.state.user_info);
+    event.preventDefault();
 
-              tempData.membershipEndDate = res.data;
-              this.setState({ user_info: tempData });
-            }
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          this.props.authFail(err.response.data.msg);
-        });
-    } else {
-      alert("Please select an option");
-    }
+    console.log(this.state.user_info);
+
+    axios
+      .post("http://localhost:8080/api/terminateuser", this.state.user_info)
+      .then((res) => {
+        console.log(res.status);
+        let result = this.state.membership.filter((item) =>
+          item.membership_type.includes(this.state.selection)
+        );
+        if (res.status === 200) {
+          const amount = alert(
+            "We will miss you! Drop us a mail, if you change your mind "
+          );
+          this.props.history.push("/logout");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        this.props.authFail(err.response.data.msg);
+      });
   };
 
   submitHandler = (event) => {
