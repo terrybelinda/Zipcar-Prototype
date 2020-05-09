@@ -82,9 +82,13 @@ class Navigation extends Component {
         )} */}
         {/* add logged in check after setting it from frontend */}
         {localStorage.getItem("email") && (
-          <NavDropdown title={"Account"} id="collasible-nav-dropdown">
+          <NavDropdown
+            className="mr-5"
+            title={"Account"}
+            id="collasible-nav-dropdown"
+          >
             <NavDropdown.Item href="/vehicles">Vehicles</NavDropdown.Item>
-            <NavDropdown.Item href="/rides">Your Trips</NavDropdown.Item>
+            <NavDropdown.Item href="/rides">My Trips</NavDropdown.Item>
             <NavDropdown.Item href="/ExtendMembership">
               My Membership
             </NavDropdown.Item>
