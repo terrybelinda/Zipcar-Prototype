@@ -49,4 +49,7 @@ public class VehicleService_Impl implements VehicleService{
 		 return vehicleDAO.getVehicleType();
 		
 	}
+	public String getAddress(String zipcode) {
+		return vehicleDAO.getAddress(zipcode);
+	}
 }

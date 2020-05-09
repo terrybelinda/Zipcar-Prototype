@@ -331,4 +331,14 @@ public class VehicleDAO_Impl implements VehicleDAO {
 		
 		currentSession.save(r);
 	}
+	
+	
+	public String getAddress(String zipcode) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		Query<Location> query = currentSession.createQuery("from Location where zipcode =:zipcode", Location.class);
+		query.setParameter("zipcode", zipcode);
+		Location locqresult = query.uniqueResult();
+		return locqresult.getStreet() + ", " + locqresult.getCity() + ", " + locqresult.getState() + ", " + locqresult.getCountry() + ", " + locqresult.getZipcode();
+	}
+	
 }

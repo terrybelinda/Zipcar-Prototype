@@ -16,6 +16,8 @@ public interface VehicleDAO {
 	public List<Vehicle> vehicleSimilar(String make, String model, String startdatetime, String enddatetime);
 	public List<Vehicle> getAllVehicle();
 	public void reservation(Reservation r);
-	List<VehicleType> getVehicleType();
+	public List<VehicleType> getVehicleType();
+	public String getAddress(String zipcode);
+	
 	
 }

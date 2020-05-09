@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rent.model.Reservation;
 import com.rent.model.Vehicle;
-
+import com.rent.model.VehicleContainer;
 import com.rent.model.VehicleType;
 import com.rent.service.VehicleService;
 
@@ -32,7 +32,7 @@ public class VehicleController {
 	private VehicleService vehicleService;
 	
 	@GetMapping("/location")
-	public List<Vehicle> getByLocation(@RequestParam String address, @RequestParam String startdatetime, @RequestParam String enddatetime, @RequestParam String make, @RequestParam String model) throws ParseException {
+	public List<VehicleContainer> getByLocation(@RequestParam String address, @RequestParam String startdatetime, @RequestParam String enddatetime, @RequestParam String make, @RequestParam String model) throws ParseException {
 		
 		String[] arrOfStr = address.split(", ");  
 		String[] zipcode = arrOfStr[2].split(" ");
@@ -40,13 +40,24 @@ public class VehicleController {
 		startdatetime = startdatetime + ":00";
 		enddatetime = enddatetime + ":00";
 		
+		List<VehicleContainer> vclist = new ArrayList();
 		
 		if((make.equals("Choose Make")) && (model.equals("Choose Model"))) {
-		return vehicleService.getByLocation(zipcode[1], startdatetime, enddatetime);}
+			for(Vehicle v: vehicleService.getByLocation(zipcode[1], startdatetime, enddatetime)) {
+				VehicleContainer vc = new VehicleContainer(v);
+			    vc.setAddress(vehicleService.getAddress(zipcode[1]));
+			    vclist.add(vc);
+			  }
+			return vclist;}
 		
 		else {
-			return vehicleService.vehicleRequest(zipcode[1], make, model, startdatetime, enddatetime);
-		}
+			for(Vehicle v: vehicleService.vehicleRequest(zipcode[1], make, model, startdatetime, enddatetime)) {
+				VehicleContainer vc = new VehicleContainer(v);
+			    vc.setAddress(vehicleService.getAddress(zipcode[1]));
+			    vclist.add(vc);
+			  }
+			return vclist;}
+		
 		
 	}
 	
