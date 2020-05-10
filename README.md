@@ -5,7 +5,7 @@ Car Rental Service
 
 <b>Varsha Pothaganahalli Jairam</b> - 013931242 <br />
 <b>Ashwini Ulhas Talele - 014483456</b> <br />
-<b>Kedar Acharya</b> - 014151891
+<b>Kedar Acharya</b> - 014151891 <br/>
 <b>Belinda Terry</b> - 013785668 <br />
 
 
