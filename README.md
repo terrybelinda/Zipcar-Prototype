@@ -41,6 +41,15 @@ Also, we have Model classes for our entities. This is how we implemented MVC pat
 We have used ReactJS. It has states and there is an event which continuously listens to any change in states.
 This is how Command Pattern is used in this project.
 
+## Team Contribution
+
+<b>Varsha Pothaganahalli Jairam</b> - Depolyment, Backend routes, Db Schema creation
+
+<b>Ashwini Ulhas Talele</b> - Frontend, wireframes, Db Schema creation
+
+<b>Kedar Acharya</b> - Backend routes, Db Schema creation
+
+<b>Belinda Terry</b> - Frontend, wireframes, Db Schema creation
 
 <h1>Architecture Diagram</h1>
 
