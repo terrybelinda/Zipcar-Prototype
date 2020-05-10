@@ -33,6 +33,15 @@ Client uses the load balancer URL and according to the requests the load balanci
 
 # Database
 
+We used MYSQL database and hosted it on Amazon RDS.
+We choosed relational database as the requirements had functional relationships and we thought relational database could be the best fit in this scenario.
+
 # Backend
 
+We used Java Spring Boot as our backend technology stack.
+We used hibernate session to connect to the database and for inserting/updating/deleting/reading from and to database.
+
 # Frontend
+
+We used ReactJS as our frontend technology stack.
+React gives the benifits of using state for responsive UI development, so we choosed ReactJS.
