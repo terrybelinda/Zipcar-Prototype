@@ -79,3 +79,5 @@ We used hibernate session to connect to the database and for inserting/updating/
 
 We used ReactJS as our frontend library.
 React is fast, scalable and lightweight. It offers the benefits of using state for responsive UI development.
+
+Application screenshots and Agile documents are included in the master branch.
