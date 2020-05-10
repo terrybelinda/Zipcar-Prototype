@@ -13,6 +13,15 @@ Car Rental Service
 # Wireframes
 https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/blob/master/UI-wireframes/UIWireframe.png
 
+
+# Scrum Report + Journal 
+
+
+
+# Application Screenshots
+https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/blob/master/Application%20Screenshot/Application%20Screenshots.pdf
+
+
 <h1>Architecture Diagram</h1>
 
 ![Architecture diagram](Architecture.jpg)
