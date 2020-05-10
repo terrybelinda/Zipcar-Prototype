@@ -21,6 +21,23 @@ https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/
 # Application Screenshots
 https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/blob/master/Application%20Screenshot/Application%20Screenshots.pdf
 
+# Design Patterns used
+
+## DAO Pattern
+
+We have used DAO classes to interact with database layer.
+
+
+## MVC Pattern
+
+We have used Controller classes. It is the first point of contact when the request is sent from View. 
+Also, we have Model classes for our entities. This is how we implemented MVC pattern.
+
+## Command Pattern
+
+We have used ReactJS. It has states and there is an event which continuously listens to any change in states.
+This is how Command Pattern is used in this project.
+
 
 <h1>Architecture Diagram</h1>
 
