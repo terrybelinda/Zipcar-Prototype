@@ -31,16 +31,14 @@ https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/
 
 We have used DAO classes to interact with database layer.
 
-
 ## MVC Pattern
 
 We have used Controller classes. It is the first point of contact when the request is sent from View. 
-Also, we have Model classes for our entities. This is how we implemented MVC pattern.
+Also, we have Model classes for our entities.
 
 ## Command Pattern
 
-We have used ReactJS. It has states and there is an event which continuously listens to any change in states.
-This is how Command Pattern is used in this project.
+We have used ReactJS, which has states and an event which continuously listens to any change in states.
 
 ## Team Contribution
 
@@ -56,10 +54,12 @@ This is how Command Pattern is used in this project.
 
 ![Architecture diagram](Architecture.jpg)
 
-# Load Blancing
+The Maven project was converted into an executable JAR, which was Dockerised and deployed on an EC2 instance. 
 
-We have used load balancing with auto scaling on AWS.
-Client uses the load balancer URL and according to the requests the load balancing creates new servers.
+# Load Balancing
+
+We have used an Application Load Balancer with auto scaling (min - 1, max - 3).
+Client uses the load balancer URL, and according to requests, the load balancer creates new servers. If any instance degrades in health, auto-scaling kicks in and ensures the application remains available.
 
 # Database
 
@@ -77,5 +77,5 @@ We used hibernate session to connect to the database and for inserting/updating/
 
 # Frontend
 
-We used ReactJS as our frontend technology stack.
-React gives the benifits of using state for responsive UI development, so we choosed ReactJS.
+We used ReactJS as our frontend library.
+React is fast, scalable and lightweight. It offers the benefits of using state for responsive UI development.
