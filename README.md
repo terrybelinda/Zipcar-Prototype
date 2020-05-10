@@ -21,6 +21,9 @@ https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/
 # Application Screenshots
 https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/blob/master/Application%20Screenshot/Application%20Screenshots.pdf
 
+# Load Balancing Screenshots
+https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/blob/master/Application%20Screenshot/Load%20Balancing.pdf
+
 # Design Patterns used
 
 ## DAO Pattern
