@@ -56,10 +56,15 @@ Client uses the load balancer URL and according to the requests the load balanci
 We used MYSQL database and hosted it on Amazon RDS.
 We choosed relational database as the requirements had functional relationships and we thought relational database could be the best fit in this scenario.
 
+scripts- 
+https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/tree/master/database
+
 # Backend
 
 We used Java Spring Boot as our backend technology stack.
 We used hibernate session to connect to the database and for inserting/updating/deleting/reading from and to database.
+
+https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/tree/master/database
 
 # Frontend
 
