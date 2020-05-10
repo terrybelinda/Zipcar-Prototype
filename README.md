@@ -15,7 +15,7 @@ https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/
 
 
 # Scrum Report + Journal 
-
+https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/tree/master/Aglie%20Documents
 
 
 # Application Screenshots
