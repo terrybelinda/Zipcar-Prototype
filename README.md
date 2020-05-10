@@ -19,6 +19,9 @@ https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/
 
 # Load Blancing
 
+We have used load balancing with auto scaling on AWS.
+Client uses the load balancer URL and according to the requests the load balancing creates new servers.
+
 # Database
 
 # Backend
