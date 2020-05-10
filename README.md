@@ -8,7 +8,8 @@ Car Rental Service
 <b>Kedar Acharya</b> - 014151891 <br/>
 <b>Belinda Terry</b> - 013785668 <br />
 
-
+# Link 
+http://rent-alb-1410839008.us-west-1.elb.amazonaws.com/
 
 # Wireframes
 https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/blob/master/UI-wireframes/UIWireframe.png
