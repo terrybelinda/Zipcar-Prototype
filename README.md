@@ -64,7 +64,6 @@ https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/
 We used Java Spring Boot as our backend technology stack.
 We used hibernate session to connect to the database and for inserting/updating/deleting/reading from and to database.
 
-https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/tree/master/database
 
 # Frontend
 
