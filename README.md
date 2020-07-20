@@ -16,15 +16,14 @@ https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/
 
 
 # Scrum Report + Journal 
-https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/tree/master/Aglie%20Documents
 https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/tree/master/Agile%20Documents
 
 
 # Application Screenshots
-https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/blob/master/Application%20Screenshot/Application%20Screenshots.pdf
+https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/blob/master/Application%20Screenshots/Application%20Screenshots.pdf
 
 # Load Balancing Screenshots
-https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/blob/master/Application%20Screenshot/Load%20Balancing.pdf
+https://github.com/gopinathsjsu/sp20-cmpe-202-sec-03-team-project-team-202-akbv/blob/master/Application%20Screenshots/Load%20Balancing.pdf
 
 # Design Patterns used
 
