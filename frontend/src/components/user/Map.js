@@ -19,7 +19,7 @@ import axios from "axios";
 import Geocode from "react-geocode";
 import "rc-slider/assets/index.css";
 import Slider from "rc-slider";
-Geocode.setApiKey("AIzaSyBVIEDKRd2EILFmktGgvAcV4gpKUJ2x0mY");
+
 Geocode.enableDebug();
 
 // const mapStateToProps = (state) => {
