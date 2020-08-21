@@ -7,7 +7,7 @@
     "bootstrap": "^4.4.1",
     "jquery": "^3.5.0",
     "material-ui": "^0.20.2",
-    "moment": "2.18.1",
+    "moment": "2.19.3",
     "months": "^2.1.0",
     "months-list": "^1.0.3",
     "rc-slider": "^9.2.4",
